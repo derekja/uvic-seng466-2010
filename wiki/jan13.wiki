@@ -1,0 +1,11 @@
+#summary One-sentence summary of this page.
+
+= Introduction =
+
+January 13 dev details
+
+= Details =
+
+(derekja)
+--I went through the L298 module hardwired test procedures to understand the wiring. This is with one of the small motors with a fan on it so that I can tell direction.
+--I hooked up the air hogs batteries, one to the arduino board and one to the L298 board.

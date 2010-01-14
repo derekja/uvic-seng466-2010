@@ -6,6 +6,19 @@ January 13 dev details
 
 = Details =
 
-(derekja)
+(derekja)<br>
 --I went through the L298 module hardwired test procedures to understand the wiring. This is with one of the small motors with a fan on it so that I can tell direction.<br>
---I hooked up the air hogs batteries, one to the arduino board and one to the L298 board.
+--I hooked up the air hogs batteries, one to the arduino board and one to the L298 board.<br>
+--*remember to tie the grounds together!!!*
+--now working with a small motor, spins forward at high speed for 1 sec, backwards halfspeed for one sec.
+-- identified switch 1 outputs on joystick, verified function on multimeter
+-- installed subclipse to use our google code SVN for checkin
+-- created a test2 project in SVN
+  -- version 1 is the version with no joystick input that just does the forward/backward spin
+  -- version 2 reads the joystick input (turn right/left only for now.. proof of concept) and then runs the motor forward (right) or backward (left) depending on angle
+-- the two magic lines to enable Serial.print in eclipse! right after the includes
+"extern "C" void __cxa_pure_virtual(void);
+void __cxa_pure_virtual(void) {}"
+-- note that on the joystick that full left is 1024 and full right is 0, need to /4 to get into the same scale as motor output and 255-x for right hand motion (to put 0 in the center of the scale)
+-- to read serial from within eclipse you can install the rxtx library from qbang.org. That was down today, so I've been using the serial monitor in the arduino IDE. You need to close the monitor to load the board.
+-- note that the small wires make VERY poor connections. We need to come up with better jumper solutions than in my little test today.

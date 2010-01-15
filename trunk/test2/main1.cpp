@@ -75,6 +75,7 @@ int pot = 0;
 	// analogWrite(motor1Pin2, 0);
    //digitalWrite(ledPin, LOW);    // set the LED off
 	// delay(1000);                  // wait for a second
+	 // test2
  }
 
  int main() {

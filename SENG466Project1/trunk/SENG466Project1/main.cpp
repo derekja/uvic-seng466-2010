@@ -9,9 +9,7 @@ extern "C" void __cxa_pure_virtual() {
 }
 
 void setup() {
-	// initialize the pins as inputs:
-	pinMode(SonarRX, INPUT);
-	pinMode(SonarPW, INPUT);
+
 	sonar_init();
 
 	Serial.begin(57600);

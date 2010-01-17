@@ -39,6 +39,7 @@
 <option id="de.innot.avreclipse.cppcompiler.option.optimize.1826183745" name="Optimization Level" superClass="de.innot.avreclipse.cppcompiler.option.optimize"/>
 <option id="de.innot.avreclipse.cppcompiler.option.incpath.99967690" name="Include Paths (-I)" superClass="de.innot.avreclipse.cppcompiler.option.incpath" valueType="includePath">
 <listOptionValue builtIn="false" value="&quot;${workspace_loc:/Project1Test/HeaderFiles}&quot;"/>
+<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Project1Test/HeaderFiles/Arduino}&quot;"/>
 </option>
 <inputType id="de.innot.avreclipse.cppcompiler.input.59211378" superClass="de.innot.avreclipse.cppcompiler.input"/>
 </tool>

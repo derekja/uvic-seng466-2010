@@ -1,0 +1,7 @@
+#summary One-sentence summary of this page.
+Setting up Eclipse to link with Google Code SVN repository and enable Serial terminal monitoring directly from within Eclipse
+
+= Introduction =
+Because we decided to use Eclipse as our development platform and Google SVN to manage our source code, it is ideal to have Eclipse coordinate everything. Also, serial terminal window is very useful for debugging purposes; however, having to rely on Tetra Term is very inconvenient and a much better solution would be to have Eclipse connect to the serial port so everything can be done within Eclipse without the need of outside tools.
+
+= Details =

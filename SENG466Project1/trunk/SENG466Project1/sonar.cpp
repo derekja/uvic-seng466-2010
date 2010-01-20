@@ -2,7 +2,7 @@
 #include <avr/interrupt.h>
 #include "sonar.h"
 #include "common.h"
-#include "Arduino/WProgram.h"
+#include "WProgram.h"
 
 static uint16_t timerTickCount = 0;
 static double distance = 0;

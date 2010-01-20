@@ -5,6 +5,11 @@ void sonarInit();
 void sonarEcho();
 void sonarMeasureDistance();
 
+/*
+ * Macros to change Timer 3 settings when used for
+ * input capture and measure the pulse width of
+ * the PW pin from the sonar
+ */
 #define SET_RISING_EDGE()       (TCCR3B |= _BV(ICES3))
 #define SET_FALLING_EDGE()      (TCCR3B &= ~(_BV(ICES3)))
 #define IS_RISING_EDGE()        (TCCR3B & _BV(ICES3))

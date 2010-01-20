@@ -38,8 +38,7 @@
 <option id="de.innot.avreclipse.cppcompiler.option.debug.level.1969023158" name="Generate Debugging Info" superClass="de.innot.avreclipse.cppcompiler.option.debug.level"/>
 <option id="de.innot.avreclipse.cppcompiler.option.optimize.1826183745" name="Optimization Level" superClass="de.innot.avreclipse.cppcompiler.option.optimize"/>
 <option id="de.innot.avreclipse.cppcompiler.option.incpath.99967690" name="Include Paths (-I)" superClass="de.innot.avreclipse.cppcompiler.option.incpath" valueType="includePath">
-<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Project1Test/HeaderFiles}&quot;"/>
-<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Project1Test/HeaderFiles/Arduino}&quot;"/>
+<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SENG466Project1/HeaderFiles}&quot;"/>
 </option>
 <inputType id="de.innot.avreclipse.cppcompiler.input.59211378" superClass="de.innot.avreclipse.cppcompiler.input"/>
 </tool>
@@ -49,7 +48,7 @@
 <listOptionValue builtIn="false" value="megaCore"/>
 </option>
 <option id="de.innot.avreclipse.cpplinker.option.libpath.283038259" name="Libraries Path (-L)" superClass="de.innot.avreclipse.cpplinker.option.libpath" valueType="stringList">
-<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Project1Test}&quot;"/>
+<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SENG466Project1}&quot;"/>
 </option>
 </tool>
 <tool id="de.innot.avreclipse.tool.archiver.winavr.base.98902720" name="AVR Archiver" superClass="de.innot.avreclipse.tool.archiver.winavr.base"/>

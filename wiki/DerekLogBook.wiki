@@ -40,3 +40,9 @@ Jan 21
 -- OK, using my test2 playground project I finally have it reacting. This is using the pulse width method, not the servo library. I still have something weird going on in the servo library.
 
 -- pulse width is going to be really hard to control accurately without our RTOS.
+
+Jan 22
+
+-- worked up a TODO list with Riley and Jackson
+
+-- created a Project1Remote project to hold the code for the effector

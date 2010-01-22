@@ -1,0 +1,17 @@
+(please move these items from this page to your logbook when done, mark them on here while you are working on them)
+
+
+Project 1 items:
+
+-- remainder of joystick inputs (one of buttons, lever, fwd/backward control)
+-- move servo into an interrupt (like the sonar is)
+-- radio code
+-- integrate servo and motor control into the main project
+-- calibrate sonar
+-- implement and document a wireless protocol for our commands
+
+
+Later:
+
+-- test run the RTOS on the seeduino
+-- 

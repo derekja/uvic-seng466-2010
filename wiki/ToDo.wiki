@@ -3,37 +3,41 @@
 
 Project 1 items:
 
-Due tues-- remainder of joystick inputs (one of buttons, lever, fwd/backward control)
+riley - Due tues-- remainder of joystick inputs (one of buttons, lever, fwd/backward control)
 
-due tues-- move servo into an interrupt (like the sonar is)
+Derek - due tues-- move servo into an interrupt (like the sonar is)
 
--- radio code
-
--- integrate servo and motor control into the main project
-
--- calibrate sonar
+due tues -- radio code (initial & neil's test code)
 
 -- implement and document a wireless protocol for our commands
 
+due Tues -- integrate servo and motor control into the main project (depends on servo integ)
+
+-- integrate sonar and I2C LED across the radio link
+
+
+
 writeups:
 
--- collaborative sofware sections (google code, calendar, eclipse plugins)
+jackson-- HW intro with pictures
 
--- debugging (serial.print)
+-- collaborative software sections (google code, calendar, eclipse plugins)
 
--- motors and L298
+riley-- debugging (serial.print)
 
--- servo motor
+derek-- motors and L298
 
--- joystick
+derek-- servo motor
 
--- sonar
+riley-- joystick
 
--- I2C
+jackson-- sonar
+
+jackson-- I2C
 
 -- radio
 
--- video of project 1 working and pictures showing connections
+derek-- video of project 1 working and pictures showing connections
 
 
 Later:

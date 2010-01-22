@@ -27,8 +27,10 @@ Jan 20
 Jan 21
 
 -- worked on syncing up to the SVN for the LED and sonar work that Jackson did
-/n
+
+
 -- worked on trying to diagnose a battery problem. Concluded that the dying battery is actually now dead.
+
 -- need a couple of pieces of hardware: header pins for 2nd arduino board, 2nd breadboard
 -- put servo motor onto digital pin 10, datasheet: http://www.hitecrcd.com/servos/show?name=HS-55
 -- having problems with the servo sample code. Our servo just spins in circles regardless of the value on the pin!

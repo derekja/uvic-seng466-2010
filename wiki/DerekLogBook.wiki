@@ -23,6 +23,9 @@ void cxa_pure_virtual(void) {}"
 Jan 20
 
 -- created an introduction and test scenario document for project 1
+
+Jan 21
+
 -- worked on syncing up to the SVN for the LED and sonar work that Jackson did
 -- worked on trying to diagnose a battery problem. Concluded that the dying battery is actually now dead.
 -- need a couple of pieces of hardware: header pins for 2nd arduino board, 2nd breadboard

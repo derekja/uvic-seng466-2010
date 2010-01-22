@@ -1,0 +1,32 @@
+LogBook for Derek
+
+Jan 13 notes (moved in from previous page)
+
+--I went through the L298 module hardwired test procedures to understand the wiring. This is with one of the small motors with a fan on it so that I can tell direction.
+--I hooked up the air hogs batteries, one to the arduino board and one to the L298 board.
+--remember to tie the grounds together!!!
+--now working with a small motor, spins forward at high speed for 1 sec, backwards halfspeed for one sec.
+-- identified switch 1 outputs on joystick, verified function on multimeter
+-- installed subclipse to use our google code SVN for checkin
+-- created a test2 project in SVN
+
+    -- version 1 is the version with no joystick input that just does the forward/backward spin
+    -- version 2 reads the joystick input (turn right/left only for now.. proof of concept) and then runs the motor forward (right) or backward (left) depending on angle
+
+-- the two magic lines to enable Serial.print in eclipse! right after the includes
+"extern "C" void cxa_pure_virtual(void);
+void cxa_pure_virtual(void) {}"
+-- note that on the joystick that full left is 1024 and full right is 0, need to /4 to get into the same scale as motor output and 255-x for right hand motion (to put 0 in the center of the scale)
+-- to read serial from within eclipse you can install the rxtx library from qbang.org. That was down today, so I've been using the serial monitor in the arduino IDE. You need to close the monitor to load the board.
+-- note that the small wires make VERY poor connections. We need to come up with better jumper solutions than in my little test today.
+
+Jan 20
+
+-- created an introduction and test scenario document for project 1
+-- worked on syncing up to the SVN for the LED and sonar work that Jackson did
+-- worked on trying to diagnose a battery problem. Concluded that the dying battery is actually now dead.
+-- need a couple of pieces of hardware: header pins for 2nd arduino board, 2nd breadboard
+-- put servo motor onto digital pin 10, datasheet: http://www.hitecrcd.com/servos/show?name=HS-55
+-- having problems with the servo sample code. Our servo just spins in circles regardless of the value on the pin!
+-- OK, using my test2 playground project I finally have it reacting. This is using the pulse width method, not the servo library. I still have something weird going on in the servo library.
+-- pulse width is going to be really hard to control accurately without our RTOS.

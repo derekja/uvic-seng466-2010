@@ -3,9 +3,9 @@
 
 Project 1 items:
 
--- remainder of joystick inputs (one of buttons, lever, fwd/backward control)
+Due tues-- remainder of joystick inputs (one of buttons, lever, fwd/backward control)
 
--- move servo into an interrupt (like the sonar is)
+due tues-- move servo into an interrupt (like the sonar is)
 
 -- radio code
 
@@ -14,6 +14,26 @@ Project 1 items:
 -- calibrate sonar
 
 -- implement and document a wireless protocol for our commands
+
+writeups:
+
+-- collaborative sofware sections (google code, calendar, eclipse plugins)
+
+-- debugging (serial.print)
+
+-- motors and L298
+
+-- servo motor
+
+-- joystick
+
+-- sonar
+
+-- I2C
+
+-- radio
+
+-- video of project 1 working and pictures showing connections
 
 
 Later:

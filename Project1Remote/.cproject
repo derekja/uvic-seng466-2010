@@ -18,7 +18,7 @@
 <configuration artifactName="Project1Remote" buildArtefactType="de.innot.avreclipse.buildArtefactType.app" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug,org.eclipse.cdt.build.core.buildArtefactType=de.innot.avreclipse.buildArtefactType.app" description="" id="de.innot.avreclipse.configuration.app.debug.1602073998" name="Debug" parent="de.innot.avreclipse.configuration.app.debug">
 <folderInfo id="de.innot.avreclipse.configuration.app.debug.1602073998." name="/" resourcePath="">
 <toolChain id="de.innot.avreclipse.toolchain.winavr.app.debug.29973277" name="AVR-GCC Toolchain" superClass="de.innot.avreclipse.toolchain.winavr.app.debug">
-<option id="de.innot.avreclipse.toolchain.options.toolchain.objcopy.flash.app.debug.1790696049" name="Generate HEX file for Flash memory" superClass="de.innot.avreclipse.toolchain.options.toolchain.objcopy.flash.app.debug"/>
+<option id="de.innot.avreclipse.toolchain.options.toolchain.objcopy.flash.app.debug.1790696049" name="Generate HEX file for Flash memory" superClass="de.innot.avreclipse.toolchain.options.toolchain.objcopy.flash.app.debug" value="true" valueType="boolean"/>
 <option id="de.innot.avreclipse.toolchain.options.toolchain.objcopy.eeprom.app.debug.1624125267" name="Generate HEX file for EEPROM" superClass="de.innot.avreclipse.toolchain.options.toolchain.objcopy.eeprom.app.debug"/>
 <option id="de.innot.avreclipse.toolchain.options.toolchain.objdump.app.debug.1027394076" name="Generate Extended Listing (Source + generated Assembler)" superClass="de.innot.avreclipse.toolchain.options.toolchain.objdump.app.debug"/>
 <option id="de.innot.avreclipse.toolchain.options.toolchain.size.app.debug.1159700001" name="Print Size" superClass="de.innot.avreclipse.toolchain.options.toolchain.size.app.debug"/>
@@ -48,7 +48,7 @@
 <option id="de.innot.avreclipse.cpplinker.option.libs.1723901016" name="Libraries (-l)" superClass="de.innot.avreclipse.cpplinker.option.libs" valueType="libs">
 <listOptionValue builtIn="false" value="megaCore"/>
 </option>
-<option id="de.innot.avreclipse.cpplinker.option.libpath.2141250058" superClass="de.innot.avreclipse.cpplinker.option.libpath" valueType="stringList">
+<option id="de.innot.avreclipse.cpplinker.option.libpath.2141250058" name="Libraries Path (-L)" superClass="de.innot.avreclipse.cpplinker.option.libpath" valueType="stringList">
 <listOptionValue builtIn="false" value="&quot;${workspace_loc:/Project1Remote}&quot;"/>
 </option>
 </tool>

@@ -46,3 +46,23 @@ Jan 22
 -- worked up a TODO list with Riley and Jackson
 
 -- created a Project1Remote project to hold the code for the effector
+
+-- fighting with interrupt code. Think I'm finally understanding. I'm going to abandon the servo library in favour of hand-written interrupt code, at least in part so as to understand it better.
+
+-- using interrupt 4 so as not to conflict with the sonar
+
+-- re-wired the joystick that had been unsoldered (!?!)
+
+Jan 23
+
+-- trading email with Jackson about the problem other groups are having with sonar and motors (arduino libraries use multiple interrupts)
+
+-- weird, I get servo motor jumps on connecting and disconnecting the serial port monitor
+
+-- wow! initializing the serial port re-starts everything! I get serial.print statements out of my initialization routine on connecting the serial port. When I purposely put in a motor jump that gets called when I disconnect also, so I gather that the board is reset whenever the serial connection changes...
+
+-- OK, decided to put the servo on timer5 so that it doesn't kill any of the PWMs that we want to use for the regular motors. I've put it on pin40.
+
+-- noticed, BTW, that the PWM pins I was using for the motor come off of timer3, I think. At least they are pins OC3B and OC3C. I don't know if that conflicts with the timer for sonar, but we'll see.
+
+-- cripes, having interrupt problems. Checking in and going home. It's been a long day here...

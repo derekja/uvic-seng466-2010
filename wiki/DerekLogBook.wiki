@@ -66,3 +66,12 @@ Jan 23
 -- noticed, BTW, that the PWM pins I was using for the motor come off of timer3, I think. At least they are pins OC3B and OC3C. I don't know if that conflicts with the timer for sonar, but we'll see.
 
 -- cripes, having interrupt problems. Checking in and going home. It's been a long day here...
+
+Jan 24
+
+-- OK, been hitting the interrupts all afternoon and it's just not working. Here are some of the problems:
+  -- I can't seem to get a waveform to output without doing it explicitly in the interrupts
+  -- when in the interrupts I can set fast PWM modes with a preset TOP, but I can't get either ICRn or OCRRnA TOP values to be registered
+  -- could not get digital pin 40 to behave properly, so I dropped back to timer 4 and PWM 7
+  -- confused by the fact that I pinMode to 7, but I DDRH |= _BV(DDH4) which is actually pin 16
+-- got the logic analyzer figured out so that I can at least watch the pin outputs directly now

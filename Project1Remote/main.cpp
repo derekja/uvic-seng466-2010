@@ -13,13 +13,22 @@ extern "C" void __cxa_pure_virtual(void);
 void __cxa_pure_virtual(void) {}
 
 int pot = 0; //this is temporary for testing until the radio goes in
-int servoVal = 0; //global to hold servo value in microseconds
+unsigned int servoVal = 0; //global to hold servo value in microseconds
+uint8_t sreg = 0;
+int motor1Pin1 = 11;
+int motor1Pin2 = 12;
+int d = 0; // initial var for which motor pin
+int s = 0; // initial var for speed
+int v = 0; //hold value of pot
 
 void setup() {
 
 	// init the pot as an input (temp)
 	pinMode(pot, INPUT);
 
+	//init the pwms
+	pinMode(motor1Pin1, OUTPUT);
+	pinMode(motor1Pin2, OUTPUT);
 	// Enable global interrupt
 	Enable_Interrupt();
 
@@ -40,15 +49,41 @@ void setup() {
 
 void loop() {
 	sonarMeasureDistance();
-	int v = analogRead(pot);
-	servoVal = map(v,0,1024,544, 5000);
+	v = analogRead(pot);
+	d = 0; // initial var for which motor pin
+	s = 0; // initial var for speed
+	servoVal = map(v,0,1024,1000, 9000);
+	v = v/4;
+	 if (v<80) {
+		 d = 1;
+		 s = 255-(v*2);
+	 }
+	 if (v>110) {
+		 d = 2;
+		 s = v;
+	 }
+	 switch (d) {
+	 case 1 :
+		 analogWrite(motor1Pin1, s);
+		 analogWrite(motor1Pin2, 0);
+		 break;
+
+	 case 2 :
+		 analogWrite(motor1Pin1, 0);
+		 analogWrite(motor1Pin2, s);
+		 break;
+
+	 default :
+		 analogWrite(motor1Pin1, 0);
+		 analogWrite(motor1Pin2, 0);
+		 servoVal = 4820;
+	 }
 	servoSet(servoVal);
 
-	Serial.print(servoVal);
+	Serial.print(v);
 
 	delay(500);
 
-	//Serial.print("hello world");
 
 	return;
 }

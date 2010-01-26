@@ -9,7 +9,7 @@
 #define SERVO_H_
 
 void servoInit();
-void servoSet(int value);
+void servoSet(unsigned int value);
 //void servoRelease();
 
 

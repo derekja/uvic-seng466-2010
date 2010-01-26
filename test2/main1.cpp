@@ -6,7 +6,8 @@
  */
 
 #include "WProgram.h"
-//#include "Servo.h"
+#include "Servotmp.h"
+
 // the next two lines are needed to hack around a serial monitor bug
 extern "C" void __cxa_pure_virtual(void);
 void __cxa_pure_virtual(void) {}
@@ -15,9 +16,8 @@ int ledPin =  13;    // LED connected to digital pin 13
 int motor1Pin1 = 2;
 int motor1Pin2 = 3;
 int pot = 0;
-//Servo servoMotor;
-int servoPin = 10;
-int servoValue = 0;
+int servoPin = 11;
+unsigned int servoValue = 0;
 long lastPulse = 0;    // the time in milliseconds of the last pulse
 int refreshTime = 20; // the time needed in between pulses
 
@@ -33,9 +33,11 @@ int refreshTime = 20; // the time needed in between pulses
    // init the pot as an input
    pinMode(pot, INPUT);
    //PWM ports go output by default, so don't need to set that
-   pinMode(servoPin, OUTPUT);
+   //pinMode(servoPin, OUTPUT);
    //attach the servo
-   //servoMotor.attach(servoPin);
+   delay(5000);
+   Serial.print("start");
+   servoInit();
  }
 
  // the loop() method runs over and over again,
@@ -56,8 +58,8 @@ int refreshTime = 20; // the time needed in between pulses
 	 int v = getPot();
 	 //Serial.print(servoValue);
 	 servoValue = map(v, 0, 255, 500, 5000);
-	 Serial.print(servoValue);
-	 Serial.println();
+	 //Serial.print(servoValue);
+	 //Serial.println();
 	 if (v<80) {
 		 d = 1;
 		 s = 255-(v*2);
@@ -82,20 +84,20 @@ int refreshTime = 20; // the time needed in between pulses
 		 analogWrite(motor1Pin2, 0);
 		 servoValue = 2397;
 	 }
-	 //servoMotor.write(servoValue);
+	 servoSet(servoValue);
 
 	  // pulse the servo again if rhe refresh time (20 ms) have passed:
-	  if (millis() - lastPulse >= refreshTime) {
-	    digitalWrite(servoPin, HIGH);   // Turn the motor on
-	    delayMicroseconds(servoValue);       // Length of the pulse sets the motor position
-	    digitalWrite(servoPin, LOW);    // Turn the motor off
-	    lastPulse = millis();           // save the time of the last pulse
-	  }
+	  //if (millis() - lastPulse >= refreshTime) {
+	  //  digitalWrite(servoPin, HIGH);   // Turn the motor on
+	  //  delayMicroseconds(servoValue);       // Length of the pulse sets the motor position
+	  //  digitalWrite(servoPin, LOW);    // Turn the motor off
+	  //  lastPulse = millis();           // save the time of the last pulse
+	 // }
 
    //analogWrite(motor1Pin1, 255);
 	// analogWrite(motor1Pin1, 0);
 	// analogWrite(motor1Pin2, 255);
-	// delay(1000);                  // wait for a second
+	 delay(1000);                  // wait for a second
 	// analogWrite(motor1Pin1, 128);
 	// analogWrite(motor1Pin2, 0);
    //digitalWrite(ledPin, LOW);    // set the LED off

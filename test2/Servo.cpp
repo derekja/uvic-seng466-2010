@@ -181,6 +181,7 @@ Servo::Servo()
   }
   else
     this->servoIndex = INVALID_SERVO ;  // too many servos 
+  Serial.print("yes, I have created a servo \n");
 }
 
 uint8_t Servo::attach(int pin)
@@ -190,6 +191,11 @@ uint8_t Servo::attach(int pin)
 
 uint8_t Servo::attach(int pin, int min, int max)
 {
+	Serial.print("start attach\n");
+	Serial.print(pin);
+	Serial.println();
+	Serial.print(servoIndex);
+	Serial.println();
   if(this->servoIndex < MAX_SERVOS ) {
     pinMode( pin, OUTPUT) ;                                   // set servo pin to output
     servos[this->servoIndex].Pin.nbr = pin;  
@@ -201,6 +207,7 @@ uint8_t Servo::attach(int pin, int min, int max)
     if(isTimerActive(timer) == false)
       initISR(timer);    
     servos[this->servoIndex].Pin.isActive = true;  // this must be set after the check for isTimerActive
+    Serial.print(servos[this->servoIndex].Pin.isActive);
   } 
   return this->servoIndex ;
 }
@@ -231,13 +238,14 @@ void Servo::writeMicroseconds(int value)
 {
   // calculate and store the values for the given channel
   byte channel = this->servoIndex;
+  Serial.print(this->servoIndex);
   if( (channel >= 0) && (channel < MAX_SERVOS) )   // ensure channel is valid
   {  
     if( value < SERVO_MIN() )          // ensure pulse width is valid
       value = SERVO_MIN();
     else if( value > SERVO_MAX() )
       value = SERVO_MAX();   
-    
+
     value = (value-TRIM_DURATION) * TICKS_PER_uS;  // convert to ticks after compensating for interrupt overhead
     uint8_t oldSREG = SREG;
     cli();

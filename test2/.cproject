@@ -59,6 +59,9 @@
 <tool id="de.innot.avreclipse.tool.avrdude.app.debug.581058307" name="AVRDude" superClass="de.innot.avreclipse.tool.avrdude.app.debug"/>
 </toolChain>
 </folderInfo>
+<sourceEntries>
+<entry excluding="Servo.h|Servo.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+</sourceEntries>
 </configuration>
 </storageModule>
 <storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
@@ -832,6 +835,9 @@
 <tool id="de.innot.avreclipse.tool.avrdude.app.release.931002286" name="AVRDude" superClass="de.innot.avreclipse.tool.avrdude.app.release"/>
 </toolChain>
 </folderInfo>
+<sourceEntries>
+<entry excluding="Servo.h|Servo.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+</sourceEntries>
 </configuration>
 </storageModule>
 <storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>

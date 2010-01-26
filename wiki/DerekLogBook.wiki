@@ -84,3 +84,5 @@ Jan 25
 Jan 26
 
 -- ok, fresh look at the problem and it still appears that I am not getting the high byte written but I have no idea why
+-- finally, the light breaks through the clouds!!!
+-- the arduino libraries are the culprit here. I can make everything work without them present, but if I even call init() then the OCR4A register is screwed. Even if I call no other arduino library in the entire program. ICR4 is usable, so there might be a workaround, but how frustrating.

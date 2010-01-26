@@ -75,3 +75,12 @@ Jan 24
   -- could not get digital pin 40 to behave properly, so I dropped back to timer 4 and PWM 7
   -- confused by the fact that I pinMode to 7, but I DDRH |= _BV(DDH4) which is actually pin 16
 -- got the logic analyzer figured out so that I can at least watch the pin outputs directly now
+
+Jan 25
+
+-- spent forever convinced that I was not able to write 16 bit values to the register.
+-- aarg. Making no progress on this. going home.
+
+Jan 26
+
+-- ok, fresh look at the problem and it still appears that I am not getting the high byte written but I have no idea why

@@ -5,13 +5,9 @@ Project 1 items:
 
 riley - Due tues-- remainder of joystick inputs (one of buttons, lever, fwd/backward control)
 
-Derek - due tues-- move servo into an interrupt (like the sonar is)
-
 due tues -- radio code (initial & neil's test code)
 
 -- implement and document a wireless protocol for our commands
-
-due Tues -- integrate servo and motor control into the main project (depends on servo integ)
 
 -- integrate sonar and I2C LED across the radio link
 

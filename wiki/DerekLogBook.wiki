@@ -94,3 +94,12 @@ from todo list:
 Derek - due tues-- move servo into an interrupt (like the sonar is)
 
 due Tues -- integrate servo and motor control into the main project (depends on servo integ)
+
+-- working on radio. Not working on the main remote board, so using the open board to try and make a minimal radio project
+-- OK basic radio working! still need to move it into the main project and wire the other board...
+
+-- wired into the remote board now. moved pins 7 and 8 to 42 and 43 from Neil's wiring and put it on IRQ4 (pin 19)
+
+-- the servo was working as well, but now it only works one direction! It smells smoky also. I think there is a hardware problem there. Need to find a new one tomorrow.
+
+-- the radio is broadcasting to the base station that Neil set up and is sending sonar readings!

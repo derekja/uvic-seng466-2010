@@ -103,3 +103,7 @@ due Tues -- integrate servo and motor control into the main project (depends on 
 -- the servo was working as well, but now it only works one direction! It smells smoky also. I think there is a hardware problem there. Need to find a new one tomorrow.
 
 -- the radio is broadcasting to the base station that Neil set up and is sending sonar readings!
+
+Jan 27
+
+-- got a new servo and wired it in, this one has end stops, so it's a bit harder to tell what it's doing. The circular wheel on the top doesn't help either.

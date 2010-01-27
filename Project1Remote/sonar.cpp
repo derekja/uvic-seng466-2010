@@ -25,7 +25,7 @@ void sonarInit() {
 	return;
 }
 
-void sonarMeasureDistance() {
+double sonarMeasureDistance() {
 	/*
 	 * CS32 CS31 CS30 = 011
 	 * Set clock prescaler factor to 64
@@ -59,7 +59,7 @@ void sonarMeasureDistance() {
 	Serial.print(distance);
 	Serial.println("");
 
-	return;
+	return distance;
 }
 
 /**

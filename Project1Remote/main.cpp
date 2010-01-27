@@ -2,11 +2,13 @@
  SENG466 Project 1
  */
 #include "WProgram.h"
+#include <stdio.h>
 #include "wiring.h"
 #include "Wire.h"
 #include "common.h"
 #include "sonar.h"
 #include "servo.h"
+#include "radioclient.h"
 
 // the next two lines are needed to hack around a serial monitor bug
 extern "C" void __cxa_pure_virtual(void);
@@ -20,6 +22,8 @@ int motor1Pin2 = 12;
 int d = 0; // initial var for which motor pin
 int s = 0; // initial var for speed
 int v = 0; //hold value of pot
+double dist = 0; //hold distance measurements
+char dist_char [20]; //to pass dist to radio
 
 void setup() {
 
@@ -41,14 +45,18 @@ void setup() {
 	// Initialize I2C/TwoWire
 	Wire.begin();
 
-
+Serial.print("a");
 	// init servo
 	servoInit();
 
+	// init and setup radio
+	radioInitSetup();
+Serial.print("b");
+Serial.println();
 }
 
 void loop() {
-	sonarMeasureDistance();
+	dist = sonarMeasureDistance();
 	v = analogRead(pot);
 	d = 0; // initial var for which motor pin
 	s = 0; // initial var for speed
@@ -80,7 +88,15 @@ void loop() {
 	 }
 	servoSet(servoVal);
 
+	sprintf(dist_char, "dist: %d", (int)dist);
+	sendMsg(dist_char);
+
+	Serial.print(dist_char);
+	Serial.println();
+
 	Serial.print(v);
+
+
 
 	delay(500);
 

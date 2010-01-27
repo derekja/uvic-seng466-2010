@@ -3,7 +3,7 @@
 
 void sonarInit();
 void sonarEcho();
-void sonarMeasureDistance();
+double sonarMeasureDistance();
 
 /*
  * Macros to change Timer 3 settings when used for

@@ -86,4 +86,11 @@
 		<nature>de.innot.avreclipse.core.avrnature</nature>
 		<nature>org.eclipse.mylyn.wikitext.ui.wikiTextNature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>radio</name>
+			<type>2</type>
+			<location>C:/Users/Owner/workspace/SENG466Project1/radio</location>
+		</link>
+	</linkedResources>
 </projectDescription>

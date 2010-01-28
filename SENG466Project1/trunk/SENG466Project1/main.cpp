@@ -7,11 +7,21 @@
 #include "common.h"
 #include "sonar.h"
 #include "led.h"
+#include "radioclient.h"
+#include "string.h"
 
 extern "C" void __cxa_pure_virtual() {
 }
 
-static bool color = 0;
+static int button = 7;
+static int xaxis = 6;
+static int yaxis = 5;
+int xpos;
+int ypos;
+char xstring[5];
+char ystring[5];
+char message[20];
+char* slash = "/";
 
 void setup() {
 
@@ -28,23 +38,25 @@ void setup() {
 	Wire.begin();
 
 	LEDSetAddress(1);
+	radioInitSetup();
 }
 
 void loop() {
 //	sonarMeasureDistance();
+	xpos = analogRead(xaxis);
+	ypos = analogRead(yaxis);
+	/*message[0] = '\0';
+	itoa(xpos, xstring, 10);
+	itoa(ypos, ystring, 10);
 
-	if (color)
-	{
-		LEDSetColor(1, 255, 255, 0, true, true);
-		color = !color;
-	}
-	else
-	{
-		LEDSetColor(1, 100, 100, 100, false, true);
-		color = !color;
-	}
+	strcat(message, xstring);
+	strcat(message, slash);
+	strcat(message, ystring);*/
+	//Serial.println(xpos);
 
-	delay(2000);
+
+	sendMsg("hi");
+	delay(200);
 
 	return;
 }

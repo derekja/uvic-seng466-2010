@@ -107,3 +107,10 @@ due Tues -- integrate servo and motor control into the main project (depends on 
 Jan 27
 
 -- got a new servo and wired it in, this one has end stops, so it's a bit harder to tell what it's doing. The circular wheel on the top doesn't help either.
+-- arg! Got a new servo from Mantis, hooked it in, and immediately stripped the gears!
+-- found a supplier for new gears and ordered 3 sets
+
+Jan 28
+
+-- got the larger servo working, took screenshots of the servo timing on the logic analyzer
+-- had a weird jitter problem in the larger servo. Turns out that it is very sensitive to small variations in the timing at certain boundary points. I was looking on the logic analyzer and found that my timing was varying by a single microsecond with a period of 3-4 cycles. This was apparently enough to cause the resting state of the servo to jitter. When I changed the timing so that it was s few microseconds less the jitter went away, so I must have been sitting right on some critical boundary.

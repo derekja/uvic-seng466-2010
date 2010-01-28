@@ -19,7 +19,7 @@ void servoInit() {
 	// set non-inverted PCM mode (COM4B1 set, COM4B0 unset), mode 14 (fast PWM, TOP in ICR4)
 	// set prescale to 64 - CS 40, 41 set, 42 unset
 	TCCR4A = 0b100010;    // COM4B1, COM4B0, COM4C1, COM4C0, WGM41, and WGM40
-    TCCR4B = 0b11010;     // WGM43, WGM42, CD42, CS41, and CS40
+    TCCR4B = 0b11010;     // WGM43, WGM42, CS42, CS41, and CS40
 
 	// initialize the servo pin as an output:
 	//pinMode(ServoPin, OUTPUT);
@@ -32,12 +32,12 @@ void servoInit() {
     SREG = sreg;
 
 
-    //the time it should be up for no movement is 2397, this is just an initial value
+    //the time it should be up for no movement is 3054, this is just an initial value
     //it gets set to servoValue the first time the interrupt is hit
 
     sreg = SREG;
     cli();
-    OCR4B = (unsigned int)2397;
+    OCR4B = (unsigned int)1500;
     SREG = sreg;
 
 

@@ -45,22 +45,19 @@ void setup() {
 	// Initialize I2C/TwoWire
 	Wire.begin();
 
-Serial.print("a");
 	// init servo
 	servoInit();
 
 	// init and setup radio
 	radioInitSetup();
-Serial.print("b");
-Serial.println();
 }
 
 void loop() {
 	dist = sonarMeasureDistance();
-	v = analogRead(pot);
+	/*v = analogRead(pot);
 	d = 0; // initial var for which motor pin
 	s = 0; // initial var for speed
-	servoVal = map(v,0,1024,1000, 9000);
+	servoVal = map(v,0,1024,1800, 4200);
 	v = v/4;
 	 if (v<80) {
 		 d = 1;
@@ -84,17 +81,17 @@ void loop() {
 	 default :
 		 analogWrite(motor1Pin1, 0);
 		 analogWrite(motor1Pin2, 0);
-		 servoVal = 4820;
+		 servoVal = 3000;
 	 }
 	servoSet(servoVal);
-
+*/
 	sprintf(dist_char, "dist: %d", (int)dist);
 	sendMsg(dist_char);
 
 	Serial.print(dist_char);
 	Serial.println();
 
-	Serial.print(v);
+	//Serial.print(v*4);
 
 
 

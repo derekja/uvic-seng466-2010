@@ -57,7 +57,8 @@ void loop() {
 
 	sendMsg("hi");
 	delay(200);
-
+Serial.print("test2");
+Serial.println();
 	return;
 }
 

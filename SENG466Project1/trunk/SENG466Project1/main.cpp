@@ -61,9 +61,9 @@ void loop() {
 
 
 
-	//sendMsg("hi");
+	sendMsg(message);
 	delay(200);
-//Serial.print(message);
+Serial.print(message);
 Serial.println();
 	return;
 }

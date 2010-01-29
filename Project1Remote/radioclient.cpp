@@ -11,7 +11,7 @@
 #include "servo.h"
 
 uint8_t rx_addr[RADIO_ADDRESS_LENGTH] = { 0xDE, 0xAD, 0xBE, 0xEF, 0x88 };
-uint8_t tx_addr[RADIO_ADDRESS_LENGTH] = { 0xDE, 0xAD, 0xBE, 0xEF, 0x77 };
+uint8_t tx_addr[RADIO_ADDRESS_LENGTH] = { 0x98, 0x76, 0x54, 0x32, 0x10 };
 
 radiopacket_t packet;
 
@@ -51,6 +51,8 @@ void radio_rxhandler(uint8_t pipenumber)
 	unsigned int servoVal = 0; //hold servo value in microseconds
 	int motor1Pin1 = 11;
 	int motor1Pin2 = 12;
+	int servoPos = 0;
+	int fanPos = 0;
 	int d = 0; // initial var for which motor pin
 	int s = 0; // initial var for speed
 	int v = 0; //hold value of pot
@@ -62,6 +64,13 @@ void radio_rxhandler(uint8_t pipenumber)
 	{
 		digitalWrite(13, HIGH);
 	}
+
+	scanf("%d/%d", packet.payload.message.messagecontent, servoPos, fanPos);
+	Serial.print("recmsg: ");
+	Serial.print(servoPos);
+	Serial.print("  ");
+	Serial.print(fanPos);
+	Serial.println();
 
 	servoVal = map(v,0,1024,1800, 4200);
 	v = v/4;

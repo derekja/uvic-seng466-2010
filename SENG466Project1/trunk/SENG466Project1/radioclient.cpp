@@ -10,7 +10,7 @@
 #include "Wprogram.h"
 
 uint8_t rx_addr[RADIO_ADDRESS_LENGTH] = { 0xDE, 0xAD, 0xBE, 0xEF, 0x77 };
-uint8_t tx_addr[RADIO_ADDRESS_LENGTH] = { 0x98, 0x76, 0x54, 0x32, 0x10 };
+uint8_t tx_addr[RADIO_ADDRESS_LENGTH] = { 0xDE, 0xAD, 0xBE, 0xEF, 0x88 };
 
 radiopacket_t packet;
 
@@ -19,7 +19,6 @@ void radioInitSetup() {
 
 	// Initialize the SPI connection, configure the I/O pins, and set the register defaults
 	Radio_Init();
-Serial.print("a1");
 	// Configure pipe 0 as a receiver.  Pipe 0 has to be enabled for the radio's link layer
 	// protocol to work.  This line shouldn't be necessary since pipe 0 is enabled by
 	// default, but it's nice to be explicit.
@@ -51,7 +50,7 @@ void radio_rxhandler(uint8_t pipenumber)
 	if (packet.type == MESSAGE && packet.payload.message.messageid == 41)
 		{
 
-		Serial.println("message received");
+		//Serial.println("message received");
 		}
 
 }

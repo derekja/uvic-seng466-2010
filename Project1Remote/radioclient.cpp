@@ -67,6 +67,7 @@ void radio_rxhandler(uint8_t pipenumber)
 
 	sscanf((char*)&packet.payload.message.messagecontent, "%d/%d", &servoPos, &fanPos);
 	//itoa(packet.payload.message.messagecontent, &buf, 10);
+	/*
 	Serial.print("fullmsg: ");
 	Serial.print((char*)&packet.payload.message.messagecontent);
 	Serial.println();
@@ -75,31 +76,35 @@ void radio_rxhandler(uint8_t pipenumber)
 	Serial.print("  ");
 	Serial.print(fanPos);
 	Serial.println();
+	*/
 
 
 	//set fan position
 	 if (fanPos<660) {
 		fanVal = map(fanPos,120,660,0,255);
 		 d = 1;
+		 fanVal = 255 - fanVal;
 		 //s = 255-(fanPos/2);
 	 }
 	 if (fanPos>720) {
-		fanVal = map(fanPos,720,950,0,255);
+		fanVal = map(fanPos,720,1023,0,255);\
 		 d = 2;
 		 //s = fanPos/4;
 	 }
+	 /*
 	 Serial.print("fanVal:  ");
 	 Serial.print(fanVal);
 	 Serial.println();
+	 */
 	 switch (d) {
 	 case 1 :
-		 analogWrite(motor1Pin1, fanPos);
+		 analogWrite(motor1Pin1, fanVal);
 		 analogWrite(motor1Pin2, 0);
 		 break;
 
 	 case 2 :
 		 analogWrite(motor1Pin1, 0);
-		 analogWrite(motor1Pin2, fanPos);
+		 analogWrite(motor1Pin2, fanVal);
 		 break;
 
 	 default :

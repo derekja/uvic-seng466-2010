@@ -114,3 +114,9 @@ Jan 28
 
 -- got the larger servo working, took screenshots of the servo timing on the logic analyzer
 -- had a weird jitter problem in the larger servo. Turns out that it is very sensitive to small variations in the timing at certain boundary points. I was looking on the logic analyzer and found that my timing was varying by a single microsecond with a period of 3-4 cycles. This was apparently enough to cause the resting state of the servo to jitter. When I changed the timing so that it was s few microseconds less the jitter went away, so I must have been sitting right on some critical boundary.
+--took apart the old hs55 servos and idedntified gear problems vs electrical
+--got radio receive working for the most part
+--worked with riley on radio send from the base station
+--took apart and reassembled the joystick about 3 times, finally seems to be working OK, although not perfectly
+--helped another team with servo code
+--having a problem with the base station where it runs fine when built on my machine, but doesn't run from riley's machine

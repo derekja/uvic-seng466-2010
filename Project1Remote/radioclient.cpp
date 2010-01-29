@@ -49,14 +49,13 @@ void sendMsg(char msg[20]) {
 void radio_rxhandler(uint8_t pipenumber)
 {
 	unsigned int servoVal = 0; //hold servo value in microseconds
+	unsigned int fanVal = 0;
 	int motor1Pin1 = 11;
 	int motor1Pin2 = 12;
 	int servoPos = 0;
 	int fanPos = 0;
 	int d = 0; // initial var for which motor pin
-	int s = 0; // initial var for speed
-	int v = 0; //hold value of pot
-	char buf(20);
+
 
 	//Serial.print("woohoo, a packet!");
 	// Copy the received packet from the radio to the local data structure
@@ -77,30 +76,46 @@ void radio_rxhandler(uint8_t pipenumber)
 	Serial.print(fanPos);
 	Serial.println();
 
-	servoVal = map(v,0,1024,1800, 4200);
-	v = v/4;
-	 if (v<80) {
+
+	//set fan position
+	 if (fanPos<660) {
+		fanVal = map(fanPos,120,660,0,255);
 		 d = 1;
-		 s = 255-(v*2);
+		 //s = 255-(fanPos/2);
 	 }
-	 if (v>110) {
+	 if (fanPos>720) {
+		fanVal = map(fanPos,720,950,0,255);
 		 d = 2;
-		 s = v;
+		 //s = fanPos/4;
 	 }
+	 Serial.print("fanVal:  ");
+	 Serial.print(fanVal);
+	 Serial.println();
 	 switch (d) {
 	 case 1 :
-		 analogWrite(motor1Pin1, s);
+		 analogWrite(motor1Pin1, fanPos);
 		 analogWrite(motor1Pin2, 0);
 		 break;
 
 	 case 2 :
 		 analogWrite(motor1Pin1, 0);
-		 analogWrite(motor1Pin2, s);
+		 analogWrite(motor1Pin2, fanPos);
 		 break;
 
 	 default :
 		 analogWrite(motor1Pin1, 0);
 		 analogWrite(motor1Pin2, 0);
+		 servoVal = 3000;
+	 }
+
+	 if (servoPos<300) {
+		servoVal = map(servoPos,0,300,1800, 3000);
+
+	 }
+	 if (servoPos>350) {
+		servoVal = map(servoPos,350,920,3000, 4200);
+	 }
+	 if ((servoPos>300) & (servoPos<350)) {
 		 servoVal = 3000;
 	 }
 	servoSet(servoVal);

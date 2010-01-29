@@ -15,9 +15,9 @@ due tues -- radio code (initial & neil's test code)
 
 writeups:
 
-jackson-- HW intro with pictures
+derek-- HW intro with pictures
 
--- collaborative software sections (google code, calendar, eclipse plugins)
+jackson-- collaborative software sections (google code, calendar, eclipse plugins)
 
 riley-- debugging (serial.print)
 
@@ -31,9 +31,8 @@ jackson-- sonar
 
 jackson-- I2C
 
--- radio
+derek-- radio
 
-derek-- video of project 1 working and pictures showing connections
 
 
 Later:

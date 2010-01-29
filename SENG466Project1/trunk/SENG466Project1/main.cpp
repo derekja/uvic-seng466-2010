@@ -25,6 +25,8 @@ char* slash = "/";
 
 void setup() {
 
+	pinMode(13, OUTPUT);
+
 	// Enable global interrupt
 	Enable_Interrupt();
 
@@ -47,6 +49,12 @@ void loop() {
 	Serial.println(ypos);
 	Serial.print(" ");
 	but = analogRead(button);
+	if (button<10) {
+		digitalWrite(13, HIGH);
+	}
+	else {
+		digitalWrite(13, LOW);
+	}
 	Serial.println(but);
 	Serial.print(" ");
 	Serial.println();

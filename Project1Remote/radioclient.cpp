@@ -37,9 +37,9 @@ void sendMsg(char msg[20]) {
 	// give the packet type MESSAGE and populate the message type's data fields
 	packet.type = MESSAGE;
 	// The message type contains a return address.  In this demo the receiver doesn't
-	// send anything back, so thie address field isn't used (but it's set here anyway).
+	// send anything back, so this address field isn't used (but it's set here anyway).
 	memcpy(packet.payload.message.address, rx_addr, RADIO_ADDRESS_LENGTH);
-	packet.payload.message.messageid = 41;
+	packet.payload.message.messageid = 42;
 	snprintf((char*)packet.payload.message.messagecontent, 20, msg);
 
 	// Send the packet to the address specified with Radio_Set_Tx_Addr above.
@@ -56,16 +56,21 @@ void radio_rxhandler(uint8_t pipenumber)
 	int d = 0; // initial var for which motor pin
 	int s = 0; // initial var for speed
 	int v = 0; //hold value of pot
+	char buf(20);
 
-	Serial.print("woohoo, a packet!");
+	//Serial.print("woohoo, a packet!");
 	// Copy the received packet from the radio to the local data structure
 	Radio_Receive(&packet);
 	if (packet.type == MESSAGE && packet.payload.message.messageid == 41)
 	{
-		digitalWrite(13, HIGH);
-	}
 
-	scanf("%d/%d", packet.payload.message.messagecontent, servoPos, fanPos);
+
+
+	sscanf((char*)&packet.payload.message.messagecontent, "%d/%d", &servoPos, &fanPos);
+	//itoa(packet.payload.message.messagecontent, &buf, 10);
+	Serial.print("fullmsg: ");
+	Serial.print((char*)&packet.payload.message.messagecontent);
+	Serial.println();
 	Serial.print("recmsg: ");
 	Serial.print(servoPos);
 	Serial.print("  ");
@@ -99,7 +104,7 @@ void radio_rxhandler(uint8_t pipenumber)
 		 servoVal = 3000;
 	 }
 	servoSet(servoVal);
-
+	}
 
 }
 

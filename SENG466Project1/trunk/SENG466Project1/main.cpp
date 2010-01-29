@@ -8,24 +8,27 @@
 #include "led.h"
 #include "radioclient.h"
 #include "string.h"
+#include <ctype.h>
 
+/*
+ * This function should never be called under normal operation
+ */
 extern "C" void __cxa_pure_virtual() {
+	Disable_Interrupt();
+	while (1)
+		;
 }
 
-static int button = 7;
-static int xaxis = 6;
-static int yaxis = 5;
-int xpos;
-int ypos;
-int but;
+int XPosition;
+int YPosition;
+int SonarDistance;
+
 char xstring[5];
 char ystring[5];
 char message[20];
-char* slash = "/";
+char *slash = "/";
 
 void setup() {
-
-	pinMode(13, OUTPUT);
 
 	// Enable global interrupt
 	Enable_Interrupt();
@@ -41,44 +44,67 @@ void setup() {
 }
 
 void loop() {
-//	sonarMeasureDistance();
-	xpos = analogRead(xaxis);
-	Serial.println(xpos);
-	Serial.print(" ");
-	ypos = analogRead(yaxis);
-	Serial.println(ypos);
-	Serial.print(" ");
-	but = analogRead(button);
-	if (button<10) {
-		digitalWrite(13, HIGH);
+	XPosition = analogRead(X_AXIS);
+	YPosition = analogRead(Y_AXIS);
+
+	/*
+	 * Turn on the on-board LED if the button
+	 * on the joystick is pressed; otherwise,
+	 * turn it off
+	 */
+	if (analogRead(JOYSTICK_BUTTON)) {
+		digitalWrite(ONBOARD_LED, LOW);
+	} else {
+		digitalWrite(ONBOARD_LED, HIGH);
 	}
-	else {
-		digitalWrite(13, LOW);
-	}
-	Serial.println(but);
-	Serial.print(" ");
-	Serial.println();
 
 	message[0] = '\0';
-	itoa(xpos, xstring, 10);
-	itoa(ypos, ystring, 10);
+	itoa(XPosition, xstring, 10);
+	itoa(YPosition, ystring, 10);
 
 	strcat(message, xstring);
 	strcat(message, slash);
 	strcat(message, ystring);
 
-
-
 	sendMsg(message);
+
+	LEDSetColor(1, 0, DistanceToIntensity(SonarDistance), 0, false, true);
 	delay(200);
-Serial.print(message);
-Serial.println();
 	return;
+}
+
+uint8_t DistanceToIntensity(int distance) {
+	SonarDistance = distance;
+	if (distance > 255) {
+		SonarDistance = 255;
+	} else if (distance < 0) {
+		SonarDistance = 0;
+	}
+
+	return SonarDistance;
+}
+
+void GetSonarDistance(char *SonarDistanceBuffer) {
+	SonarDistance = -1;
+
+	if (strncmp(SonarDistanceBuffer, "dist: ", 6) == 0) {
+		while (*SonarDistanceBuffer && !isdigit(*SonarDistanceBuffer)) {
+			SonarDistanceBuffer++;
+		}
+		SonarDistance = atoi(SonarDistanceBuffer);
+		Serial.println(SonarDistance);
+	}
 }
 
 int main() {
 	init();
 	setup();
+
+	// Set external LED initial color to green
+	LEDSetColor(1, 0, 255, 0, false, true);
+
+	// Turn off the onboard LED
+	digitalWrite(ONBOARD_LED, LOW);
 
 	for (;;) {
 		loop();

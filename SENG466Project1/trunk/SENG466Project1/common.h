@@ -12,8 +12,15 @@
 #define Disable_Interrupt()  asm volatile ("cli"::)
 #define Enable_Interrupt()   asm volatile ("sei"::)
 
-static int SonarRX = 4; // Sonar RX pin is connected to pin 4
-static int SonarPW = 9; // Sonar PW pin is connected to pin 9, ICP3 is on PE7
+/*
+ * Pin definitions are here
+ */
+#define JOYSTICK_BUTTON 7
+#define X_AXIS 6
+#define Y_AXIS 5
+#define ONBOARD_LED 13
 
+void GetSonarDistance(char *SonarDistanceBuffer);
+uint8_t DistanceToIntensity(int distance);
 
 #endif

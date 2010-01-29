@@ -8,6 +8,8 @@
 #include "radio/radio.h"
 #include "radio/packet.h"
 #include "Wprogram.h"
+#include "radioclient.h"
+#include "common.h"
 
 uint8_t rx_addr[RADIO_ADDRESS_LENGTH] = { 0xDE, 0xAD, 0xBE, 0xEF, 0x77 };
 uint8_t tx_addr[RADIO_ADDRESS_LENGTH] = { 0xDE, 0xAD, 0xBE, 0xEF, 0x88 };
@@ -15,7 +17,6 @@ uint8_t tx_addr[RADIO_ADDRESS_LENGTH] = { 0xDE, 0xAD, 0xBE, 0xEF, 0x88 };
 radiopacket_t packet;
 
 void radioInitSetup() {
-
 
 	// Initialize the SPI connection, configure the I/O pins, and set the register defaults
 	Radio_Init();
@@ -38,21 +39,17 @@ void sendMsg(char msg[20]) {
 	// send anything back, so thie address field isn't used (but it's set here anyway).
 	memcpy(packet.payload.message.address, rx_addr, RADIO_ADDRESS_LENGTH);
 	packet.payload.message.messageid = 41;
-	snprintf((char*)packet.payload.message.messagecontent, 20, msg);
+	snprintf((char*) packet.payload.message.messagecontent, 20, msg);
 
 	// Send the packet to the address specified with Radio_Set_Tx_Addr above.
 	Radio_Transmit(&packet, RADIO_WAIT_FOR_TX);
 }
 
-void radio_rxhandler(uint8_t pipenumber)
-{
+void radio_rxhandler(uint8_t pipenumber) {
 	Radio_Receive(&packet);
-	if (packet.type == MESSAGE && packet.payload.message.messageid == 41)
-		{
-
-		//Serial.println("message received");
-		}
+	if (packet.type == MESSAGE && packet.payload.message.messageid == 42) {
+		GetSonarDistance((char *) packet.payload.message.messagecontent);
+	}
 
 }
-
 

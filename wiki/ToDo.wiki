@@ -3,19 +3,19 @@
 
 Project 1 items:
 
-riley - Due tues-- remainder of joystick inputs (one of buttons, lever, fwd/backward control)
+riley - done-- remainder of joystick inputs (one of buttons, lever, fwd/backward control)
 
-due tues -- radio code (initial & neil's test code)
+done -- radio code (initial & neil's test code)
 
--- implement and document a wireless protocol for our commands
+done -- implement and document a wireless protocol for our commands
 
--- integrate sonar and I2C LED across the radio link
+done -- integrate sonar and I2C LED across the radio link
 
 
 
 writeups:
 
-derek-- HW intro with pictures
+done - derek-- HW intro with pictures
 
 jackson-- collaborative software sections (google code, calendar, eclipse plugins)
 

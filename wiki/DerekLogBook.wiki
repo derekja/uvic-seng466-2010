@@ -149,7 +149,7 @@ Jan 28
 
 Jan 29
 
--- OK, tracked the problem with the radio stopping after a short period of time. It wasn't a problem of different build settings like we thought. Riley found a wiring problem on the base station board - CE was wired to the wrong pin
+-- OK, tracked the problem with the radio stopping after a short period of time. It wasn't a problem of different build settings like we thought. Riley found a wiring problem on the base station board - CE was poorly wired
 
 -- worked on writeups, took pictures and hooked up the logic analyzer to take timing screenshots
 
@@ -158,3 +158,7 @@ Jan 29
 Jan 30
 
 -- still working on writeups
+
+Jan 31
+
+-- OK, done with writeups. My sections are the intro and pictures, the motor section, the servo section, and the radio section.

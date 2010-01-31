@@ -21,9 +21,9 @@ jackson-- collaborative software sections (google code, calendar, eclipse plugin
 
 riley-- debugging (serial.print)
 
-derek-- motors and L298
+done - derek-- motors and L298
 
-derek-- servo motor
+done - derek-- servo motor
 
 riley-- joystick
 

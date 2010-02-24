@@ -166,12 +166,15 @@ Jan 31
 Feb 2
 
 -- last writeup touches
+
 -- advice from Mantis to keep everything in the 3rd person
+
 -- not sure I actually agree with that advice, but we'll stick to Mantis' preferred style in future reports. ref: http://www.protrainco.com/essays/passive.htm#1
 
 Feb 3
 
 -- gave demo of project 1 to Mantis
+
 -- started thinking about project 2 design
 
 Project 2
@@ -179,6 +182,7 @@ Project 2
 Feb 5
 
 -- worked on a 2 deck design out of the pink styrofoam
+
 -- used a mylar skirt
 
 Feb 6-11 I was at a conference
@@ -186,40 +190,60 @@ Feb 6-11 I was at a conference
 Feb 12
 
 -- back to working on hovercraft
+
 -- mylar skirt had been extended to cover the entire bottom except for a center hole
+
 -- too much friction, not enough lift
+
 -- lots and lots of air getting pushed back out the top holes
--- went to a direct connection to the battery. Not enough current through the fuse and L298
+
+-- went to a direct connection to the battery. Not enough current through the fuse and 
+L298
 
 Feb 16
 
 -- after web reading, tried a cafeteria tray design
+
 -- actually better lift than our initial design
+
 -- too small, though, and the tray edges present a non-deformable skirt, so it won't go over anything
+
 -- no movement on carpet
 
 Feb 17
 
 -- working on the large foam prototype again
+
 -- added nylon skirt
+
 -- first attempt was to just tack bottom edges down and depend on air escape to the bottom to provide lift
+
 -- not successful
+
 -- next attempt was to cut a hole in the bottom foam layer
+
 -- This was marginally more successful, but still not much lift. OK on tile, not carpet
+
 -- plugging one of the fan holes (and removing the fan, of course) actually helps lift! Strange. not sure what is going on here.
 
 Feb 19
 
 -- problem seems to be the skirt evenness. Jackson tried an approach to even out the skirt which seems marginally more effective.
+
 -- hard to get the skirt even with corners. Considering a move to a round hovecraft
+
 -- I added a deformable skirt to the cafeteria tray and it helped a fair amount
 
 Feb 23
 
 -- breakthrough! Adding a small side skirt to the hovercraft helps. Jackson had the insight to try a vertical mounting and he and I put it together.
+
 -- down to a single fan design now
+
 -- amazingly, having a bottom hole the size of the fan hole is not sufficient! I guess the air turbulence creates too much back pressure. There is a lot of air coming out of the fan backwards. But opening up the bottom hole to be about twice the size of the fan hole reduces backflow to almost zero and provides a remarkable lift improvement!
+
 -- we're now floating on both carpet and tile!
+
 -- losing more air out of the skirt than we want, though, so added a layer of duct tape to stiffen the skirt. This seems to help. We now float well with both battery and control board mounted.
 
--- still need to rig a directional fan, the servo to control the fan, and the sonar. Gonna be tight on this project, but I'm happy to see some flight!
+-- still need to rig a directional fan, the servo to control the fan, and the sonar. Gonna be tight on this project, but I'm happy to see some hovering!

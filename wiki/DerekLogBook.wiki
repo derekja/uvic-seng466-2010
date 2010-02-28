@@ -247,3 +247,35 @@ Feb 23
 -- losing more air out of the skirt than we want, though, so added a layer of duct tape to stiffen the skirt. This seems to help. We now float well with both battery and control board mounted.
 
 -- still need to rig a directional fan, the servo to control the fan, and the sonar. Gonna be tight on this project, but I'm happy to see some hovering!
+
+Feb 26
+
+-- lift is fine with no weight on the hovercraft, but when the thrust motors and L298 is put on board the backdraft gets really bad
+
+-- seems to be a result of our fan not containing the air sufficiently
+
+-- tried to take a big CPU fan and connect our motor to it, but couldn't get the connection right
+
+-- Jackson was working on upping the size of our thrust motor since we weren't really moving
+
+-- decided to get an enclosed fan
+
+Feb 27
+
+-- I found a 12V leaf blower
+
+-- the battery that came with it is really too heavy, but it's there if we get more efficient in our design
+
+-- two of our big battery packs together make 15V which is not so far over the 12V rating to risk the motor
+
+-- taking the control board power off the center of our two big batteries in series
+
+-- mounted leaf blower motor and put batteries in the fan compartment to keep the weight as low as possible
+
+-- we get good lift!
+
+-- for some reason, though, our control board spazzes out when the lift fan is blowing. Too much current draw?
+
+-- may have to use a small battery for the board and thrust motor
+
+-- attached current sensor resistor. Right now we are drawing a full 15amps (.075 V * .005 ohms = 15A)

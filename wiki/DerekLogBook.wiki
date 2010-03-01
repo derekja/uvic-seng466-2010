@@ -279,3 +279,21 @@ Feb 27
 -- may have to use a small battery for the board and thrust motor
 
 -- attached current sensor resistor. Right now we are drawing a full 15amps (.075 V * .005 ohms = 15A)
+
+Feb 28
+
+-- met with Jackson and Riley and did a test run
+
+-- not enough thrust and direction
+
+-- floating well, though
+
+-- after they left I started rigging up a second servo and fan.
+
+-- the arduino board needs to be powered by 7-12V. The 5 volt regulated output from the L298 is just not enough to drive it reliably. I think that's what was going on with the thing spazzing out when the lift motor was running - it was dropping it's supply just enough to go below some threshhold.
+
+-- the servo motor needs to be driven by 5 volts. 7-12 volts is enough to kill it. Erm, yes, I believe that that is what happened. I think I killed another servo. Fuck. I got one of the little ones mounted, but it's not very nicely mounted and we'll want to tweak it tomorrow.
+
+-- the logic analyzer can create a ground loop! I had assumed that it was high enough impedance not to do that, but the board still ran even when I unplugged the negative lead, with ground going through the logic analyzer. Nothing damaged, thankfully.
+
+-- I had tapped the battery on the negative side instead of the positive when we were taking only one battery to drive the arduino. That was also creating a ground problem. Fixed.

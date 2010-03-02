@@ -48,11 +48,14 @@ void sendMsg(char msg[20]) {
 
 void radio_rxhandler(uint8_t pipenumber)
 {
-	unsigned int servoVal = 0; //hold servo value in microseconds
+	unsigned int dirVal = 0;
 	unsigned int fanVal = 0;
+	unsigned int fanVal1 = 0;
 	int motor1Pin1 = 11;
 	int motor1Pin2 = 12;
-	int servoPos = 0;
+	int motor2Pin1 = 9;
+	int motor2Pin2 = 10;
+	int dirPos = 0;
 	int fanPos = 0;
 	int d = 0; // initial var for which motor pin
 
@@ -65,7 +68,7 @@ void radio_rxhandler(uint8_t pipenumber)
 
 
 
-	sscanf((char*)&packet.payload.message.messagecontent, "%d/%d", &servoPos, &fanPos);
+	sscanf((char*)&packet.payload.message.messagecontent, "%d/%d", &dirPos, &fanPos);
 	//itoa(packet.payload.message.messagecontent, &buf, 10);
 	/*
 	Serial.print("fullmsg: ");
@@ -80,50 +83,64 @@ void radio_rxhandler(uint8_t pipenumber)
 
 
 	//set fan position
-	 if (fanPos<660) {
-		fanVal = map(fanPos,120,660,0,255);
+	 if (fanPos<750) {
+		fanVal = map(fanPos,120,750,0,255);
 		 d = 1;
 		 fanVal = 255 - fanVal;
 		 //s = 255-(fanPos/2);
 	 }
-	 if (fanPos>720) {
-		fanVal = map(fanPos,720,1023,0,255);\
+	 if (fanPos>800) {
+		fanVal = map(fanPos,800,1023,0,255);\
 		 d = 2;
 		 //s = fanPos/4;
 	 }
-	 /*
-	 Serial.print("fanVal:  ");
-	 Serial.print(fanVal);
+
+	 fanVal1 = fanVal;
+
+	 if (dirPos<425) {
+		dirVal = map(dirPos,0,450,1000, 0);
+		fanVal = (fanVal * dirVal)/1000;
+
+	 }
+	 if (dirPos>500) {
+		dirVal = map(dirPos,500,1023,1000, 0);
+		fanVal1 = (fanVal1 * dirVal)/1000;
+	 }
+
+	 Serial.print("fanPos:  ");
+	 Serial.print(fanPos);
 	 Serial.println();
-	 */
+	 Serial.print("dirPos:  ");
+	 Serial.print(dirPos);
+	 Serial.println();
+	 Serial.print("dirVal:  ");
+	 Serial.print(dirVal);
+	 Serial.println();
+
 	 switch (d) {
 	 case 1 :
 		 analogWrite(motor1Pin1, fanVal);
 		 analogWrite(motor1Pin2, 0);
+		 analogWrite(motor2Pin1, fanVal1);
+		 analogWrite(motor2Pin2, 0);
+
 		 break;
 
 	 case 2 :
 		 analogWrite(motor1Pin1, 0);
 		 analogWrite(motor1Pin2, fanVal);
+		 analogWrite(motor2Pin1, 0);
+		 analogWrite(motor2Pin2, fanVal1);
 		 break;
 
 	 default :
 		 analogWrite(motor1Pin1, 0);
 		 analogWrite(motor1Pin2, 0);
-		 servoVal = 3000;
+		 analogWrite(motor2Pin1, 0);
+		 analogWrite(motor2Pin2, 0);
 	 }
 
-	 if (servoPos<300) {
-		servoVal = map(servoPos,0,300,1800, 3000);
 
-	 }
-	 if (servoPos>350) {
-		servoVal = map(servoPos,350,920,3000, 4200);
-	 }
-	 if ((servoPos>300) & (servoPos<350)) {
-		 servoVal = 3000;
-	 }
-	servoSet(servoVal);
 	}
 
 }

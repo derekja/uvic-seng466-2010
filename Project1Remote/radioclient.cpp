@@ -85,13 +85,13 @@ void radio_rxhandler(uint8_t pipenumber)
 	//set fan position
 	 if (fanPos<750) {
 		fanVal = map(fanPos,120,750,0,255);
-		 d = 1;
+		 d = 2;
 		 fanVal = 255 - fanVal;
 		 //s = 255-(fanPos/2);
 	 }
 	 if (fanPos>800) {
 		fanVal = map(fanPos,800,1023,0,255);\
-		 d = 2;
+		 d = 1;
 		 //s = fanPos/4;
 	 }
 

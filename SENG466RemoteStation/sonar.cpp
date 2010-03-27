@@ -1,10 +1,10 @@
 #include "sonar.h"
 #include "common.h"
 #include "WProgram.h"
-#include <util/delay.h>
+#include <avr/delay.h>
 
 static uint16_t timerTickCount = 0;
-static double distance = 0;
+
 /*
  * Array to store the rising edge and falling edge
  * timing. It has to be uint16_t because the timer
@@ -12,8 +12,8 @@ static double distance = 0;
  * maximum value exceeds the range of value that
  * can be stored in a 8 bit number.
  */
-static uint16_t risingEdgeTime[3];
-static uint16_t fallingEdgeTime[3];
+//static uint16_t risingEdgeTime[3];
+//static uint16_t fallingEdgeTime[3];
 
 /*
  * SonarID determines which sonar has fired and let
@@ -24,32 +24,27 @@ static uint16_t fallingEdgeTime[3];
  */
 static uint8_t sonarID = 0;
 
+/*
+ * Map each of the sonarID to the actual port number
+ */
+static uint8_t PortMap[3] = {FRONT_SONAR_RX, LEFT_SONAR_RX, RIGHT_SONAR_RX};
+
+/*
+ * xxxSonarBufer[20] holds 20 sonar readings for the
+ * control module to use. sonarBufferPointer points
+ * to the buffer location that should be used to store
+ * the next sonar reading data
+ */
+uint16_t frontSonarBuffer[20];
+uint16_t leftSonarBuffer[20];
+uint16_t rightSonarBuffer[20];
+uint8_t sonarBufferIndex = 0;
+
 void sonarInit() {
-	// initialize the pins as inputs:
-	pinMode(FRONT_SONAR_RX, OUTPUT);
-	pinMode(FRONT_SONAR_PW, INPUT);
-
-	Serial.println("Sonar Init");
-
-	/*
-	 * Assuming sonarInit() gets called immediately after
-	 * power up, then a period of 250 ms must be passed
-	 * before the RX pin is ready to receive command.
-	 */
-	_delay_ms(250);
-
-	//Disable sonar echo firing when it is first initialized
-	digitalWrite(FRONT_SONAR_RX, LOW);
-
-	return;
-}
-
-double sonarMeasureDistance() {
 	/*
 	 * CS32 CS31 CS30 = 011
 	 * Set clock prescaler factor to 64
 	 * ICNC3 = noise canceler => enabled
-	 * ICES3 = trigger edge => 0 = falling edge
 	 */
 	TCCR3B &= ~_BV(CS32);
 	TCCR3B |= (_BV(CS30) | _BV(CS31));
@@ -59,32 +54,105 @@ double sonarMeasureDistance() {
 	TCCR3A &= ~(_BV(WGM30) | _BV(WGM31));
 	TCCR3B &= ~(_BV(WGM32) | _BV(WGM33));
 
-	Serial.println("Before ECHO");
+	sonarBufferIndex = 0;
 
-	sonarEcho();
+	/*
+	 * Initialize the PW pin as input and all the
+	 * RX pins of the sonar sensors as output
+	 */
+	pinMode(FRONT_SONAR_RX, OUTPUT);
+	pinMode(LEFT_SONAR_RX, OUTPUT);
+	pinMode(RIGHT_SONAR_RX, OUTPUT);
+	pinMode(SONAR_PW, INPUT);
 
-	_delay_ms(50);
+	/*
+	 * Assuming sonarInit() gets called immediately after
+	 * power up, then a period of 250 ms must be passed
+	 * before the RX pin is ready to receive command.
+	 */
+	_delay_ms(250);
 
-	timerTickCount = fallingEdgeTime[0] - risingEdgeTime[0];
+	//Disable sonar echo firing when it is first initialized
+	digitalWrite(PortMap[0], LOW);
+	digitalWrite(PortMap[1], LOW);
+	digitalWrite(PortMap[2], LOW);
 
-	Serial.println("After ECHO");
+	return;
+}
 
-	Serial.print("Timer Tick Count: ");
-	Serial.print(timerTickCount);
-	Serial.println("");
-
+void sonarMeasureDistance() {
 	/*
 	 * Clock is 16MHz, with a prescaler of 64, that means
 	 * each timer tick is 4us. For the sonar, 147 us = 1 inch
 	 * so we need to divide by 147 / 4 = 36.75.
 	 */
-	distance = timerTickCount / 36.75;
 
-	Serial.print("Distance: ");
-	Serial.print(distance);
-	Serial.println("");
+	/*
+	 * Front sonar reading
+	 */
+	sonarID = 0;
+	sonarEcho();
+	_delay_ms(38);
+	frontSonarBuffer[sonarBufferIndex] = timerTickCount / 36.75;
+	Serial.print("Front Sonar: ");
+	Serial.print((int)frontSonarBuffer[sonarBufferIndex]);
+	Serial.println();
 
-	return distance;
+//	/*
+//	 * Left sonar reading
+//	 */
+//	++sonarID;
+//	sonarEcho();
+//	_delay_ms(38);
+//	leftSonarBuffer[sonarBufferPointer] = timerTickCount / 36.75;
+//
+//	/*
+//	 * Right sonar reading
+//	 */
+//	++sonarID;
+//	sonarEcho();
+//	_delay_ms(38);
+//	rightSonarBuffer[sonarBufferPointer] = timerTickCount / 36.75;
+
+	/*
+	 * sonarBufferPointer should always be between
+	 * 0 and 19 since only 20 data readings should
+	 * be kept.
+	 */
+	++sonarBufferIndex;
+
+	if (sonarBufferIndex >= 20)
+	{
+		sonarBufferIndex = 0;
+	}
+
+//	int i;
+//
+//	Serial.print("Front Sonar Reading:\t");
+//	for (i = 0; i < 20; ++i)
+//	{
+//		Serial.print((int)frontSonarBuffer[i]);
+//		Serial.print(" ");
+//	}
+//	Serial.println();
+//
+//	Serial.print("Left Sonar Reading:\t");
+//	for (i = 0; i < 20; ++i)
+//	{
+//		Serial.print((int)leftSonarBuffer[i]);
+//		Serial.print(" ");
+//	}
+//	Serial.println();
+//
+//	Serial.print("Right Sonar Reading:\t");
+//	for (i = 0; i < 20; ++i)
+//	{
+//		Serial.print((int)rightSonarBuffer[i]);
+//		Serial.print(" ");
+//	}
+//	Serial.println();
+
+	return;
 }
 
 /**
@@ -98,7 +166,7 @@ void sonarEcho() {
 	SET_IC_ENABLE();
 
 	//Enable Sonar
-	digitalWrite(FRONT_SONAR_RX, HIGH);
+	digitalWrite(PortMap[sonarID], HIGH);
 
 	return;
 }
@@ -110,7 +178,7 @@ ISR(TIMER3_CAPT_vect)
 	 * RX has been staying HIGH long enough. Set it to
 	 * LOW now to disable sonar.
 	 */
-	digitalWrite(FRONT_SONAR_RX, LOW);
+	digitalWrite(PortMap[sonarID], LOW);
 
 	/*
 	 * Reset Timer 3 when the rising edge of PW is
@@ -118,7 +186,8 @@ ISR(TIMER3_CAPT_vect)
 	 * to detect the falling edge and clear the interrupt flag.
 	 */
 	if (IS_RISING_EDGE()) {
-		risingEdgeTime[sonarID] = ICR3;
+		//risingEdgeTime[sonarID] = ICR3;
+		TCNT3 = 0;
 		SET_FALLING_EDGE();
 		CLEAR_IC_FLAG();
 	} else {
@@ -126,7 +195,7 @@ ISR(TIMER3_CAPT_vect)
 		 * Store the ICR3 value and disable Input Capture
 		 * so it does not interfere with other components.
 		 */
-		fallingEdgeTime[sonarID] = ICR3;
+		timerTickCount = ICR3;
 		SET_RISING_EDGE();
 		CLEAR_IC_FLAG();
 		SET_IC_DISABLE();

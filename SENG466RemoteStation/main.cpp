@@ -22,7 +22,6 @@ void task1(void)
    		digitalWrite(ONBOARD_LED, HIGH);
     	sonarMeasureDistance();
 
-
         Task_Next();
     }
 }

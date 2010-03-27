@@ -3,7 +3,7 @@
 
 void sonarInit();
 void sonarEcho();
-double sonarMeasureDistance();
+void sonarMeasureDistance();
 
 /*
  * Macros to change Timer 3 settings when used for
@@ -17,5 +17,10 @@ double sonarMeasureDistance();
 #define SET_IC_ENABLE()         (TIMSK3 |= _BV(ICIE3))
 #define SET_IC_DISABLE()        (TIMSK3 &= ~_BV(ICIE3))
 #define CLEAR_IC_FLAG()         (TIFR3 |= _BV(ICF3))
+
+#define SONAR_PW 9
+#define FRONT_SONAR_RX 28
+#define LEFT_SONAR_RX 4
+#define RIGHT_SONAR_RX 8
 
 #endif /* SONAR_H_ */

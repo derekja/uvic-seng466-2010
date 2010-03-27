@@ -11,7 +11,4 @@
 #define Disable_Interrupt()  asm volatile ("cli"::)
 #define Enable_Interrupt()   asm volatile ("sei"::)
 
-#define FRONT_SONAR_RX 4
-#define FRONT_SONAR_PW 9
-
 #endif /* COMMON_H_ */

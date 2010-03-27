@@ -12,6 +12,17 @@
 #include <avr/io.h>
 
 /*****					Add labels for the packet types to the enumeration					*****/
+typedef enum _ct
+{
+	TURN_LEFT,
+	TURN_RIGHT,
+	NEXT_LEFT,
+	NEXT_RIGHT,
+	STOP,
+	FORWARD,
+	REVERSE,
+	FOLLOW_WALL,
+} COMMAND_TYPE;
 
 typedef enum _pt
 {

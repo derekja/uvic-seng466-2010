@@ -5,8 +5,6 @@
 #include "sonar.h"
 #include <avr/delay.h>
 
-void radio_rxhandler(unsigned char pipenumber);
-
 enum {
 	ONBOARD_LED_HIGH = 1,
 	ONBOARD_LED_LOW,
@@ -50,9 +48,4 @@ int r_main(void)
 	Task_Create(task2, ONBOARD_LED_LOW, PERIODIC, ONBOARD_LED_LOW);
 
    	return 0;
-}
-
-void radio_rxhandler(unsigned char pipenumber)
-{
-
 }

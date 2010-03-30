@@ -6,16 +6,6 @@
 static uint16_t timerTickCount = 0;
 
 /*
- * Array to store the rising edge and falling edge
- * timing. It has to be uint16_t because the timer
- * is a 16 bit timer with a prescaler of 64 so the
- * maximum value exceeds the range of value that
- * can be stored in a 8 bit number.
- */
-//static uint16_t risingEdgeTime[3];
-//static uint16_t fallingEdgeTime[3];
-
-/*
  * SonarID determines which sonar has fired and let
  * the system assign the value to the correct sonar.
  * Sonar ID 0 = Front Sonar
@@ -92,7 +82,7 @@ void sonarMeasureDistance() {
 	 */
 	sonarID = 0;
 	sonarEcho();
-	_delay_ms(38);
+	_delay_ms(50);
 	frontSonarBuffer[sonarBufferIndex] = timerTickCount / 36.75;
 	Serial.print("Front Sonar: ");
 	Serial.print((int)frontSonarBuffer[sonarBufferIndex]);
@@ -103,7 +93,7 @@ void sonarMeasureDistance() {
 //	 */
 //	++sonarID;
 //	sonarEcho();
-//	_delay_ms(38);
+//	_delay_ms(50);
 //	leftSonarBuffer[sonarBufferPointer] = timerTickCount / 36.75;
 //
 //	/*
@@ -111,7 +101,7 @@ void sonarMeasureDistance() {
 //	 */
 //	++sonarID;
 //	sonarEcho();
-//	_delay_ms(38);
+//	_delay_ms(50);
 //	rightSonarBuffer[sonarBufferPointer] = timerTickCount / 36.75;
 
 	/*

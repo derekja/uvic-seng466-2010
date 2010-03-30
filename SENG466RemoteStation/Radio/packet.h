@@ -14,6 +14,7 @@
 /*****					Add labels for the packet types to the enumeration					*****/
 typedef enum _ct
 {
+	NONE,
 	TURN_LEFT,
 	TURN_RIGHT,
 	NEXT_LEFT,
@@ -26,6 +27,8 @@ typedef enum _ct
 
 typedef enum _pt
 {
+	COMMAND,
+	SENSORDATA,
 	MESSAGE,
 	ACK,
 } PACKET_TYPE;

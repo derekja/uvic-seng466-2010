@@ -5,10 +5,13 @@
 #include "wiring.h"
 #include "Wire.h"
 #include "common.h"
-#include "led.h"
 #include "radioclient.h"
+#include "LiquidCrystal.h"
+#include "vrbot_protocol.h"
 #include "string.h"
 #include <ctype.h>
+
+
 
 /*
  * This function should never be called under normal operation
@@ -19,56 +22,40 @@ extern "C" void __cxa_pure_virtual() {
 		;
 }
 
-int XPosition;
-int YPosition;
+LiquidCrystal lcd(10, 9, 8, 7, 6, 5);
+
+
 int SonarDistance;
 
-char xstring[5];
-char ystring[5];
-char message[20];
-char *slash = "/";
+
+
 
 void setup() {
 
+    // set up the LCD's number of columns and rows:
+  lcd.begin(16, 2);
+  // Print a message to the LCD.
+  lcd.print("hello, world!");
+
+	//set up vrbot for speech reco
+	vrbot_setup();
+	  lcd.print("hello, world!2");
 	// Enable global interrupt
 	Enable_Interrupt();
 
 	// Initialize serial port
-	Serial.begin(57600);
+	Serial.begin(9600);
 
-	// Initialize I2C/TwoWire
-	Wire.begin();
-
-	LEDSetAddress(1);
+	  lcd.print("hello, world!3");
 	radioInitSetup();
 }
 
 void loop() {
-	XPosition = analogRead(X_AXIS);
-	YPosition = analogRead(Y_AXIS);
 
-	/*
-	 * Turn on the on-board LED if the button
-	 * on the joystick is pressed; otherwise,
-	 * turn it off
-	 */
-	if (analogRead(JOYSTICK_BUTTON)) {
-		digitalWrite(ONBOARD_LED, LOW);
-	} else {
-		digitalWrite(ONBOARD_LED, HIGH);
-	}
+	//Serial.print("test");
 
-	message[0] = '\0';
-	itoa(XPosition, xstring, 10);
-	itoa(YPosition, ystring, 10);
+	SD_Recognition();
 
-	strcat(message, xstring);
-	strcat(message, slash);
-	strcat(message, ystring);
-
-	sendMsg(message);
-
-	LEDSetColor(1, 0, DistanceToIntensity(SonarDistance), 0, false, true);
 	delay(200);
 	return;
 }
@@ -100,11 +87,15 @@ int main() {
 	init();
 	setup();
 
+	// Set lcd enable pin to high
+	//digitalWrite(9, HIGH);
+	//digitalWrite(10, LOW);
+
 	// Set external LED initial color to green
-	LEDSetColor(1, 0, 255, 0, false, true);
+	//LEDSetColor(1, 0, 255, 0, false, true);
 
 	// Turn off the onboard LED
-	digitalWrite(ONBOARD_LED, LOW);
+	//digitalWrite(ONBOARD_LED, LOW);
 
 	for (;;) {
 		loop();

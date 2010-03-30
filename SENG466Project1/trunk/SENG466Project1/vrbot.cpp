@@ -9,6 +9,8 @@
 #include "radioclient.h"
 #include "string.h"
 #include "LiquidCrystal.h"
+#include "radioclient.h"
+#include "packet.h"
 
 extern LiquidCrystal lcd;
 
@@ -132,7 +134,7 @@ void SD_Recognition()
   lcd.clear();
   lcd.setCursor(0, 0);      
   lcd.print("Command?");
-  
+  radioSend(NONE);
   
   VRbot_RecognizeSD(1);        // start SD recognition group 1 and wait for a command
   cmd = VRbot_CheckResult();   // check recognition result
@@ -157,12 +159,7 @@ void SD_Recognition()
       Serial.println("Command: Turn Left");
       lcd.setCursor(0, 1);      
       lcd.print("Turn Left");
-      
-      message[0] = '\0';
-      strcat(message, "turn left");
-      
-      //message = "turn left";
-      sendMsg(message);
+      radioSend(TURN_LEFT);
       
       break;
 
@@ -170,6 +167,7 @@ void SD_Recognition()
       Serial.println("Commmand: Turn Right");
       lcd.setCursor(0, 1);      
       lcd.print("Turn Right");
+      radioSend(TURN_RIGHT);
       
       break;
   
@@ -177,21 +175,21 @@ void SD_Recognition()
       Serial.println("Commmand: Stop");
       lcd.setCursor(0, 1);      
       lcd.print("Stop");
-      
+      radioSend(STOP);
       break;
       
     case 3: // USER SD WORD 3
       Serial.println("Commmand: Forward");
       lcd.setCursor(0, 1);      
       lcd.print("Forward");
-      
+      radioSend(FORWARD);
       break;  
       
     case 4: // USER SD WORD 4
       Serial.println("Commmand: Reverse");
       lcd.setCursor(0, 1);      
       lcd.print("Reverse");
-      
+      radioSend(REVERSE);
       break;
       
     default: // Other command

@@ -12,9 +12,23 @@
 #include <avr/io.h>
 
 /*****					Add labels for the packet types to the enumeration					*****/
+typedef enum _ct
+{
+	NONE,
+	TURN_LEFT,
+	TURN_RIGHT,
+	NEXT_LEFT,
+	NEXT_RIGHT,
+	STOP,
+	FORWARD,
+	REVERSE,
+	FOLLOW_WALL,
+} COMMAND_TYPE;
 
 typedef enum _pt
 {
+	COMMAND,
+	SENSORDATA,
 	MESSAGE,
 	ACK,
 } PACKET_TYPE;
@@ -22,6 +36,15 @@ typedef enum _pt
 /*****							Construct payload format structures							*****/
 
 // structures must be 29 bytes long or less.
+
+typedef struct _cmd
+{
+	uint8_t command;
+	uint8_t frontSonar;
+	uint8_t leftSonar;
+	uint8_t rightSonar;
+	uint8_t yawSensor;
+} pf_hovercraft_t;
 
 typedef struct _msg
 {
@@ -44,6 +67,7 @@ typedef union _pf
 {
 	uint8_t _filler[29];	// make sure the packet is exactly 32 bytes long - this array should not be accessed directly.
 	pf_message_t message;
+	pf_hovercraft_t hovercraftData;
 	pf_ack_t ack;
 } payloadformat_t;
 

@@ -3,7 +3,7 @@
  */
 #include "WProgram.h"
 #include "wiring.h"
-#include "Wire.h"
+//#include "Wire.h"
 #include "common.h"
 #include "radioclient.h"
 #include "LiquidCrystal.h"
@@ -16,11 +16,6 @@
 /*
  * This function should never be called under normal operation
  */
-extern "C" void __cxa_pure_virtual() {
-	Disable_Interrupt();
-	while (1)
-		;
-}
 
 LiquidCrystal lcd(10, 9, 8, 7, 6, 5);
 

@@ -62,6 +62,55 @@ void radioSend() {
  */
 void radio_rxhandler(uint8_t pipenumber)
 {
+//	Serial.println("radio_rxhandler");
+
+	Radio_Receive(&packet);
+
+	if (packet.type == COMMAND){
+		Serial.println("Received Command");
+
+		switch (packet.payload.hovercraftData.command){
+
+		case NONE:
+			Serial.println("Command is NONE");
+			break;
+
+		case TURN_LEFT:
+			Serial.println("Command is TURN_LEFT");
+			break;
+
+		case TURN_RIGHT:
+			Serial.println("Command is TURN_RIGHT");
+			break;
+
+		case NEXT_LEFT:
+			Serial.println("Command is NEXT_LEFT");
+			break;
+
+		case NEXT_RIGHT:
+			Serial.println("Command is NEXT_RIGHT");
+			break;
+
+		case STOP:
+			Serial.println("Command is STOP");
+			break;
+
+		case FORWARD:
+			Serial.println("Command is FORWARD");
+			break;
+
+		case REVERSE:
+			Serial.println("Command is REVERSE");
+			break;
+
+		case FOLLOW_WALL:
+			Serial.println("Command is FOLLOW_WALL");
+			break;
+
+		default:
+			break;
+		}
+	}
 }
 
 

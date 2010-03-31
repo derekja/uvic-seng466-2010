@@ -6,6 +6,7 @@
  */
 #include "radio.h"
 #include "WProgram.h"
+#include <avr/delay.h>
 
 // non-public constants and macros
 
@@ -227,9 +228,9 @@ void Radio_Init()
 	pinMode(VCC_PIN, OUTPUT);
 
 	digitalWrite(VCC_PIN, LOW);
-	delay(50);
+	_delay_ms(50);
 	digitalWrite(VCC_PIN, HIGH);
-	delay(50);
+	_delay_ms(50);
 
 	transmit_lock = 0;
 
@@ -250,13 +251,13 @@ void Radio_Init()
 	attachInterrupt(4, int0handler, LOW);
 
 	// A 10.3 ms delay is required between power off and power on states (controlled by 3.3 V supply).
-	delay(11);
+	_delay_ms(11);
 
 	// Configure the radio registers that are not application-dependent.
 	configure_registers();
 
 	// A 1.5 ms delay is required between power down and power up states (controlled by PWR_UP bit in CONFIG)
-	delay(2);
+	_delay_ms(2);
 
 	// enable radio as a receiver
 	CE_HIGH();

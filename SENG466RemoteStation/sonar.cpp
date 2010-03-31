@@ -20,6 +20,11 @@ static uint8_t sonarID = 0;
 static uint8_t PortMap[3] = {FRONT_SONAR_RX, LEFT_SONAR_RX, RIGHT_SONAR_RX};
 
 /*
+ * Index to the sonar buffer array that is used to store the data
+ */
+static uint8_t sonarBufferIndex = 0;
+
+/*
  * xxxSonarBufer[20] holds 20 sonar readings for the
  * control module to use. sonarBufferPointer points
  * to the buffer location that should be used to store
@@ -28,7 +33,6 @@ static uint8_t PortMap[3] = {FRONT_SONAR_RX, LEFT_SONAR_RX, RIGHT_SONAR_RX};
 uint16_t frontSonarBuffer[20];
 uint16_t leftSonarBuffer[20];
 uint16_t rightSonarBuffer[20];
-uint8_t sonarBufferIndex = 0;
 
 void sonarInit() {
 	/*
@@ -53,7 +57,14 @@ void sonarInit() {
 	pinMode(FRONT_SONAR_RX, OUTPUT);
 	pinMode(LEFT_SONAR_RX, OUTPUT);
 	pinMode(RIGHT_SONAR_RX, OUTPUT);
-	pinMode(SONAR_PW, INPUT);
+
+	/*
+	 * Set PE7 to input
+	 *
+	 * DDRE |= _BV(PE7) means setting it to output
+	 */
+//	DDRE &= ~_BV(SONAR_PW);
+
 
 	/*
 	 * Assuming sonarInit() gets called immediately after
@@ -62,7 +73,7 @@ void sonarInit() {
 	 */
 	_delay_ms(250);
 
-	//Disable sonar echo firing when it is first initialized
+	//Disable each sonar when they are first initialized
 	digitalWrite(PortMap[0], LOW);
 	digitalWrite(PortMap[1], LOW);
 	digitalWrite(PortMap[2], LOW);
@@ -71,6 +82,8 @@ void sonarInit() {
 }
 
 void sonarMeasureDistance() {
+		sonarID = 0;
+
 	/*
 	 * Clock is 16MHz, with a prescaler of 64, that means
 	 * each timer tick is 4us. For the sonar, 147 us = 1 inch
@@ -80,7 +93,6 @@ void sonarMeasureDistance() {
 	/*
 	 * Front sonar reading
 	 */
-	sonarID = 0;
 	sonarEcho();
 	_delay_ms(50);
 	frontSonarBuffer[sonarBufferIndex] = timerTickCount / 36.75;
@@ -88,24 +100,30 @@ void sonarMeasureDistance() {
 	Serial.print((int)frontSonarBuffer[sonarBufferIndex]);
 	Serial.println();
 
-//	/*
-//	 * Left sonar reading
-//	 */
-//	++sonarID;
-//	sonarEcho();
-//	_delay_ms(50);
-//	leftSonarBuffer[sonarBufferPointer] = timerTickCount / 36.75;
-//
-//	/*
-//	 * Right sonar reading
-//	 */
-//	++sonarID;
-//	sonarEcho();
-//	_delay_ms(50);
-//	rightSonarBuffer[sonarBufferPointer] = timerTickCount / 36.75;
+	/*
+	 * Left sonar reading
+	 */
+	++sonarID;
+	sonarEcho();
+	_delay_ms(50);
+	leftSonarBuffer[sonarBufferIndex] = timerTickCount / 36.75;
+	Serial.print("Left Sonar: ");
+	Serial.print((int)leftSonarBuffer[sonarBufferIndex]);
+	Serial.println();
 
 	/*
-	 * sonarBufferPointer should always be between
+	 * Right sonar reading
+	 */
+	++sonarID;
+	sonarEcho();
+	_delay_ms(50);
+	rightSonarBuffer[sonarBufferIndex] = timerTickCount / 36.75;
+	Serial.print("Right Sonar: ");
+	Serial.print((int)rightSonarBuffer[sonarBufferIndex]);
+	Serial.println();
+
+	/*
+	 * sonarBufferIndex should always be between
 	 * 0 and 19 since only 20 data readings should
 	 * be kept.
 	 */
@@ -176,7 +194,6 @@ ISR(TIMER3_CAPT_vect)
 	 * to detect the falling edge and clear the interrupt flag.
 	 */
 	if (IS_RISING_EDGE()) {
-		//risingEdgeTime[sonarID] = ICR3;
 		TCNT3 = 0;
 		SET_FALLING_EDGE();
 		CLEAR_IC_FLAG();

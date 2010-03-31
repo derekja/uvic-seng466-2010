@@ -3,7 +3,6 @@
  */
 #include "WProgram.h"
 #include "wiring.h"
-//#include "Wire.h"
 #include "common.h"
 #include "radioclient.h"
 #include "LiquidCrystal.h"
@@ -11,19 +10,7 @@
 #include "string.h"
 #include <ctype.h>
 
-
-
-/*
- * This function should never be called under normal operation
- */
-
 LiquidCrystal lcd(10, 9, 8, 7, 6, 5);
-
-
-int SonarDistance;
-
-
-
 
 void setup() {
 
@@ -55,42 +42,10 @@ void loop() {
 	return;
 }
 
-uint8_t DistanceToIntensity(int distance) {
-	SonarDistance = distance;
-	if (distance > 255) {
-		SonarDistance = 255;
-	} else if (distance < 0) {
-		SonarDistance = 0;
-	}
-
-	return SonarDistance;
-}
-
-void GetSonarDistance(char *SonarDistanceBuffer) {
-	SonarDistance = -1;
-
-	if (strncmp(SonarDistanceBuffer, "dist: ", 6) == 0) {
-		while (*SonarDistanceBuffer && !isdigit(*SonarDistanceBuffer)) {
-			SonarDistanceBuffer++;
-		}
-		SonarDistance = atoi(SonarDistanceBuffer);
-		Serial.println(SonarDistance);
-	}
-}
 
 int main() {
 	init();
 	setup();
-
-	// Set lcd enable pin to high
-	//digitalWrite(9, HIGH);
-	//digitalWrite(10, LOW);
-
-	// Set external LED initial color to green
-	//LEDSetColor(1, 0, 255, 0, false, true);
-
-	// Turn off the onboard LED
-	//digitalWrite(ONBOARD_LED, LOW);
 
 	for (;;) {
 		loop();

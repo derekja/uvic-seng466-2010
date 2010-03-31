@@ -24,44 +24,28 @@ void radioInitSetup() {
 	 * shouldn't be necessary since pipe 0 is enabled by default,
 	 * but it's nice to be explicit.
 	 */
-	Radio_Configure_Rx(RADIO_PIPE_0, RemoteStationAddr, ENABLE);
+	Radio_Configure_Rx(RADIO_PIPE_0,BaseStationAddr , ENABLE);
 
-	/*
-	 * Configure the radio's data rate (must match the other radio)
-	 * and the broadcast power
-	 */
 	Radio_Configure(RADIO_2MBPS, RADIO_HIGHEST_POWER);
 
-	/*
-	 * set the address to send to, dangling prepositions be damned.
-	 */
-	Radio_Set_Tx_Addr(BaseStationAddr);
+	Radio_Set_Tx_Addr(RemoteStationAddr);
 
 }
 
 void radioSend(uint8_t command) {
-	/*
-	 * Remote Station should only send message of type SENSORDATA to the
-	 * Base Station.
-	 */
+
 	packet.type = COMMAND;
 
 	packet.payload.hovercraftData.command = command;
 
-//	memcpy(packet.payload.message.address, RemoteStationAddr, RADIO_ADDRESS_LENGTH);
-//	snprintf((char*)packet.payload.message.messagecontent, 20, msg);
-
-	// Send the packet to the address specified with Radio_Set_Tx_Addr above.
 	Radio_Transmit(&packet, RADIO_WAIT_FOR_TX);
 }
 
-/*
- * To be completed.
- * This is the side where we decompose the content of the packet
- * and find out what command was sent from the Base Station
- */
+
 void radio_rxhandler(uint8_t pipenumber)
 {
+	Radio_Receive(&packet);
+	Serial.print((char *) packet.payload.message.messagecontent);
 }
 
 

@@ -3,7 +3,7 @@
 #include "WProgram.h"
 #include <avr/delay.h>
 
-static uint16_t timerTickCount = 0;
+static volatile uint16_t timerTickCount = 0;
 
 /*
  * SonarID determines which sonar has fired and let
@@ -12,7 +12,7 @@ static uint16_t timerTickCount = 0;
  * Sonar ID 1 = Left Sonar
  * Sonar ID 2 = Right Sonar
  */
-static uint8_t sonarID = 0;
+static volatile int sonarID = 0;
 
 /*
  * Map each of the sonarID to the actual port number
@@ -82,8 +82,6 @@ void sonarInit() {
 }
 
 void sonarMeasureDistance() {
-		sonarID = 0;
-
 	/*
 	 * Clock is 16MHz, with a prescaler of 64, that means
 	 * each timer tick is 4us. For the sonar, 147 us = 1 inch
@@ -93,33 +91,28 @@ void sonarMeasureDistance() {
 	/*
 	 * Front sonar reading
 	 */
-	sonarEcho();
-	_delay_ms(50);
-	frontSonarBuffer[sonarBufferIndex] = timerTickCount / 36.75;
-	Serial.print("Front Sonar: ");
-	Serial.print((int)frontSonarBuffer[sonarBufferIndex]);
-	Serial.println();
+//	sonarEcho(FRONT_SONAR_RX);
+//	_delay_ms(50);
+//	Serial.print("Front Sonar: ");
+//	Serial.print((int)frontSonarBuffer[0]);
+//	Serial.println();
 
 	/*
 	 * Left sonar reading
 	 */
-	++sonarID;
-	sonarEcho();
+	sonarEcho(LEFT_SONAR_RX);
 	_delay_ms(50);
-	leftSonarBuffer[sonarBufferIndex] = timerTickCount / 36.75;
 	Serial.print("Left Sonar: ");
-	Serial.print((int)leftSonarBuffer[sonarBufferIndex]);
+	Serial.print((int)leftSonarBuffer[0]);
 	Serial.println();
 
 	/*
 	 * Right sonar reading
 	 */
-	++sonarID;
-	sonarEcho();
+	sonarEcho(RIGHT_SONAR_RX);
 	_delay_ms(50);
-	rightSonarBuffer[sonarBufferIndex] = timerTickCount / 36.75;
 	Serial.print("Right Sonar: ");
-	Serial.print((int)rightSonarBuffer[sonarBufferIndex]);
+	Serial.print((int)rightSonarBuffer[0]);
 	Serial.println();
 
 	/*
@@ -168,19 +161,34 @@ void sonarMeasureDistance() {
  * the interrupt flag and then enable Input Capture.
  * After that, set RX to HIGH to enable the sonar.
  */
-void sonarEcho() {
+void sonarEcho(int SonarRX_Pin) {
 	SET_RISING_EDGE();
 	CLEAR_IC_FLAG();
 	SET_IC_ENABLE();
 
 	//Enable Sonar
-	digitalWrite(PortMap[sonarID], HIGH);
+	if (SonarRX_Pin == 37)
+	{
+		sonarID = 0;
+	}
+	else if (SonarRX_Pin == 36)
+	{
+		sonarID = 1;
+	}
+	else if (SonarRX_Pin == 35)
+	{
+		sonarID = 2;
+	}
+
+	digitalWrite(SonarRX_Pin, HIGH);
 
 	return;
 }
 
 ISR(TIMER3_CAPT_vect)
 {
+	Disable_Interrupt();
+
 	/*
 	 * Once the rising edge of PW is detected, it means
 	 * RX has been staying HIGH long enough. Set it to
@@ -206,5 +214,17 @@ ISR(TIMER3_CAPT_vect)
 		SET_RISING_EDGE();
 		CLEAR_IC_FLAG();
 		SET_IC_DISABLE();
+
+		if (sonarID == 0){
+			frontSonarBuffer[0] = timerTickCount / 36.75;
+		}
+		else if (sonarID == 1){
+			leftSonarBuffer[0] = timerTickCount / 36.75;
+		}
+		else if (sonarID == 2){
+			rightSonarBuffer[0] = timerTickCount / 36.75;
+		}
 	}
+
+	Enable_Interrupt();
 }

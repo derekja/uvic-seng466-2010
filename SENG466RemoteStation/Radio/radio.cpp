@@ -23,7 +23,7 @@
 
 #define CE_PIN 43
 #define CSN_PIN 42
-#define VCC_PIN 48
+#define VCC_PIN 53
 
 // Definitions for selecting and enabling the radio
 #define CSN_HIGH()	digitalWrite(CSN_PIN, HIGH);//CSN_PORT |=  _BV(CSN_PIN);

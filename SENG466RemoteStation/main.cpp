@@ -16,7 +16,7 @@ enum {
 	SONAR_TASK,
 };
 
-const unsigned char PPP[6] = { ONBOARD_LED_HIGH, 50, ONBOARD_LED_LOW, 50, SONAR_TASK, 200};
+const unsigned char PPP[6] = { ONBOARD_LED_HIGH, 5, ONBOARD_LED_LOW, 5, SONAR_TASK, 90};
 const unsigned int PT = sizeof(PPP) / 2;
 
 void task1(void) {
@@ -65,7 +65,7 @@ int r_main(void) {
 //	}
 
 	sonarInit();
-	radioInitSetup();
+//	radioInitSetup();
 
 	Task_Create(task1, ONBOARD_LED_HIGH, PERIODIC, ONBOARD_LED_HIGH);
 	Task_Create(task2, ONBOARD_LED_LOW, PERIODIC, ONBOARD_LED_LOW);

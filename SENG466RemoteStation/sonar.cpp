@@ -3,26 +3,10 @@
 #include "WProgram.h"
 #include <avr/delay.h>
 
-static volatile uint16_t timerTickCount = 0;
-
-/*
- * SonarID determines which sonar has fired and let
- * the system assign the value to the correct sonar.
- * Sonar ID 0 = Front Sonar
- * Sonar ID 1 = Left Sonar
- * Sonar ID 2 = Right Sonar
- */
-static volatile int sonarID = 0;
-
-/*
- * Map each of the sonarID to the actual port number
- */
-static uint8_t PortMap[3] = {FRONT_SONAR_RX, LEFT_SONAR_RX, RIGHT_SONAR_RX};
-
 /*
  * Index to the sonar buffer array that is used to store the data
  */
-static uint8_t sonarBufferIndex = 0;
+static volatile uint8_t sonarBufferIndex = 0;
 
 /*
  * xxxSonarBufer[20] holds 20 sonar readings for the
@@ -48,23 +32,41 @@ void sonarInit() {
 	TCCR3A &= ~(_BV(WGM30) | _BV(WGM31));
 	TCCR3B &= ~(_BV(WGM32) | _BV(WGM33));
 
+	/*
+	 * CS42 CS41 CS40 = 011
+	 * Set clock prescaler factor to 64
+	 * ICNC4 = noise canceler => enabled
+	 */
+	TCCR4B &= ~_BV(CS42);
+	TCCR4B |= (_BV(CS40) | _BV(CS41));
+	TCCR4B |= _BV(ICNC4);
+
+	//Set timer 4 to Normal Mode
+	TCCR4A &= ~(_BV(WGM40) | _BV(WGM41));
+	TCCR4B &= ~(_BV(WGM42) | _BV(WGM43));
+
+	/*
+	 * CS52 CS51 CS50 = 011
+	 * Set clock prescaler factor to 64
+	 * ICNC5 = noise canceler => enabled
+	 */
+	TCCR5B &= ~_BV(CS52);
+	TCCR5B |= (_BV(CS50) | _BV(CS51));
+	TCCR5B |= _BV(ICNC5);
+
+	//Set timer 5 to Normal Mode
+	TCCR5A &= ~(_BV(WGM50) | _BV(WGM51));
+	TCCR5B &= ~(_BV(WGM52) | _BV(WGM53));
+
 	sonarBufferIndex = 0;
 
 	/*
 	 * Initialize the PW pin as input and all the
 	 * RX pins of the sonar sensors as output
 	 */
-	pinMode(FRONT_SONAR_RX, OUTPUT);
 	pinMode(LEFT_SONAR_RX, OUTPUT);
 	pinMode(RIGHT_SONAR_RX, OUTPUT);
-
-	/*
-	 * Set PE7 to input
-	 *
-	 * DDRE |= _BV(PE7) means setting it to output
-	 */
-//	DDRE &= ~_BV(SONAR_PW);
-
+	pinMode(FRONT_SONAR_RX, OUTPUT);
 
 	/*
 	 * Assuming sonarInit() gets called immediately after
@@ -74,9 +76,9 @@ void sonarInit() {
 	_delay_ms(250);
 
 	//Disable each sonar when they are first initialized
-	digitalWrite(PortMap[0], LOW);
-	digitalWrite(PortMap[1], LOW);
-	digitalWrite(PortMap[2], LOW);
+	digitalWrite(LEFT_SONAR_RX, LOW);
+	digitalWrite(RIGHT_SONAR_RX, LOW);
+	digitalWrite(FRONT_SONAR_RX, LOW);
 
 	return;
 }
@@ -89,31 +91,33 @@ void sonarMeasureDistance() {
 	 */
 
 	/*
-	 * Front sonar reading
+	 * Left Sonar Reading
 	 */
-//	sonarEcho(FRONT_SONAR_RX);
-//	_delay_ms(50);
-//	Serial.print("Front Sonar: ");
-//	Serial.print((int)frontSonarBuffer[0]);
+	sonarEcho1();
+
+	/*
+	 * Right Sonar Reading
+	 */
+	sonarEcho2();
+
+	/*
+	 * Front Sonar Reading
+	 */
+	sonarEcho3();
+
+	_delay_ms(55);
+
+//	Serial.print("Left Sonar: ");
+//	Serial.print((int)leftSonarBuffer[sonarBufferIndex]);
 //	Serial.println();
-
-	/*
-	 * Left sonar reading
-	 */
-	sonarEcho(LEFT_SONAR_RX);
-	_delay_ms(50);
-	Serial.print("Left Sonar: ");
-	Serial.print((int)leftSonarBuffer[0]);
-	Serial.println();
-
-	/*
-	 * Right sonar reading
-	 */
-	sonarEcho(RIGHT_SONAR_RX);
-	_delay_ms(50);
-	Serial.print("Right Sonar: ");
-	Serial.print((int)rightSonarBuffer[0]);
-	Serial.println();
+//
+//	Serial.print("Right Sonar: ");
+//	Serial.print((int)rightSonarBuffer[sonarBufferIndex]);
+//	Serial.println();
+//
+//	Serial.print("Front Sonar: ");
+//	Serial.print((int)frontSonarBuffer[sonarBufferIndex]);
+//	Serial.println();
 
 	/*
 	 * sonarBufferIndex should always be between
@@ -127,31 +131,20 @@ void sonarMeasureDistance() {
 		sonarBufferIndex = 0;
 	}
 
-//	int i;
-//
-//	Serial.print("Front Sonar Reading:\t");
-//	for (i = 0; i < 20; ++i)
-//	{
-//		Serial.print((int)frontSonarBuffer[i]);
-//		Serial.print(" ");
-//	}
-//	Serial.println();
-//
-//	Serial.print("Left Sonar Reading:\t");
-//	for (i = 0; i < 20; ++i)
-//	{
-//		Serial.print((int)leftSonarBuffer[i]);
-//		Serial.print(" ");
-//	}
-//	Serial.println();
-//
-//	Serial.print("Right Sonar Reading:\t");
-//	for (i = 0; i < 20; ++i)
-//	{
-//		Serial.print((int)rightSonarBuffer[i]);
-//		Serial.print(" ");
-//	}
-//	Serial.println();
+	return;
+}
+
+/**
+ * Set Input Capture to look for a rising edge, clear
+ * the interrupt flag and then enable Input Capture.
+ * After that, set RX to HIGH to enable the sonar.
+ */
+void sonarEcho1() {
+	SET_RISING_EDGE3();
+	CLEAR_IC_FLAG3();
+	SET_IC_ENABLE3();
+
+	digitalWrite(LEFT_SONAR_RX, HIGH);
 
 	return;
 }
@@ -161,26 +154,27 @@ void sonarMeasureDistance() {
  * the interrupt flag and then enable Input Capture.
  * After that, set RX to HIGH to enable the sonar.
  */
-void sonarEcho(int SonarRX_Pin) {
-	SET_RISING_EDGE();
-	CLEAR_IC_FLAG();
-	SET_IC_ENABLE();
+void sonarEcho2() {
+	SET_RISING_EDGE4();
+	CLEAR_IC_FLAG4();
+	SET_IC_ENABLE4();
 
-	//Enable Sonar
-	if (SonarRX_Pin == 37)
-	{
-		sonarID = 0;
-	}
-	else if (SonarRX_Pin == 36)
-	{
-		sonarID = 1;
-	}
-	else if (SonarRX_Pin == 35)
-	{
-		sonarID = 2;
-	}
+	digitalWrite(RIGHT_SONAR_RX, HIGH);
 
-	digitalWrite(SonarRX_Pin, HIGH);
+	return;
+}
+
+/**
+ * Set Input Capture to look for a rising edge, clear
+ * the interrupt flag and then enable Input Capture.
+ * After that, set RX to HIGH to enable the sonar.
+ */
+void sonarEcho3() {
+	SET_RISING_EDGE5();
+	CLEAR_IC_FLAG5();
+	SET_IC_ENABLE5();
+
+	digitalWrite(FRONT_SONAR_RX, HIGH);
 
 	return;
 }
@@ -194,36 +188,94 @@ ISR(TIMER3_CAPT_vect)
 	 * RX has been staying HIGH long enough. Set it to
 	 * LOW now to disable sonar.
 	 */
-	digitalWrite(PortMap[sonarID], LOW);
+	digitalWrite(LEFT_SONAR_RX, LOW);
 
 	/*
 	 * Reset Timer 3 when the rising edge of PW is
 	 * detected, then change the Input Capture configuration
 	 * to detect the falling edge and clear the interrupt flag.
 	 */
-	if (IS_RISING_EDGE()) {
+	if (IS_RISING_EDGE3()) {
 		TCNT3 = 0;
-		SET_FALLING_EDGE();
-		CLEAR_IC_FLAG();
+		SET_FALLING_EDGE3();
+		CLEAR_IC_FLAG3();
 	} else {
 		/*
 		 * Store the ICR3 value and disable Input Capture
 		 * so it does not interfere with other components.
 		 */
-		timerTickCount = ICR3;
-		SET_RISING_EDGE();
-		CLEAR_IC_FLAG();
-		SET_IC_DISABLE();
+		leftSonarBuffer[sonarBufferIndex] = ICR3 / 36.75;
+		SET_RISING_EDGE3();
+		CLEAR_IC_FLAG3();
+		SET_IC_DISABLE3();
+	}
 
-		if (sonarID == 0){
-			frontSonarBuffer[0] = timerTickCount / 36.75;
-		}
-		else if (sonarID == 1){
-			leftSonarBuffer[0] = timerTickCount / 36.75;
-		}
-		else if (sonarID == 2){
-			rightSonarBuffer[0] = timerTickCount / 36.75;
-		}
+	Enable_Interrupt();
+}
+
+ISR(TIMER4_CAPT_vect)
+{
+	Disable_Interrupt();
+
+	/*
+	 * Once the rising edge of PW is detected, it means
+	 * RX has been staying HIGH long enough. Set it to
+	 * LOW now to disable sonar.
+	 */
+	digitalWrite(RIGHT_SONAR_RX, LOW);
+
+	/*
+	 * Reset Timer 4 when the rising edge of PW is
+	 * detected, then change the Input Capture configuration
+	 * to detect the falling edge and clear the interrupt flag.
+	 */
+	if (IS_RISING_EDGE4()) {
+		TCNT4 = 0;
+		SET_FALLING_EDGE4();
+		CLEAR_IC_FLAG4();
+	} else {
+		/*
+		 * Store the ICR4 value and disable Input Capture
+		 * so it does not interfere with other components.
+		 */
+		rightSonarBuffer[sonarBufferIndex] = ICR4 / 36.75;
+		SET_RISING_EDGE4();
+		CLEAR_IC_FLAG4();
+		SET_IC_DISABLE4();
+	}
+
+	Enable_Interrupt();
+}
+
+ISR(TIMER5_CAPT_vect)
+{
+	Disable_Interrupt();
+
+	/*
+	 * Once the rising edge of PW is detected, it means
+	 * RX has been staying HIGH long enough. Set it to
+	 * LOW now to disable sonar.
+	 */
+	digitalWrite(FRONT_SONAR_RX, LOW);
+
+	/*
+	 * Reset Timer 4 when the rising edge of PW is
+	 * detected, then change the Input Capture configuration
+	 * to detect the falling edge and clear the interrupt flag.
+	 */
+	if (IS_RISING_EDGE5()) {
+		TCNT5 = 0;
+		SET_FALLING_EDGE5();
+		CLEAR_IC_FLAG5();
+	} else {
+		/*
+		 * Store the ICR5 value and disable Input Capture
+		 * so it does not interfere with other components.
+		 */
+		frontSonarBuffer[sonarBufferIndex] = ICR5 / 36.75;
+		SET_RISING_EDGE5();
+		CLEAR_IC_FLAG5();
+		SET_IC_DISABLE5();
 	}
 
 	Enable_Interrupt();

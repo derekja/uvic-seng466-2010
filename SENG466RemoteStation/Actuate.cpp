@@ -6,35 +6,34 @@
  */
 
 #include "Actuate.h"
+#include "WProgram.h"
 
-void actuate()
-{
-	while( true )
-	{
-		switch ( d )
-		{
-			 case 1 :
-				 analogWrite( motor1Pin1, fanVal );
-				 analogWrite( motor1Pin2, 0 );
-				 analogWrite( motor2Pin1, fanVal1 );
-				 analogWrite( motor2Pin2, 0 );
-				 break;
+static int motor1Pin1 = 11;
+static int motor1Pin2 = 12;
 
-			 case 2 :
-				 analogWrite( motor1Pin1, 0 );
-				 analogWrite( motor1Pin2, fanVal );
-				 analogWrite( motor2Pin1, 0 );
-				 analogWrite( motor2Pin2, fanVal1 );
-				 break;
+void actuate() {
+	switch (d) {
+	case 1:
+		analogWrite(motor1Pin1, fanVal);
+		analogWrite(motor1Pin2, 0);
+		analogWrite(motor2Pin1, fanVal1);
+		analogWrite(motor2Pin2, 0);
+		break;
 
-			 default :
-				 analogWrite( motor1Pin1, 0 );
-				 analogWrite( motor1Pin2, 0 );
-				 analogWrite( motor2Pin1, 0 );
-				 analogWrite( motor2Pin2, 0 );
-		 }
+	case 2:
+		analogWrite(motor1Pin1, 0);
+		analogWrite(motor1Pin2, fanVal);
+		analogWrite(motor2Pin1, 0);
+		analogWrite(motor2Pin2, fanVal1);
+		break;
 
-		//wait for next cycle
-		task_next();
+	default:
+		analogWrite(motor1Pin1, 0);
+		analogWrite(motor1Pin2, 0);
+		analogWrite(motor2Pin1, 0);
+		analogWrite(motor2Pin2, 0);
 	}
+
+	//wait for next cycle
 }
+

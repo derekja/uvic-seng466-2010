@@ -61,6 +61,9 @@
 <tool id="de.innot.avreclipse.tool.avrdude.app.debug.1821540308" name="AVRDude" superClass="de.innot.avreclipse.tool.avrdude.app.debug"/>
 </toolChain>
 </folderInfo>
+<sourceEntries>
+<entry excluding="Plan.h|Plan.cpp|Control.h|Actuate.h|Control.cpp|Actuate.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+</sourceEntries>
 </configuration>
 </storageModule>
 <storageModule moduleId="scannerConfiguration">
@@ -605,6 +608,9 @@
 <tool id="de.innot.avreclipse.tool.avrdude.app.release.1749009488" name="AVRDude" superClass="de.innot.avreclipse.tool.avrdude.app.release"/>
 </toolChain>
 </folderInfo>
+<sourceEntries>
+<entry excluding="Plan.h|Plan.cpp|Control.h|Actuate.h|Control.cpp|Actuate.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+</sourceEntries>
 </configuration>
 </storageModule>
 <storageModule moduleId="scannerConfiguration">

@@ -48,24 +48,8 @@ int r_main(void) {
 	pinMode(ONBOARD_LED, OUTPUT);
 	Serial.begin(57600);
 
-//	pinMode(37, OUTPUT);
-//	pinMode(36, OUTPUT);
-//	pinMode(35, OUTPUT);
-//
-//	while(true){
-//		digitalWrite(37, HIGH);
-//		digitalWrite(36, HIGH);
-//		digitalWrite(35, HIGH);
-//		_delay_ms(1000);
-//		digitalWrite(37, LOW);
-//		digitalWrite(36, LOW);
-//		digitalWrite(35, LOW);
-//		_delay_ms(1000);
-//
-//	}
-
 	sonarInit();
-//	radioInitSetup();
+	radioInitSetup();
 
 	Task_Create(task1, ONBOARD_LED_HIGH, PERIODIC, ONBOARD_LED_HIGH);
 	Task_Create(task2, ONBOARD_LED_LOW, PERIODIC, ONBOARD_LED_LOW);

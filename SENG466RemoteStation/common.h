@@ -11,4 +11,10 @@
 #define Disable_Interrupt()  asm volatile ("cli"::)
 #define Enable_Interrupt()   asm volatile ("sei"::)
 
+typedef enum {
+	LEFT_SONAR,
+	RIGHT_SONAR,
+	FRONT_SONAR
+} sonarID;
+
 #endif /* COMMON_H_ */

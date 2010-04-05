@@ -1,9 +1,11 @@
 #ifndef SONAR_H_
 #define SONAR_H_
 
+#include <stdint.h>
+
 void sonarInit();
 void sonarMeasureDistance();
-
+uint16_t sonarGetDistance(int sonarID);
 /*
  * Macros to change Timer 3 settings when used for
  * input capture and measure the pulse width of

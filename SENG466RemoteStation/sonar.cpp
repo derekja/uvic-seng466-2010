@@ -7,6 +7,10 @@ static void sonarEcho1();
 static void sonarEcho2();
 static void sonarEcho3();
 
+static uint16_t leftSonarTickCount;
+static uint16_t rightSonarTickCount;
+static uint16_t frontSonarTickCount;
+
 /*
  * Index to the sonar buffer array that is used to store the data
  */
@@ -18,9 +22,9 @@ static volatile uint8_t sonarBufferIndex = 0;
  * to the buffer location that should be used to store
  * the next sonar reading data
  */
-uint16_t frontSonarBuffer[20];
-uint16_t leftSonarBuffer[20];
-uint16_t rightSonarBuffer[20];
+static uint16_t frontSonarBuffer[20];
+static uint16_t leftSonarBuffer[20];
+static uint16_t rightSonarBuffer[20];
 
 void sonarInit() {
 	/*
@@ -98,31 +102,34 @@ void sonarMeasureDistance() {
 	 * Left Sonar Reading
 	 */
 	sonarEcho1();
-	_delay_ms(50);
+	_delay_ms(38);
+	leftSonarBuffer[sonarBufferIndex] = leftSonarTickCount / 36.75;
 
 	/*
 	 * Right Sonar Reading
 	 */
 	sonarEcho2();
-	_delay_ms(50);
+	_delay_ms(38);
+	rightSonarBuffer[sonarBufferIndex] = rightSonarTickCount / 36.75;
 
 	/*
 	 * Front Sonar Reading
 	 */
 	sonarEcho3();
-	_delay_ms(50);
+	_delay_ms(38);
+	frontSonarBuffer[sonarBufferIndex] = frontSonarTickCount / 36.75;
 
-//	Serial.print("Left Sonar: ");
-//	Serial.print((int)leftSonarBuffer[sonarBufferIndex]);
-//	Serial.println();
-//
-//	Serial.print("Right Sonar: ");
-//	Serial.print((int)rightSonarBuffer[sonarBufferIndex]);
-//	Serial.println();
-//
-//	Serial.print("Front Sonar: ");
-//	Serial.print((int)frontSonarBuffer[sonarBufferIndex]);
-//	Serial.println();
+	Serial.print("Left Sonar: ");
+	Serial.print((int) leftSonarBuffer[sonarBufferIndex]);
+	Serial.println();
+
+	Serial.print("Right Sonar: ");
+	Serial.print((int) rightSonarBuffer[sonarBufferIndex]);
+	Serial.println();
+
+	Serial.print("Front Sonar: ");
+	Serial.print((int) frontSonarBuffer[sonarBufferIndex]);
+	Serial.println();
 
 	/*
 	 * sonarBufferIndex should always be between
@@ -131,12 +138,43 @@ void sonarMeasureDistance() {
 	 */
 	++sonarBufferIndex;
 
-	if (sonarBufferIndex >= 20)
-	{
+	if (sonarBufferIndex >= 20) {
 		sonarBufferIndex = 0;
 	}
 
 	return;
+}
+
+/*
+ * This function processes the sonarBuffer and returns
+ * the distance. It also rejects incorrect values by
+ * analyzing the trend in which the distance is changing.
+ */
+uint16_t sonarGetDistance(int sonarID) {
+	uint8_t currentIndex = sonarBufferIndex;
+	uint8_t counter = 0;
+	uint16_t result = 0;
+
+	switch (sonarID) {
+	case LEFT_SONAR:
+		for (counter = 0; counter < 20; ++counter) {
+
+		}
+		break;
+
+	case RIGHT_SONAR:
+		//do something
+		break;
+
+	case FRONT_SONAR:
+		//do something
+		break;
+
+	default:
+		break;
+	}
+
+	return result;
 }
 
 /**
@@ -209,7 +247,7 @@ ISR(TIMER3_CAPT_vect)
 		 * Store the ICR3 value and disable Input Capture
 		 * so it does not interfere with other components.
 		 */
-		leftSonarBuffer[sonarBufferIndex] = ICR3 / 36.75;
+		leftSonarTickCount = ICR3;
 		SET_RISING_EDGE3();
 		CLEAR_IC_FLAG3();
 		SET_IC_DISABLE3();
@@ -243,7 +281,7 @@ ISR(TIMER4_CAPT_vect)
 		 * Store the ICR4 value and disable Input Capture
 		 * so it does not interfere with other components.
 		 */
-		rightSonarBuffer[sonarBufferIndex] = ICR4 / 36.75;
+		rightSonarTickCount = ICR4;
 		SET_RISING_EDGE4();
 		CLEAR_IC_FLAG4();
 		SET_IC_DISABLE4();
@@ -277,7 +315,7 @@ ISR(TIMER5_CAPT_vect)
 		 * Store the ICR5 value and disable Input Capture
 		 * so it does not interfere with other components.
 		 */
-		frontSonarBuffer[sonarBufferIndex] = ICR5 / 36.75;
+		frontSonarTickCount = ICR5;
 		SET_RISING_EDGE5();
 		CLEAR_IC_FLAG5();
 		SET_IC_DISABLE5();

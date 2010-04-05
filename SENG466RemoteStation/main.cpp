@@ -49,7 +49,7 @@ int r_main(void) {
 	Serial.begin(57600);
 
 	sonarInit();
-	radioInitSetup();
+//	radioInitSetup();
 
 	Task_Create(task1, ONBOARD_LED_HIGH, PERIODIC, ONBOARD_LED_HIGH);
 	Task_Create(task2, ONBOARD_LED_LOW, PERIODIC, ONBOARD_LED_LOW);

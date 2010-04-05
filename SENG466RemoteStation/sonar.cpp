@@ -3,6 +3,10 @@
 #include "WProgram.h"
 #include <avr/delay.h>
 
+static void sonarEcho1();
+static void sonarEcho2();
+static void sonarEcho3();
+
 /*
  * Index to the sonar buffer array that is used to store the data
  */
@@ -94,18 +98,19 @@ void sonarMeasureDistance() {
 	 * Left Sonar Reading
 	 */
 	sonarEcho1();
+	_delay_ms(50);
 
 	/*
 	 * Right Sonar Reading
 	 */
 	sonarEcho2();
+	_delay_ms(50);
 
 	/*
 	 * Front Sonar Reading
 	 */
 	sonarEcho3();
-
-	_delay_ms(55);
+	_delay_ms(50);
 
 //	Serial.print("Left Sonar: ");
 //	Serial.print((int)leftSonarBuffer[sonarBufferIndex]);
@@ -139,7 +144,7 @@ void sonarMeasureDistance() {
  * the interrupt flag and then enable Input Capture.
  * After that, set RX to HIGH to enable the sonar.
  */
-void sonarEcho1() {
+static void sonarEcho1() {
 	SET_RISING_EDGE3();
 	CLEAR_IC_FLAG3();
 	SET_IC_ENABLE3();
@@ -154,7 +159,7 @@ void sonarEcho1() {
  * the interrupt flag and then enable Input Capture.
  * After that, set RX to HIGH to enable the sonar.
  */
-void sonarEcho2() {
+static void sonarEcho2() {
 	SET_RISING_EDGE4();
 	CLEAR_IC_FLAG4();
 	SET_IC_ENABLE4();
@@ -169,7 +174,7 @@ void sonarEcho2() {
  * the interrupt flag and then enable Input Capture.
  * After that, set RX to HIGH to enable the sonar.
  */
-void sonarEcho3() {
+static void sonarEcho3() {
 	SET_RISING_EDGE5();
 	CLEAR_IC_FLAG5();
 	SET_IC_ENABLE5();

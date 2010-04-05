@@ -2,9 +2,6 @@
 #define SONAR_H_
 
 void sonarInit();
-void sonarEcho1();
-void sonarEcho2();
-void sonarEcho3();
 void sonarMeasureDistance();
 
 /*

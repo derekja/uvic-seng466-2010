@@ -57,22 +57,22 @@ void control()
 				break;
 			case FOLLOW_WALL:
 
-				if( yaw() > 0 )
-				{
-					yaw_error = yaw() - YAW_SETPOINT;
-				}
-				else
-				{
-					yaw_error = - ( -yaw() - YAW_SETPOINT );
-				}
-				yaw_p = yaw_error;
-				yaw_d = yaw_error - yaw_prev_error;
-				yaw_i = ( 2 * yaw_old_error )/3 + yaw_error/3;
-				yaw_prev_error = yaw_error;
-				yaw_old_error = yaw_i;
-				yaw_turn = ( yaw_kp*yaw_p
-								+ yaw_kd*yaw_d
-								+ yaw_ki*yaw_i )/1600;//that scaling factor of 1/X should keep the value between 100 and -100
+//				if( yaw() > 0 )
+//				{
+//					yaw_error = yaw() - YAW_SETPOINT;
+//				}
+//				else
+//				{
+//					yaw_error = - ( -yaw() - YAW_SETPOINT );
+//				}
+//				yaw_p = yaw_error;
+//				yaw_d = yaw_error - yaw_prev_error;
+//				yaw_i = ( 2 * yaw_old_error )/3 + yaw_error/3;
+//				yaw_prev_error = yaw_error;
+//				yaw_old_error = yaw_i;
+//				yaw_turn = ( yaw_kp*yaw_p
+//								+ yaw_kd*yaw_d
+//								+ yaw_ki*yaw_i )/1600;//that scaling factor of 1/X should keep the value between 100 and -100
 
 
 				follow_wall_error = sonarGetDistance( RIGHT_SONAR ) - FOLLOW_WALL_SET_POINT;
@@ -85,8 +85,8 @@ void control()
 										+ FOLLOW_WALL_KD*follow_wall_d
 										+ FOLLOW_WALL_KI*follow_wall_i )/3;//that scaling factor of 1/3 should keep the value between 100 and -100
 
-				turn = ( 2*yaw_turn + follow_wall_turn )/3;
-//				turn = follow_wall_turn;
+//				turn = ( 2*yaw_turn + follow_wall_turn )/3;
+				turn = follow_wall_turn;
 				speed = FOLLOW_WALL_SPEED;
 				state = command;
 				break;

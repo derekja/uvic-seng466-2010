@@ -13,11 +13,18 @@
 enum {
 	ONBOARD_LED_HIGH = 1,
 	ONBOARD_LED_LOW,
+	ACTUATE_TASK,
+	CONTROL_TASK,
 	SONAR_TASK,
 };
 
-const unsigned char PPP[6] = { ONBOARD_LED_HIGH, 5, ONBOARD_LED_LOW, 5, SONAR_TASK, 90};
+const unsigned char PPP[10] = { ONBOARD_LED_HIGH, 1, ONBOARD_LED_LOW, 1, ACTUATE_TASK, 2, CONTROL_TASK, 2, SONAR_TASK, 90};
+//const unsigned char PPP[8] = { ONBOARD_LED_HIGH, 1, ONBOARD_LED_LOW, 1, CONTROL_TASK, 200};
 const unsigned int PT = sizeof(PPP) / 2;
+
+extern void actuate();
+extern void control();
+
 
 void task1(void) {
 	for (;;) {
@@ -43,6 +50,22 @@ void sonarTask(void) {
 	}
 }
 
+void actuateTask(void) {
+	while (true) {
+		actuate();
+
+		Task_Next();
+	}
+}
+
+void controlTask(void) {
+	while (true) {
+		control();
+
+		Task_Next();
+	}
+}
+
 int r_main(void) {
 
 	pinMode(ONBOARD_LED, OUTPUT);
@@ -54,6 +77,8 @@ int r_main(void) {
 	Task_Create(task1, ONBOARD_LED_HIGH, PERIODIC, ONBOARD_LED_HIGH);
 	Task_Create(task2, ONBOARD_LED_LOW, PERIODIC, ONBOARD_LED_LOW);
 	Task_Create(sonarTask, SONAR_TASK, PERIODIC, SONAR_TASK);
+	Task_Create(actuateTask, ACTUATE_TASK, PERIODIC, ACTUATE_TASK);
+	Task_Create(controlTask, CONTROL_TASK, PERIODIC, CONTROL_TASK);
 
 	return 0;
 }

@@ -6,6 +6,11 @@
 void sonarInit();
 void sonarMeasureDistance();
 uint16_t sonarGetDistance(int sonarID);
+
+static uint16_t averageValue(uint8_t offset, uint8_t range, uint16_t* sonarBuffer);
+static uint16_t minValue(uint8_t offset, uint8_t range, uint16_t* sonarBuffer);
+static uint16_t maxValue(uint8_t offset, uint8_t range, uint16_t* sonarBuffer);
+
 /*
  * Macros to change Timer 3 settings when used for
  * input capture and measure the pulse width of
@@ -49,5 +54,7 @@ uint16_t sonarGetDistance(int sonarID);
 #define FRONT_SONAR_RX 37
 #define LEFT_SONAR_RX 36
 #define RIGHT_SONAR_RX 35
+
+#define SONAR_BUFFER_SIZE 20
 
 #endif /* SONAR_H_ */

@@ -2,6 +2,7 @@
 #include "common.h"
 #include "WProgram.h"
 #include <avr/delay.h>
+#include <math.h>
 
 static void sonarEcho1();
 static void sonarEcho2();
@@ -22,9 +23,9 @@ static volatile uint8_t sonarBufferIndex = 0;
  * to the buffer location that should be used to store
  * the next sonar reading data
  */
-static uint16_t frontSonarBuffer[20];
-static uint16_t leftSonarBuffer[20];
-static uint16_t rightSonarBuffer[20];
+static uint16_t frontSonarBuffer[SONAR_BUFFER_SIZE];
+static uint16_t leftSonarBuffer[SONAR_BUFFER_SIZE];
+static uint16_t rightSonarBuffer[SONAR_BUFFER_SIZE];
 
 void sonarInit() {
 	/*
@@ -119,17 +120,17 @@ void sonarMeasureDistance() {
 	_delay_ms(38);
 	frontSonarBuffer[sonarBufferIndex] = frontSonarTickCount / 36.75;
 
-	Serial.print("Left Sonar: ");
-	Serial.print((int) leftSonarBuffer[sonarBufferIndex]);
-	Serial.println();
-
-	Serial.print("Right Sonar: ");
-	Serial.print((int) rightSonarBuffer[sonarBufferIndex]);
-	Serial.println();
-
-	Serial.print("Front Sonar: ");
-	Serial.print((int) frontSonarBuffer[sonarBufferIndex]);
-	Serial.println();
+//	Serial.print("Left Sonar: ");
+//	Serial.print((int) leftSonarBuffer[sonarBufferIndex]);
+//	Serial.println();
+//
+//	Serial.print("Right Sonar: ");
+//	Serial.print((int) rightSonarBuffer[sonarBufferIndex]);
+//	Serial.println();
+//
+//	Serial.print("Front Sonar: ");
+//	Serial.print((int) frontSonarBuffer[sonarBufferIndex]);
+//	Serial.println();
 
 	/*
 	 * sonarBufferIndex should always be between
@@ -152,22 +153,45 @@ void sonarMeasureDistance() {
  */
 uint16_t sonarGetDistance(int sonarID) {
 	uint8_t currentIndex = sonarBufferIndex;
-	uint8_t counter = 0;
+	uint16_t currentValue = 0;
+	uint16_t average = 0;
 	uint16_t result = 0;
 
 	switch (sonarID) {
 	case LEFT_SONAR:
-		for (counter = 0; counter < 20; ++counter) {
+		currentValue = leftSonarBuffer[currentIndex];
+		average = averageValue(currentIndex, 4, leftSonarBuffer);
 
+		if (abs(currentValue - average) < 5) {
+			result = leftSonarBuffer[currentIndex];
+		}
+		else {
+			result = average;
 		}
 		break;
 
 	case RIGHT_SONAR:
-		//do something
+		currentValue = rightSonarBuffer[currentIndex];
+		average = averageValue(currentIndex, 4, rightSonarBuffer);
+
+		if (abs(currentValue - average) < 5) {
+			result = rightSonarBuffer[currentIndex];
+		}
+		else {
+			result = average;
+		}
 		break;
 
 	case FRONT_SONAR:
-		//do something
+		currentValue = frontSonarBuffer[currentIndex];
+		average = averageValue(currentIndex, 4, frontSonarBuffer);
+
+		if (abs(currentValue - average) < 5) {
+			result = frontSonarBuffer[currentIndex];
+		}
+		else {
+			result = average;
+		}
 		break;
 
 	default:
@@ -175,6 +199,60 @@ uint16_t sonarGetDistance(int sonarID) {
 	}
 
 	return result;
+}
+
+static uint16_t averageValue(uint8_t offset, uint8_t range, uint16_t* sonarBuffer) {
+	uint8_t counter = 0;
+	uint16_t sum = 0;
+
+	for (counter = 0; counter < range; ++counter) {
+		sum += *(sonarBuffer + offset);
+		if (offset == 0) {
+			offset = SONAR_BUFFER_SIZE - 1;
+		}
+		else {
+			--offset;
+		}
+	}
+	return sum / range;
+}
+
+static uint16_t minValue(uint8_t offset, uint8_t range, uint16_t* sonarBuffer) {
+	uint8_t counter = 0;
+	uint16_t min = *(sonarBuffer + offset);
+
+	for (counter = 0; counter < range; ++counter) {
+		if (*(sonarBuffer + offset) < min) {
+			min = *(sonarBuffer + offset);
+		}
+
+		if (offset == 0) {
+			offset = SONAR_BUFFER_SIZE - 1;
+		}
+		else {
+			--offset;
+		}
+	}
+	return min;
+}
+
+static uint16_t maxValue(uint8_t offset, uint8_t range, uint16_t* sonarBuffer) {
+	uint8_t counter = 0;
+	uint16_t max = *(sonarBuffer + offset);
+
+	for (counter = 0; counter < range; ++counter) {
+		if (*(sonarBuffer + offset) < max) {
+			max = *(sonarBuffer + offset);
+		}
+
+		if (offset == 0) {
+			offset = SONAR_BUFFER_SIZE - 1;
+		}
+		else {
+			--offset;
+		}
+	}
+	return max;
 }
 
 /**

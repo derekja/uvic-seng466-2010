@@ -10,7 +10,7 @@
 #include "common.h"
 
 /*prototypes*/
-uint16_t sonar( int sonar );
+extern uint16_t sonarGetDistance( int sonar );
 int yaw();
 
 int speed;
@@ -75,7 +75,7 @@ void control()
 								+ yaw_ki*yaw_i )/1600;//that scaling factor of 1/X should keep the value between 100 and -100
 
 
-				follow_wall_error = sonar( RIGHT_SONAR ) - FOLLOW_WALL_SET_POINT;
+				follow_wall_error = sonarGetDistance( RIGHT_SONAR ) - FOLLOW_WALL_SET_POINT;
 				follow_wall_p = follow_wall_error;
 				follow_wall_d = follow_wall_error - follow_wall_prev_error;
 				follow_wall_i = ( 2 * follow_wall_old_error )/3 + follow_wall_error/3;
@@ -107,22 +107,6 @@ void control()
 				break;
 		}
   }
-
-uint16_t sonar( int sonar )
-{
-	switch( sonar )
-	{
-		case FRONT_SONAR:
-			return 60;
-		case RIGHT_SONAR:
-			Serial.println( "Called sonar( RIGHT )" );
-			return 24;
-		case LEFT_SONAR:
-			return 24;
-		default:
-			return -1;
-	}
-}
 
 int yaw()
 {

@@ -62,7 +62,7 @@
 </toolChain>
 </folderInfo>
 <sourceEntries>
-<entry excluding="Plan.h|Plan.cpp|Control.h|Actuate.h|Control.cpp|Actuate.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 </sourceEntries>
 </configuration>
 </storageModule>
@@ -609,7 +609,7 @@
 </toolChain>
 </folderInfo>
 <sourceEntries>
-<entry excluding="Plan.h|Plan.cpp|Control.h|Actuate.h|Control.cpp|Actuate.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 </sourceEntries>
 </configuration>
 </storageModule>

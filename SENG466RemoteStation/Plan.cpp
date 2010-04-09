@@ -20,18 +20,7 @@ extern int command = 0;
 
 void plan()
 {
-	while( true )
-	{
-		//receive the packet
-		Radio_Receive(&packet);
-
-		//process the packet
-		if (packet.type == MESSAGE && packet.payload.message.messageid == 41)
-		{
-			sscanf((char*)&packet.payload.message.messagecontent, "%d/%d", &dirPos, &fanPos);
-		}
-
-		//wait for next call
-		task_next();
-	}
+	//process radio
+	/* ... */
+	command = FOLLOW_WALL;
 }

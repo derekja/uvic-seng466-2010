@@ -11,92 +11,85 @@
 
 /*prototypes*/
 extern uint16_t sonarGetDistance( int sonar );
-int yaw();
 
-int speed;
-int turn;
+int speed_right;
+int speed_left;
 
 
 extern int command;
 
-int state = FOLLOW_WALL;
+int state = STOP;
 
-const int FOLLOW_WALL_SET_POINT = 24;
-const int FOLLOW_WALL_SPEED = 100;
+const int FOLLOW_WALL_SET_POINT_RIGHT = 24;
+const int FOLLOW_WALL_SPEED_RIGHT = 100;
 
-int follow_wall_prev_error;
-int follow_wall_error;
-int follow_wall_old_error;
-int follow_wall_p;
-int FOLLOW_WALL_KP = 8;
-int follow_wall_d;
-int FOLLOW_WALL_KD = 4;
-int follow_wall_i;
-int FOLLOW_WALL_KI = 2;
-int follow_wall_turn;
+int follow_wall_prev_error_right;
+int follow_wall_error_right;
+int follow_wall_old_error_right;
+int follow_wall_p_right;
+int FOLLOW_WALL_KP_RIGHT = 8;
+int follow_wall_d_right;
+int FOLLOW_WALL_KD_RIGHT = 4;
+int follow_wall_i_right;
+int FOLLOW_WALL_KI_RIGHT = 2;
 
-const int YAW_SETPOINT = 0;
+const int FOLLOW_WALL_SET_POINT_LEFT = 24;
+const int FOLLOW_WALL_SPEED_LEFT = 100;
 
-int yaw_prev_error;
-int yaw_error;
-int yaw_old_error;
-int yaw_p;
-int yaw_kp = 8;
-int yaw_d;
-int yaw_kd = 4;
-int yaw_i;
-int yaw_ki = 2;
-int yaw_turn;
-
-int temp;
+int follow_wall_prev_error_left;
+int follow_wall_error_left;
+int follow_wall_old_error_left;
+int follow_wall_p_left;
+int FOLLOW_WALL_KP_LEFT = 8;
+int follow_wall_d_left;
+int FOLLOW_WALL_KD_LEFT = 4;
+int follow_wall_i_left;
+int FOLLOW_WALL_KI_LEFT = 2;
 
 void control()
 {
-//	Serial.println( "control" );
-		switch( state )
+	switch( state )
 		{
 			case STOP:
 				state = command;
 				break;
 			case FOLLOW_WALL:
 
-				if( yaw() > 0 )
-				{
-					yaw_error = yaw() - YAW_SETPOINT;
-				}
-				else
-				{
-					yaw_error = - ( -yaw() - YAW_SETPOINT );
-				}
-				yaw_p = yaw_error;
-				yaw_d = yaw_error - yaw_prev_error;
-				yaw_i = ( 2 * yaw_old_error )/3 + yaw_error/3;
-				yaw_prev_error = yaw_error;
-				yaw_old_error = yaw_i;
-				yaw_turn = ( yaw_kp*yaw_p
-								+ yaw_kd*yaw_d
-								+ yaw_ki*yaw_i )/1600;//that scaling factor of 1/X should keep the value between 100 and -100
+				follow_wall_error_right = sonarGetDistance( RIGHT_SONAR ) - FOLLOW_WALL_SET_POINT_RIGHT;
+				follow_wall_p_right = follow_wall_error_right;
+				follow_wall_d_right = follow_wall_error_right - follow_wall_prev_error_right;
+				follow_wall_i_right = ( 2 * follow_wall_old_error_right )/3 + follow_wall_error_right/3;
+				follow_wall_prev_error_right = follow_wall_error_right;
+				follow_wall_old_error_right = follow_wall_i_right;
 
-//				temp = sonarGetDistance(RIGHT_SONAR);
-//				follow_wall_error = temp - FOLLOW_WALL_SET_POINT;
-//				Serial.print("Sonar: ");
-//				Serial.println(temp);
+				//this scaling factor of 1/3 should keep the value between 100 and -100;
+				speed_right = ( FOLLOW_WALL_KP_RIGHT*follow_wall_p_right
+						+ FOLLOW_WALL_KD_RIGHT*follow_wall_d_right
+						+ FOLLOW_WALL_KI_RIGHT*follow_wall_i_right )/3;
 
-				follow_wall_error = sonarGetDistance( RIGHT_SONAR ) - FOLLOW_WALL_SET_POINT;
-				follow_wall_p = follow_wall_error;
-				follow_wall_d = follow_wall_error - follow_wall_prev_error;
-				follow_wall_i = ( 2 * follow_wall_old_error )/3 + follow_wall_error/3;
-				follow_wall_prev_error = follow_wall_error;
-				follow_wall_old_error = follow_wall_i;
-				follow_wall_turn = ( FOLLOW_WALL_KP*follow_wall_p
-										+ FOLLOW_WALL_KD*follow_wall_d
-										+ FOLLOW_WALL_KI*follow_wall_i )/3;//that scaling factor of 1/3 should keep the value between 100 and -100
+				Serial.print( "sonar right" );
+				Serial.println( follow_wall_error_right + FOLLOW_WALL_SET_POINT_RIGHT );
+				Serial.print( "right speed: " );
+				Serial.println( speed_right );
 
-//				turn = ( 2*yaw_turn + follow_wall_turn )/3;
-				turn = follow_wall_turn;
-				speed = FOLLOW_WALL_SPEED;
-//				state = command;
-				state = FOLLOW_WALL;
+				follow_wall_error_left = sonarGetDistance( LEFT_SONAR ) - FOLLOW_WALL_SET_POINT_LEFT;
+				follow_wall_p_left = follow_wall_error_left;
+				follow_wall_d_left = follow_wall_error_left - follow_wall_prev_error_left;
+				follow_wall_i_left = ( 2 * follow_wall_old_error_left )/3 + follow_wall_error_left/3;
+				follow_wall_prev_error_left = follow_wall_error_left;
+				follow_wall_old_error_left = follow_wall_i_left;
+
+				//this scaling factor of 1/3 should keep the value between 100 and -100;
+				speed_left = ( FOLLOW_WALL_KP_LEFT*follow_wall_p_left
+						+ FOLLOW_WALL_KD_LEFT*follow_wall_d_left
+						+ FOLLOW_WALL_KI_LEFT*follow_wall_i_left )/3;
+
+				Serial.print( "sonar left" );
+								Serial.println( follow_wall_error_left + FOLLOW_WALL_SET_POINT_LEFT );
+				Serial.print( "left speed: " );
+								Serial.println( speed_left );
+
+				state = command;
 				break;
 //			case TURN:
 //				speed = 0;
@@ -107,7 +100,7 @@ void control()
 //					while( !( sonar( FRONT ) > OBSTACLE_AVOIDANCE_THREASHOLD );
 //					turn = 0;
 //					speed = SPEED;
-//					while( sonar( RIGHT ) > FOLLOW_WALL_SET_POINT );
+//					while( sonar( RIGHT ) > FOLLOW_WALL_SET_POINT_RIGHT );
 //					state = FOLLOW_WALL;
 //				}
 //				break;
@@ -115,9 +108,4 @@ void control()
 				break;
 		}
   }
-
-int yaw()
-{
-	return 0;
-}
 

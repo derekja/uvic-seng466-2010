@@ -7,53 +7,52 @@ void sonarInit();
 void sonarMeasureDistance();
 uint16_t sonarGetDistance(int sonarID);
 
-static uint16_t averageValue(uint8_t offset, uint8_t range, uint16_t* sonarBuffer);
-static uint16_t minValue(uint8_t offset, uint8_t range, uint16_t* sonarBuffer);
-static uint16_t maxValue(uint8_t offset, uint8_t range, uint16_t* sonarBuffer);
+///*
+// * Macros to change Timer 3 settings when used for
+// * input capture and measure the pulse width of
+// * the PW pin from the sonar
+// */
+//#define SET_RISING_EDGE3()       (TCCR3B |= _BV(ICES3))
+//#define SET_FALLING_EDGE3()      (TCCR3B &= ~(_BV(ICES3)))
+//#define IS_RISING_EDGE3()        (TCCR3B & _BV(ICES3))
+//#define IS_FALLING_EDGE3()       ~(TCCR3B & _BV(ICES3))
+//#define SET_IC_ENABLE3()         (TIMSK3 |= _BV(ICIE3))
+//#define SET_IC_DISABLE3()        (TIMSK3 &= ~_BV(ICIE3))
+//#define CLEAR_IC_FLAG3()         (TIFR3 |= _BV(ICF3))
+//
+///*
+// * Macros to change Timer 4 settings when used for
+// * input capture and measure the pulse width of
+// * the PW pin from the sonar
+// */
+//#define SET_RISING_EDGE4()       (TCCR4B |= _BV(ICES4))
+//#define SET_FALLING_EDGE4()      (TCCR4B &= ~(_BV(ICES4)))
+//#define IS_RISING_EDGE4()        (TCCR4B & _BV(ICES4))
+//#define IS_FALLING_EDGE4()       ~(TCCR4B & _BV(ICES4))
+//#define SET_IC_ENABLE4()         (TIMSK4 |= _BV(ICIE4))
+//#define SET_IC_DISABLE4()        (TIMSK4 &= ~_BV(ICIE4))
+//#define CLEAR_IC_FLAG4()         (TIFR4 |= _BV(ICF4))
+//
+///*
+// * Macros to change Timer 5 settings when used for
+// * input capture and measure the pulse width of
+// * the PW pin from the sonar
+// */
+//#define SET_RISING_EDGE5()       (TCCR5B |= _BV(ICES5))
+//#define SET_FALLING_EDGE5()      (TCCR5B &= ~(_BV(ICES5)))
+//#define IS_RISING_EDGE5()        (TCCR5B & _BV(ICES5))
+//#define IS_FALLING_EDGE5()       ~(TCCR5B & _BV(ICES5))
+//#define SET_IC_ENABLE5()         (TIMSK5 |= _BV(ICIE5))
+//#define SET_IC_DISABLE5()        (TIMSK5 &= ~_BV(ICIE5))
+//#define CLEAR_IC_FLAG5()         (TIFR5 |= _BV(ICF5))
 
-/*
- * Macros to change Timer 3 settings when used for
- * input capture and measure the pulse width of
- * the PW pin from the sonar
- */
-#define SET_RISING_EDGE3()       (TCCR3B |= _BV(ICES3))
-#define SET_FALLING_EDGE3()      (TCCR3B &= ~(_BV(ICES3)))
-#define IS_RISING_EDGE3()        (TCCR3B & _BV(ICES3))
-#define IS_FALLING_EDGE3()       ~(TCCR3B & _BV(ICES3))
-#define SET_IC_ENABLE3()         (TIMSK3 |= _BV(ICIE3))
-#define SET_IC_DISABLE3()        (TIMSK3 &= ~_BV(ICIE3))
-#define CLEAR_IC_FLAG3()         (TIFR3 |= _BV(ICF3))
-
-/*
- * Macros to change Timer 4 settings when used for
- * input capture and measure the pulse width of
- * the PW pin from the sonar
- */
-#define SET_RISING_EDGE4()       (TCCR4B |= _BV(ICES4))
-#define SET_FALLING_EDGE4()      (TCCR4B &= ~(_BV(ICES4)))
-#define IS_RISING_EDGE4()        (TCCR4B & _BV(ICES4))
-#define IS_FALLING_EDGE4()       ~(TCCR4B & _BV(ICES4))
-#define SET_IC_ENABLE4()         (TIMSK4 |= _BV(ICIE4))
-#define SET_IC_DISABLE4()        (TIMSK4 &= ~_BV(ICIE4))
-#define CLEAR_IC_FLAG4()         (TIFR4 |= _BV(ICF4))
-
-/*
- * Macros to change Timer 5 settings when used for
- * input capture and measure the pulse width of
- * the PW pin from the sonar
- */
-#define SET_RISING_EDGE5()       (TCCR5B |= _BV(ICES5))
-#define SET_FALLING_EDGE5()      (TCCR5B &= ~(_BV(ICES5)))
-#define IS_RISING_EDGE5()        (TCCR5B & _BV(ICES5))
-#define IS_FALLING_EDGE5()       ~(TCCR5B & _BV(ICES5))
-#define SET_IC_ENABLE5()         (TIMSK5 |= _BV(ICIE5))
-#define SET_IC_DISABLE5()        (TIMSK5 &= ~_BV(ICIE5))
-#define CLEAR_IC_FLAG5()         (TIFR5 |= _BV(ICF5))
-
-//#define SONAR_PW PE7
 #define FRONT_SONAR_RX 37
-#define LEFT_SONAR_RX 36
-#define RIGHT_SONAR_RX 35
+#define LEFTFRONT_SONAR_RX 36
+#define LEFTBACK_SONAR_RX 35
+
+#define LEFTFRONT_SONAR_AN 0
+#define LEFTBACK_SONAR_AN 1
+#define FRONT_SONAR_AN 2
 
 #define SONAR_BUFFER_SIZE 20
 

@@ -67,22 +67,12 @@ void controlTask(void) {
 }
 
 int r_main(void) {
+	init();
+
 	pinMode(ONBOARD_LED, OUTPUT);
 	Serial.begin(57600);
-	sonarInit();
+//	sonarInit();
 //	radioInitSetup();
-
-	pinMode(54, INPUT);
-	digitalWrite(FRONT_SONAR_RX, HIGH);
-	int val = 0;
-
-	while(true) {
-		val = analogRead(54);
-		Serial.print("Analog Value: ");
-		Serial.println(val);
-		_delay_ms(500);
-	}
-
 
 	Task_Create(task1, ONBOARD_LED_HIGH, PERIODIC, ONBOARD_LED_HIGH);
 	Task_Create(task2, ONBOARD_LED_LOW, PERIODIC, ONBOARD_LED_LOW);

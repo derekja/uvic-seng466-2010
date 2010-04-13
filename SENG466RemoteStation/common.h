@@ -12,8 +12,8 @@
 #define Enable_Interrupt()   asm volatile ("sei"::)
 
 typedef enum {
-	LEFT_SONAR,
-	RIGHT_SONAR,
+	LEFTFRONT_SONAR,
+	LEFTBACK_SONAR,
 	FRONT_SONAR
 } sonarID;
 

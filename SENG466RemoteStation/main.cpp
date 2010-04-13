@@ -71,7 +71,7 @@ int r_main(void) {
 
 	pinMode(ONBOARD_LED, OUTPUT);
 	Serial.begin(57600);
-//	sonarInit();
+	sonarInit();
 //	radioInitSetup();
 
 	Task_Create(task1, ONBOARD_LED_HIGH, PERIODIC, ONBOARD_LED_HIGH);

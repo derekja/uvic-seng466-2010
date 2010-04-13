@@ -18,9 +18,9 @@ int speed_left;
 
 extern int command;
 
-int state = STOP;
+int state = FOLLOW_WALL;
 
-const int FOLLOW_WALL_SET_POINT_RIGHT = 24;
+const int FOLLOW_WALL_SET_POINT_RIGHT = 30;
 const int FOLLOW_WALL_SPEED_RIGHT = 100;
 
 int follow_wall_prev_error_right;
@@ -48,14 +48,20 @@ int FOLLOW_WALL_KI_LEFT = 2;
 
 void control()
 {
+	int temp1;
+	int temp2;
+
 	switch( state )
 		{
 			case STOP:
 				state = command;
 				break;
 			case FOLLOW_WALL:
+				temp1 = sonarGetDistance( LEFTFRONT_SONAR );
+				temp2 = sonarGetDistance( LEFTBACK_SONAR );
+				follow_wall_error_right = temp2 - FOLLOW_WALL_SET_POINT_RIGHT;
 
-				follow_wall_error_right = sonarGetDistance( RIGHT_SONAR ) - FOLLOW_WALL_SET_POINT_RIGHT;
+				//				follow_wall_error_right = sonarGetDistance( LEFTBACK_SONAR ) - FOLLOW_WALL_SET_POINT_RIGHT;
 				follow_wall_p_right = follow_wall_error_right;
 				follow_wall_d_right = follow_wall_error_right - follow_wall_prev_error_right;
 				follow_wall_i_right = ( 2 * follow_wall_old_error_right )/3 + follow_wall_error_right/3;
@@ -67,12 +73,16 @@ void control()
 						+ FOLLOW_WALL_KD_RIGHT*follow_wall_d_right
 						+ FOLLOW_WALL_KI_RIGHT*follow_wall_i_right )/3;
 
-				Serial.print( "sonar right" );
+				Serial.print( "Left Back Sonar" );
 				Serial.println( follow_wall_error_right + FOLLOW_WALL_SET_POINT_RIGHT );
-				Serial.print( "right speed: " );
+				Serial.print( "Speed: " );
 				Serial.println( speed_right );
+				Serial.print("Left Back Sonar Value: ");
+				Serial.println(temp2);
 
-				follow_wall_error_left = sonarGetDistance( LEFT_SONAR ) - FOLLOW_WALL_SET_POINT_LEFT;
+				follow_wall_error_left = temp1 - FOLLOW_WALL_SET_POINT_LEFT;
+
+//				follow_wall_error_left = sonarGetDistance( LEFTFRONT_SONAR ) - FOLLOW_WALL_SET_POINT_LEFT;
 				follow_wall_p_left = follow_wall_error_left;
 				follow_wall_d_left = follow_wall_error_left - follow_wall_prev_error_left;
 				follow_wall_i_left = ( 2 * follow_wall_old_error_left )/3 + follow_wall_error_left/3;
@@ -84,12 +94,14 @@ void control()
 						+ FOLLOW_WALL_KD_LEFT*follow_wall_d_left
 						+ FOLLOW_WALL_KI_LEFT*follow_wall_i_left )/3;
 
-				Serial.print( "sonar left" );
-								Serial.println( follow_wall_error_left + FOLLOW_WALL_SET_POINT_LEFT );
-				Serial.print( "left speed: " );
-								Serial.println( speed_left );
+				Serial.print( "Left Front Sonar" );
+				Serial.println( follow_wall_error_left + FOLLOW_WALL_SET_POINT_LEFT );
+				Serial.print( "Speed: " );
+				Serial.println( speed_left );
+				Serial.print("Left Front Sonar Value: ");
+				Serial.println(temp1);
 
-				state = command;
+//				state = command;
 				break;
 //			case TURN:
 //				speed = 0;

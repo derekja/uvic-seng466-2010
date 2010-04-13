@@ -23,12 +23,12 @@ extern int speed_left;
 void actuate()
 {
 
-	right_propulsion = speed_right;
+	right_propulsion = speed_right + 25;
 	right_propulsion = ( 2 * old_right_propulsion + right_propulsion ) / 3;//damp value
 	old_right_propulsion = right_propulsion;
 	right_propulsion_scaled = ( right_propulsion * 255 ) / 100;//scale value
 
-	left_propulsion = speed_left;
+	left_propulsion = speed_left + 25;
 	left_propulsion = ( 2 * old_left_propulsion + left_propulsion ) / 3;//damp value
 	old_left_propulsion = left_propulsion;
 	left_propulsion_scaled = ( left_propulsion * 255 ) / 100;//scale value

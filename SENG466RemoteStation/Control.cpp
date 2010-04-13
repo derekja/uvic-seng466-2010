@@ -71,7 +71,7 @@ void control()
 				//this scaling factor of 1/3 should keep the value between 100 and -100;
 				speed_right = ( FOLLOW_WALL_KP_RIGHT*follow_wall_p_right
 						+ FOLLOW_WALL_KD_RIGHT*follow_wall_d_right
-						+ FOLLOW_WALL_KI_RIGHT*follow_wall_i_right )/3;
+						+ FOLLOW_WALL_KI_RIGHT*follow_wall_i_right )/3 - 25;
 
 				Serial.print( "Left Back Sonar" );
 				Serial.println( follow_wall_error_right + FOLLOW_WALL_SET_POINT_RIGHT );
@@ -92,7 +92,7 @@ void control()
 				//this scaling factor of 1/3 should keep the value between 100 and -100;
 				speed_left = ( FOLLOW_WALL_KP_LEFT*follow_wall_p_left
 						+ FOLLOW_WALL_KD_LEFT*follow_wall_d_left
-						+ FOLLOW_WALL_KI_LEFT*follow_wall_i_left )/3;
+						+ FOLLOW_WALL_KI_LEFT*follow_wall_i_left )/3 - 25;
 
 				Serial.print( "Left Front Sonar" );
 				Serial.println( follow_wall_error_left + FOLLOW_WALL_SET_POINT_LEFT );

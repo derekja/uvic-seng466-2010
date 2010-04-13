@@ -94,6 +94,17 @@ void sonarInit() {
 
 void sonarMeasureDistance() {
 	/*
+	 * sonarBufferIndex should always be between
+	 * 0 and 19 since only 20 data readings should
+	 * be kept.
+	 */
+	++sonarBufferIndex;
+
+	if (sonarBufferIndex >= 20) {
+		sonarBufferIndex = 0;
+	}
+
+	/*
 	 * Clock is 16MHz, with a prescaler of 64, that means
 	 * each timer tick is 4us. For the sonar, 147 us = 1 inch
 	 * so we need to divide by 147 / 4 = 36.75.
@@ -132,17 +143,6 @@ void sonarMeasureDistance() {
 //	Serial.print((int) frontSonarBuffer[sonarBufferIndex]);
 //	Serial.println();
 
-	/*
-	 * sonarBufferIndex should always be between
-	 * 0 and 19 since only 20 data readings should
-	 * be kept.
-	 */
-	++sonarBufferIndex;
-
-	if (sonarBufferIndex >= 20) {
-		sonarBufferIndex = 0;
-	}
-
 	return;
 }
 
@@ -176,10 +176,24 @@ uint16_t sonarGetDistance(int sonarID) {
 
 		if (abs(currentValue - average) < 5) {
 			result = rightSonarBuffer[currentIndex];
+//			Serial.print("Sonar Diff < 5: ");
+//			Serial.println(result);
 		}
 		else {
 			result = average;
+//			Serial.print("Sonar Diff > 5: ");
+//			Serial.println(rightSonarBuffer[currentIndex]);
+//			Serial.print(" currentIndex: ");
+//			Serial.println((int)currentIndex);
+//			for (int i = 0; i < 20; ++i) {
+//				Serial.print(rightSonarBuffer[i]);
+//				Serial.print(" ");
+//			}
+//			Serial.print("Sonar Average: ");
+//			Serial.println(result);
 		}
+//		Serial.print("Sonar Value: ");
+//		Serial.println(rightSonarBuffer[currentIndex]);
 		break;
 
 	case FRONT_SONAR:

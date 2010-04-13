@@ -18,7 +18,7 @@ enum {
 	SONAR_TASK,
 };
 
-const unsigned char PPP[10] = { ONBOARD_LED_HIGH, 1, ONBOARD_LED_LOW, 1, ACTUATE_TASK, 2, CONTROL_TASK, 2, SONAR_TASK, 90};
+const unsigned char PPP[10] = { ONBOARD_LED_HIGH, 1, ONBOARD_LED_LOW, 1, ACTUATE_TASK, 5, CONTROL_TASK, 5, SONAR_TASK, 90};
 //const unsigned char PPP[8] = { ONBOARD_LED_HIGH, 1, ONBOARD_LED_LOW, 1, CONTROL_TASK, 200};
 const unsigned int PT = sizeof(PPP) / 2;
 
@@ -67,29 +67,22 @@ void controlTask(void) {
 }
 
 int r_main(void) {
-
 	pinMode(ONBOARD_LED, OUTPUT);
 	Serial.begin(57600);
-
-//	pinMode(5, OUTPUT);
-//	pinMode(6, OUTPUT);
-//	pinMode(7, OUTPUT);
-//
-//	digitalWrite(5, LOW);
-//	digitalWrite(6, HIGH);
-//	analogWrite( 7, 255 );
-//
-//	while(true) {
-//	analogWrite( 7, 255 );
-//	_delay_ms(500);
-//	Serial.println("hello");
-//	analogWrite( 7, 0 );
-//	_delay_ms(500);
-//	Serial.println("world");
-//	}
-
 	sonarInit();
 //	radioInitSetup();
+
+	pinMode(54, INPUT);
+	digitalWrite(FRONT_SONAR_RX, HIGH);
+	int val = 0;
+
+	while(true) {
+		val = analogRead(54);
+		Serial.print("Analog Value: ");
+		Serial.println(val);
+		_delay_ms(500);
+	}
+
 
 	Task_Create(task1, ONBOARD_LED_HIGH, PERIODIC, ONBOARD_LED_HIGH);
 	Task_Create(task2, ONBOARD_LED_LOW, PERIODIC, ONBOARD_LED_LOW);

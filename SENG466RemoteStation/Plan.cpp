@@ -14,9 +14,7 @@ uint8_t tx_addr[RADIO_ADDRESS_LENGTH] = { 0xDE, 0xAD, 0xBE, 0xEF, 0x77 };
 
 radiopacket_t packet;
 
-extern int dirPos = 0;
-extern int fanPos = 0;
-extern int command = 0;
+int command = 0;
 
 void plan()
 {

@@ -48,6 +48,8 @@ int yaw_i;
 int yaw_ki = 2;
 int yaw_turn;
 
+int temp;
+
 void control()
 {
 //	Serial.println( "control" );
@@ -75,8 +77,12 @@ void control()
 								+ yaw_kd*yaw_d
 								+ yaw_ki*yaw_i )/1600;//that scaling factor of 1/X should keep the value between 100 and -100
 
+				temp = sonarGetDistance(RIGHT_SONAR);
+				follow_wall_error = temp - FOLLOW_WALL_SET_POINT;
+				Serial.print("Sonar: ");
+				Serial.println(temp);
 
-				follow_wall_error = sonarGetDistance( RIGHT_SONAR ) - FOLLOW_WALL_SET_POINT;
+//				follow_wall_error = sonarGetDistance( RIGHT_SONAR ) - FOLLOW_WALL_SET_POINT;
 				follow_wall_p = follow_wall_error;
 				follow_wall_d = follow_wall_error - follow_wall_prev_error;
 				follow_wall_i = ( 2 * follow_wall_old_error )/3 + follow_wall_error/3;
@@ -89,7 +95,8 @@ void control()
 //				turn = ( 2*yaw_turn + follow_wall_turn )/3;
 				turn = follow_wall_turn;
 				speed = FOLLOW_WALL_SPEED;
-				state = command;
+//				state = command;
+				state = FOLLOW_WALL;
 				break;
 //			case TURN:
 //				speed = 0;

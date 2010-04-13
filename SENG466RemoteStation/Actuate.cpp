@@ -22,6 +22,11 @@ extern int speed;
 
 void actuate()
 {
+	Serial.print("Turn: ");
+	Serial.print(turn);
+	Serial.print(" Speed: ");
+	Serial.println(speed);
+
 	if( turn > 0 )
 	{
 		right_propulsion = speed - ( 2 * turn * speed ) / 100;//set value
@@ -45,6 +50,7 @@ void actuate()
 		left_propulsion_scaled = ( left_propulsion * 255 ) / 100;//scale value
 		old_left_propulsion = left_propulsion;
 	}
+
 	if( left_propulsion_scaled == 0 && right_propulsion_scaled == 0)
 	{
 		digitalWrite( LEFT_MOTOR_PIN_E, 0 );
@@ -64,7 +70,14 @@ void actuate()
 			digitalWrite( LEFT_MOTOR_PIN_2, 1 );
 		}
 
-		analogWrite( LEFT_MOTOR_PIN_E, left_propulsion_scaled );
+//		analogWrite( LEFT_MOTOR_PIN_E, left_propulsion_scaled );
+
+		if (left_propulsion_scaled > 50) {
+			digitalWrite(LEFT_MOTOR_PIN_E, HIGH);
+		}
+		else {
+			digitalWrite(LEFT_MOTOR_PIN_E, LOW);
+		}
 
 		if( right_propulsion_scaled > 0 )
 		{
@@ -77,6 +90,12 @@ void actuate()
 			digitalWrite( RIGHT_MOTOR_PIN_2, 1 );
 		}
 
-		analogWrite( RIGHT_MOTOR_PIN_E, right_propulsion_scaled );
+//		analogWrite( RIGHT_MOTOR_PIN_E, right_propulsion_scaled );
+		if (right_propulsion_scaled > 50) {
+			digitalWrite(RIGHT_MOTOR_PIN_E, HIGH);
+		}
+		else {
+			digitalWrite(RIGHT_MOTOR_PIN_E, LOW);
+		}
 	}
 }

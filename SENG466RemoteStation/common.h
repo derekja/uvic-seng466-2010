@@ -17,9 +17,11 @@ typedef enum {
 	FRONT_SONAR
 } sonarID;
 
-const int STOP = 0;
-const int FOLLOW_WALL = 1;
-const int TURN = 2;
-const int AVOID_OBSTACLE = 3;
+typedef enum {
+	STOP,
+	FOLLOW_WALL,
+	TURN,
+	AVOID_OBSTACLE,
+} controlState;
 
 #endif /* COMMON_H_ */

@@ -71,6 +71,23 @@ int r_main(void) {
 	pinMode(ONBOARD_LED, OUTPUT);
 	Serial.begin(57600);
 
+//	pinMode(5, OUTPUT);
+//	pinMode(6, OUTPUT);
+//	pinMode(7, OUTPUT);
+//
+//	digitalWrite(5, LOW);
+//	digitalWrite(6, HIGH);
+//	analogWrite( 7, 255 );
+//
+//	while(true) {
+//	analogWrite( 7, 255 );
+//	_delay_ms(500);
+//	Serial.println("hello");
+//	analogWrite( 7, 0 );
+//	_delay_ms(500);
+//	Serial.println("world");
+//	}
+
 	sonarInit();
 //	radioInitSetup();
 

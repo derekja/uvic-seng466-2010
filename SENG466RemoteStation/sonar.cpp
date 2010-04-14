@@ -24,8 +24,8 @@ static volatile uint8_t sonarBufferIndex = 0;
  * the next sonar reading data
  */
 static uint16_t frontSonarBuffer[SONAR_BUFFER_SIZE];
-static uint16_t leftSonarBuffer[SONAR_BUFFER_SIZE];
-static uint16_t rightSonarBuffer[SONAR_BUFFER_SIZE];
+static uint16_t leftFrontSonarBuffer[SONAR_BUFFER_SIZE];
+static uint16_t leftBackSonarBuffer[SONAR_BUFFER_SIZE];
 
 void sonarInit() {
 //	/*
@@ -116,7 +116,7 @@ void sonarMeasureDistance() {
 //	sonarEcho1();
 //	_delay_ms(38);
 //	leftSonarBuffer[sonarBufferIndex] = leftSonarTickCount / 36.75;
-	leftSonarBuffer[sonarBufferIndex] = analogRead(LEFTFRONT_SONAR_AN) / 2;
+	leftFrontSonarBuffer[sonarBufferIndex] = analogRead(LEFTFRONT_SONAR_AN) / 2;
 //	Serial.print("Left Front: ");
 //	Serial.println(leftSonarBuffer[sonarBufferIndex]);
 	/*
@@ -125,7 +125,7 @@ void sonarMeasureDistance() {
 //	sonarEcho2();
 //	_delay_ms(38);
 //	rightSonarBuffer[sonarBufferIndex] = rightSonarTickCount / 36.75;
-	rightSonarBuffer[sonarBufferIndex] = analogRead(LEFTBACK_SONAR_AN) / 2;
+	leftBackSonarBuffer[sonarBufferIndex] = analogRead(LEFTBACK_SONAR_AN) / 2;
 //	Serial.print("Left Back: ");
 //	Serial.println(rightSonarBuffer[sonarBufferIndex]);
 
@@ -165,28 +165,32 @@ uint16_t sonarGetDistance(int sonarID) {
 
 	switch (sonarID) {
 	case LEFTFRONT_SONAR:
-		currentValue = leftSonarBuffer[currentIndex];
-		average = averageValue(currentIndex, 4, leftSonarBuffer);
+		currentValue = leftFrontSonarBuffer[currentIndex];
+		average = averageValue(currentIndex, 4, leftFrontSonarBuffer);
 
-		if (abs(currentValue - average) < 5) {
-			result = leftSonarBuffer[currentIndex];
-		}
-		else {
-			result = average;
-		}
+		result = average;
+
+//		if (abs(currentValue - average) < 5) {
+//			result = leftFrontSonarBuffer[currentIndex];
+//		}
+//		else {
+//			result = average;
+//		}
 		break;
 
 	case LEFTBACK_SONAR:
-		currentValue = rightSonarBuffer[currentIndex];
-		average = averageValue(currentIndex, 4, rightSonarBuffer);
+		currentValue = leftBackSonarBuffer[currentIndex];
+		average = averageValue(currentIndex, 4, leftBackSonarBuffer);
 
-		if (abs(currentValue - average) < 5) {
-			result = rightSonarBuffer[currentIndex];
+		result = average;
+
+//		if (abs(currentValue - average) < 5) {
+//			result = leftBackSonarBuffer[currentIndex];
 //			Serial.print("Sonar Diff < 5: ");
 //			Serial.println(result);
-		}
-		else {
-			result = average;
+//		}
+//		else {
+//			result = average;
 //			Serial.print("Sonar Diff > 5: ");
 //			Serial.println(rightSonarBuffer[currentIndex]);
 //			Serial.print(" currentIndex: ");
@@ -197,7 +201,7 @@ uint16_t sonarGetDistance(int sonarID) {
 //			}
 //			Serial.print("Sonar Average: ");
 //			Serial.println(result);
-		}
+//		}
 //		Serial.print("Sonar Value: ");
 //		Serial.println(rightSonarBuffer[currentIndex]);
 		break;

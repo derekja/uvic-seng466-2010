@@ -18,8 +18,9 @@ enum {
 	SONAR_TASK,
 };
 
-const unsigned char PPP[10] = { ONBOARD_LED_HIGH, 1, ONBOARD_LED_LOW, 1, ACTUATE_TASK, 5, CONTROL_TASK, 5, SONAR_TASK, 90};
-//const unsigned char PPP[8] = { ONBOARD_LED_HIGH, 1, ONBOARD_LED_LOW, 1, CONTROL_TASK, 200};
+const unsigned char PPP[10] = { ONBOARD_LED_HIGH, 1, ONBOARD_LED_LOW, 1, ACTUATE_TASK, 5, CONTROL_TASK, 5, SONAR_TASK, 35};
+//const unsigned char PPP[18] = { ONBOARD_LED_HIGH, 1, ONBOARD_LED_LOW, 1, CONTROL_TASK, 5, ACTUATE_TASK, 5, CONTROL_TASK, 5, SONAR_TASK, 35, SONAR_TASK, 35, SONAR_TASK, 35, SONAR_TASK, 35};
+
 const unsigned int PT = sizeof(PPP) / 2;
 
 extern void actuate();

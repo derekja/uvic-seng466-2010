@@ -72,10 +72,10 @@ void control()
 				temp2 = sonarGetDistance( LEFTBACK_SONAR );
 				follow_wall_error_right = temp2 - FOLLOW_WALL_SET_POINT_RIGHT;
 
-				Serial.print("Sonar Left Front: ");
-				Serial.println(temp1);
-				Serial.print("Sonar Left Back: ");
-				Serial.println(temp2);
+//				Serial.print("Sonar Left Front: ");
+//				Serial.println(temp1);
+//				Serial.print("Sonar Left Back: ");
+//				Serial.println(temp2);
 
 				//				follow_wall_error_right = sonarGetDistance( LEFTBACK_SONAR ) - FOLLOW_WALL_SET_POINT_RIGHT;
 				follow_wall_p_right = follow_wall_error_right;

@@ -106,12 +106,12 @@ void control()
 //						+ FOLLOW_WALL_KD_LEFT*follow_wall_d_left
 //						+ FOLLOW_WALL_KI_LEFT*follow_wall_i_left )/3 - 25;
 				speed_left = ( FOLLOW_WALL_KP_LEFT * follow_wall_p_left + FOLLOW_WALL_KD_LEFT * follow_wall_d_left );
-				Serial.print( "Left Front Sonar" );
-				Serial.println( follow_wall_error_left + FOLLOW_WALL_SET_POINT_LEFT );
-				Serial.print( "Speed Front: " );
-				Serial.println( speed_left );
-				Serial.print("Left Front Sonar Value: ");
-				Serial.println(temp1);
+//				Serial.print( "Left Front Sonar" );
+//				Serial.println( follow_wall_error_left + FOLLOW_WALL_SET_POINT_LEFT );
+//				Serial.print( "Speed Front: " );
+//				Serial.println( speed_left );
+//				Serial.print("Left Front Sonar Value: ");
+//				Serial.println(temp1);
 
 				// Turn on the thrust motor
 				digitalWrite(THRUST_MOTOR_PIN_E, HIGH);

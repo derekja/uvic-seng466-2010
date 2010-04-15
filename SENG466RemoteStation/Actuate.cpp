@@ -60,8 +60,8 @@ void actuate()
 			digitalWrite( LEFT_MOTOR_PIN_E, 0 );
 		}
 
-		Serial.print("Left Scaled: ");
-		Serial.println(left_propulsion_scaled);
+//		Serial.print("Left Scaled: ");
+//		Serial.println(left_propulsion_scaled);
 
 		if( right_propulsion_scaled > 0 )
 		{

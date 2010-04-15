@@ -26,6 +26,8 @@ const unsigned int PT = sizeof(PPP) / 2;
 extern void actuate();
 extern void control();
 
+static int ctrlDivider = 0;
+static int actuateDivider = 0;
 
 void task1(void) {
 	for (;;) {
@@ -53,7 +55,17 @@ void sonarTask(void) {
 
 void actuateTask(void) {
 	while (true) {
-		actuate();
+		if (actuateDivider == 0)
+		{
+			actuate();
+		}
+
+		actuateDivider++;
+
+		if (actuateDivider >= 4)
+		{
+			actuateDivider = 0;
+		}
 
 		Task_Next();
 	}
@@ -61,7 +73,17 @@ void actuateTask(void) {
 
 void controlTask(void) {
 	while (true) {
-		control();
+		if (ctrlDivider == 0)
+		{
+			control();
+		}
+
+		ctrlDivider++;
+
+		if (ctrlDivider >= 4)
+		{
+			ctrlDivider = 0;
+		}
 
 		Task_Next();
 	}
@@ -73,7 +95,14 @@ int r_main(void) {
 	pinMode(ONBOARD_LED, OUTPUT);
 	Serial.begin(57600);
 	sonarInit();
-
+	//pinMode(9, OUTPUT);
+//while (1) {
+	//analogWrite(9, 127);
+	//digitalWrite(9, HIGH);
+	//_delay_ms(50);
+//analogWrite(9, 0);
+//digitalWrite(9, LOW);
+//}
 //	radioInitSetup();
 
 	Task_Create(task1, ONBOARD_LED_HIGH, PERIODIC, ONBOARD_LED_HIGH);

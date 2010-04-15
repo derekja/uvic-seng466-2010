@@ -24,10 +24,12 @@ void actuate()
 {
 
 	right_propulsion = speed_right;
-	right_propulsion_scaled = ( right_propulsion * 255 ) / 200;//scale value
+	right_propulsion_scaled = speed_right;
+	//right_propulsion_scaled = ( right_propulsion * 255 ) / 200;//scale value
 
 	left_propulsion = speed_left;
-	left_propulsion_scaled = ( left_propulsion * 255 ) / 200;//scale value
+	left_propulsion_scaled = speed_left;
+	//left_propulsion_scaled = ( left_propulsion * 255 ) / 200;//scale value
 
 	if( left_propulsion_scaled == 0 && right_propulsion_scaled == 0)
 	{
@@ -51,7 +53,7 @@ void actuate()
 			digitalWrite( LEFT_MOTOR_PIN_2, 0 );
 		}
 
-		if( left_propulsion_scaled > 30 )
+		if( left_propulsion_scaled > 8 )
 		{
 			analogWrite( LEFT_MOTOR_PIN_E, left_propulsion_scaled );
 		}
@@ -60,8 +62,8 @@ void actuate()
 			digitalWrite( LEFT_MOTOR_PIN_E, 0 );
 		}
 
-//		Serial.print("Left Scaled: ");
-//		Serial.println(left_propulsion_scaled);
+		Serial.print("Left Scaled: ");
+		Serial.println(left_propulsion_scaled);
 
 		if( right_propulsion_scaled > 0 )
 		{
@@ -76,7 +78,7 @@ void actuate()
 			digitalWrite( RIGHT_MOTOR_PIN_1, 1 );
 			digitalWrite( RIGHT_MOTOR_PIN_2, 0 );
 		}
-		if( right_propulsion_scaled > 30 )
+		if( right_propulsion_scaled > 8 )
 		{
 			analogWrite( RIGHT_MOTOR_PIN_E, right_propulsion_scaled );
 		}
@@ -85,7 +87,7 @@ void actuate()
 			digitalWrite( RIGHT_MOTOR_PIN_E, 0 );
 		}
 
-		//Serial.print("Right Scaled: ");
-		//Serial.println(right_propulsion_scaled);
+Serial.print("Right Scaled: ");
+Serial.println(right_propulsion_scaled);
 	}
 }

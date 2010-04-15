@@ -24,31 +24,23 @@ extern int command;
 
 int state = FOLLOW_WALL;
 
-const int FOLLOW_WALL_SET_POINT_RIGHT = 20;
-const int FOLLOW_WALL_SPEED_RIGHT = 100;
+const int FOLLOW_WALL_SET_POINT_BACK = 21;
 
 int follow_wall_prev_error_right;
 int follow_wall_error_right;
-int follow_wall_old_error_right;
 int follow_wall_p_right;
-int FOLLOW_WALL_KP_RIGHT = 8;
+int FOLLOW_WALL_KP_RIGHT = 30;
 int follow_wall_d_right;
-int FOLLOW_WALL_KD_RIGHT = 4;
-int follow_wall_i_right;
-int FOLLOW_WALL_KI_RIGHT = 0;
+int FOLLOW_WALL_KD_RIGHT = 20;
 
-const int FOLLOW_WALL_SET_POINT_LEFT = 20;
-const int FOLLOW_WALL_SPEED_LEFT = 100;
+const int FOLLOW_WALL_SET_POINT_FRONT = 20;
 
 int follow_wall_prev_error_left;
 int follow_wall_error_left;
-int follow_wall_old_error_left;
 int follow_wall_p_left;
-int FOLLOW_WALL_KP_LEFT = 8;
+int FOLLOW_WALL_KP_LEFT = 30;
 int follow_wall_d_left;
-int FOLLOW_WALL_KD_LEFT = 4;
-int follow_wall_i_left;
-int FOLLOW_WALL_KI_LEFT = 0;
+int FOLLOW_WALL_KD_LEFT = 20;
 
 void control()
 {
@@ -70,26 +62,23 @@ void control()
 			case FOLLOW_WALL:
 				temp1 = sonarGetDistance( LEFTFRONT_SONAR );
 				temp2 = sonarGetDistance( LEFTBACK_SONAR );
-				follow_wall_error_right = temp2 - FOLLOW_WALL_SET_POINT_RIGHT;
+				follow_wall_error_right = temp2 - FOLLOW_WALL_SET_POINT_BACK;
 
-//				Serial.print("Sonar Left Front: ");
-//				Serial.println(temp1);
-//				Serial.print("Sonar Left Back: ");
-//				Serial.println(temp2);
+
 
 				//				follow_wall_error_right = sonarGetDistance( LEFTBACK_SONAR ) - FOLLOW_WALL_SET_POINT_RIGHT;
 				follow_wall_p_right = follow_wall_error_right;
 				follow_wall_d_right = follow_wall_error_right - follow_wall_prev_error_right;
 				follow_wall_prev_error_right = follow_wall_error_right;
 
-				follow_wall_i_right = ( 2 * follow_wall_old_error_right )/3 + follow_wall_error_right/3;
-				follow_wall_old_error_right = follow_wall_i_right;
 
 				//this scaling factor of 1/3 should keep the value between 100 and -100;
 //				speed_right = ( FOLLOW_WALL_KP_RIGHT*follow_wall_p_right
 //						+ FOLLOW_WALL_KD_RIGHT*follow_wall_d_right
 //						+ FOLLOW_WALL_KI_RIGHT*follow_wall_i_right )/3;
 				speed_right = ( FOLLOW_WALL_KP_RIGHT * follow_wall_p_right + FOLLOW_WALL_KD_RIGHT * follow_wall_d_right );
+				if (speed_right>255) speed_right=255;
+				if (speed_right<0) speed_right=speed_right*3;
 //				Serial.print( "Left Back Sonar" );
 //				Serial.println( follow_wall_error_right + FOLLOW_WALL_SET_POINT_RIGHT );
 //				Serial.print( "Speed Back: " );
@@ -97,20 +86,20 @@ void control()
 //				Serial.print("Left Back Sonar Value: ");
 //				Serial.println(temp2);
 
-				follow_wall_error_left = temp1 - FOLLOW_WALL_SET_POINT_LEFT;
+				follow_wall_error_left = temp1 - FOLLOW_WALL_SET_POINT_FRONT;
 
 //				follow_wall_error_left = sonarGetDistance( LEFTFRONT_SONAR ) - FOLLOW_WALL_SET_POINT_LEFT;
 				follow_wall_p_left = follow_wall_error_left;
 				follow_wall_d_left = follow_wall_error_left - follow_wall_prev_error_left;
-				follow_wall_i_left = ( 2 * follow_wall_old_error_left )/3 + follow_wall_error_left/3;
 				follow_wall_prev_error_left = follow_wall_error_left;
-				follow_wall_old_error_left = follow_wall_i_left;
 
 				//this scaling factor of 1/3 should keep the value between 100 and -100;
 //				speed_left = ( FOLLOW_WALL_KP_LEFT*follow_wall_p_left
 //						+ FOLLOW_WALL_KD_LEFT*follow_wall_d_left
 //						+ FOLLOW_WALL_KI_LEFT*follow_wall_i_left )/3 - 25;
 				speed_left = ( FOLLOW_WALL_KP_LEFT * follow_wall_p_left + FOLLOW_WALL_KD_LEFT * follow_wall_d_left );
+				if (speed_left>255) speed_left=255;
+				if (speed_left<0) speed_left=speed_left*3;
 //				Serial.print( "Left Front Sonar" );
 //				Serial.println( follow_wall_error_left + FOLLOW_WALL_SET_POINT_LEFT );
 //				Serial.print( "Speed Front: " );
@@ -120,6 +109,15 @@ void control()
 
 				// Turn on the thrust motor
 				digitalWrite(THRUST_MOTOR_PIN_E, HIGH);
+
+				Serial.print("Sonar Left Front: ");
+				Serial.println(temp1);
+				Serial.print("Sonar Left Back: ");
+				Serial.println(temp2);
+				Serial.print("Speed left: ");
+				Serial.println(speed_left);
+				Serial.print("Speed right: ");
+				Serial.println(speed_right);
 
 //				state = command;
 				break;

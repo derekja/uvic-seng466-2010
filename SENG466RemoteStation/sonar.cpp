@@ -172,7 +172,7 @@ uint16_t sonarGetDistance(int sonarID) {
 		currentValue = leftFrontSonarBuffer[currentIndex];
 		average = averageValue(currentIndex, 4, leftFrontSonarBuffer);
 
-		result = average;
+		result = currentValue;
 
 //		if (abs(currentValue - average) < 5) {
 //			result = leftFrontSonarBuffer[currentIndex];
@@ -186,7 +186,7 @@ uint16_t sonarGetDistance(int sonarID) {
 		currentValue = leftBackSonarBuffer[currentIndex];
 		average = averageValue(currentIndex, 4, leftBackSonarBuffer);
 
-		result = average;
+		result = currentValue;
 
 //		if (abs(currentValue - average) < 5) {
 //			result = leftBackSonarBuffer[currentIndex];

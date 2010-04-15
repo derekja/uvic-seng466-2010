@@ -27,7 +27,7 @@ void actuate()
 	right_propulsion_scaled = ( right_propulsion * 255 ) / 200;//scale value
 
 	left_propulsion = speed_left;
-	left_propulsion_scaled = ( left_propulsion * 255 ) / 100;//scale value
+	left_propulsion_scaled = ( left_propulsion * 255 ) / 200;//scale value
 
 	if( left_propulsion_scaled == 0 && right_propulsion_scaled == 0)
 	{
@@ -80,6 +80,11 @@ void actuate()
 		{
 			analogWrite( RIGHT_MOTOR_PIN_E, right_propulsion_scaled );
 		}
+		else
+		{
+			digitalWrite( RIGHT_MOTOR_PIN_E, 0 );
+		}
+
 		//Serial.print("Right Scaled: ");
 		//Serial.println(right_propulsion_scaled);
 	}

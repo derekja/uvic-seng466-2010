@@ -46,7 +46,7 @@ int follow_wall_old_error_left;
 int follow_wall_p_left;
 int FOLLOW_WALL_KP_LEFT = 8;
 int follow_wall_d_left;
-int FOLLOW_WALL_KD_LEFT = 0;
+int FOLLOW_WALL_KD_LEFT = 4;
 int follow_wall_i_left;
 int FOLLOW_WALL_KI_LEFT = 0;
 
@@ -75,8 +75,9 @@ void control()
 				//				follow_wall_error_right = sonarGetDistance( LEFTBACK_SONAR ) - FOLLOW_WALL_SET_POINT_RIGHT;
 				follow_wall_p_right = follow_wall_error_right;
 				follow_wall_d_right = follow_wall_error_right - follow_wall_prev_error_right;
-				follow_wall_i_right = ( 2 * follow_wall_old_error_right )/3 + follow_wall_error_right/3;
 				follow_wall_prev_error_right = follow_wall_error_right;
+
+				follow_wall_i_right = ( 2 * follow_wall_old_error_right )/3 + follow_wall_error_right/3;
 				follow_wall_old_error_right = follow_wall_i_right;
 
 				//this scaling factor of 1/3 should keep the value between 100 and -100;

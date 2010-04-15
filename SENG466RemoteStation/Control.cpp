@@ -11,7 +11,7 @@
 
 static int THRUST_MOTOR_PIN_1 = 11;
 static int THRUST_MOTOR_PIN_2 = 12;
-static int THRUST_MOTOR_PIN_E = 13;
+static int THRUST_MOTOR_PIN_E = 44;
 
 /*prototypes*/
 extern uint16_t sonarGetDistance( int sonar );

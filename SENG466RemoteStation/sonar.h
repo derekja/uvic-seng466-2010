@@ -39,13 +39,13 @@ uint16_t sonarGetDistance(int sonarID);
  * input capture and measure the pulse width of
  * the PW pin from the sonar
  */
-#define SET_RISING_EDGE5()       (TCCR5B |= _BV(ICES5))
-#define SET_FALLING_EDGE5()      (TCCR5B &= ~(_BV(ICES5)))
-#define IS_RISING_EDGE5()        (TCCR5B & _BV(ICES5))
-#define IS_FALLING_EDGE5()       ~(TCCR5B & _BV(ICES5))
-#define SET_IC_ENABLE5()         (TIMSK5 |= _BV(ICIE5))
-#define SET_IC_DISABLE5()        (TIMSK5 &= ~_BV(ICIE5))
-#define CLEAR_IC_FLAG5()         (TIFR5 |= _BV(ICF5))
+//#define SET_RISING_EDGE5()       (TCCR5B |= _BV(ICES5))
+//#define SET_FALLING_EDGE5()      (TCCR5B &= ~(_BV(ICES5)))
+//#define IS_RISING_EDGE5()        (TCCR5B & _BV(ICES5))
+//#define IS_FALLING_EDGE5()       ~(TCCR5B & _BV(ICES5))
+//#define SET_IC_ENABLE5()         (TIMSK5 |= _BV(ICIE5))
+//#define SET_IC_DISABLE5()        (TIMSK5 &= ~_BV(ICIE5))
+//#define CLEAR_IC_FLAG5()         (TIFR5 |= _BV(ICF5))
 
 #define FRONT_SONAR_RX 37
 #define LEFTFRONT_SONAR_RX 36

@@ -18,7 +18,7 @@ enum {
 	SONAR_TASK,
 };
 
-const unsigned char PPP[10] = { ONBOARD_LED_HIGH, 1, ONBOARD_LED_LOW, 1, ACTUATE_TASK, 5, CONTROL_TASK, 5, SONAR_TASK, 35};
+const unsigned char PPP[10] = { ONBOARD_LED_HIGH, 1, ONBOARD_LED_LOW, 1, ACTUATE_TASK, 5, CONTROL_TASK, 5, SONAR_TASK, 20};
 //const unsigned char PPP[18] = { ONBOARD_LED_HIGH, 1, ONBOARD_LED_LOW, 1, CONTROL_TASK, 5, ACTUATE_TASK, 5, CONTROL_TASK, 5, SONAR_TASK, 35, SONAR_TASK, 35, SONAR_TASK, 35, SONAR_TASK, 35};
 
 const unsigned int PT = sizeof(PPP) / 2;
@@ -73,6 +73,7 @@ int r_main(void) {
 	pinMode(ONBOARD_LED, OUTPUT);
 	Serial.begin(57600);
 	sonarInit();
+
 //	radioInitSetup();
 
 	Task_Create(task1, ONBOARD_LED_HIGH, PERIODIC, ONBOARD_LED_HIGH);

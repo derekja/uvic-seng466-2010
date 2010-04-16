@@ -136,6 +136,10 @@ void sonarMeasureDistance() {
 	/*
 	 * Front Sonar Reading
 	 */
+	digitalWrite(FRONT_SONAR_RX, HIGH);
+	_delay_ms(50);
+	frontSonarBuffer[sonarBufferIndex] = analogRead(FRONT_SONAR_AN) / 2;
+
 //	sonarEcho3();
 //	_delay_ms(38);
 //	frontSonarBuffer[sonarBufferIndex] = frontSonarTickCount / 36.75;
@@ -163,63 +167,22 @@ void sonarMeasureDistance() {
  */
 uint16_t sonarGetDistance(int sonarID) {
 	uint8_t currentIndex = sonarBufferIndex;
-	uint16_t currentValue = 0;
-	uint16_t average = 0;
 	uint16_t result = 0;
 
 	switch (sonarID) {
 	case LEFTFRONT_SONAR:
-		currentValue = leftFrontSonarBuffer[currentIndex];
-		average = averageValue(currentIndex, 4, leftFrontSonarBuffer);
+		result = leftFrontSonarBuffer[currentIndex];
 
-		result = currentValue;
-
-//		if (abs(currentValue - average) < 5) {
-//			result = leftFrontSonarBuffer[currentIndex];
-//		}
-//		else {
-//			result = average;
-//		}
 		break;
 
 	case LEFTBACK_SONAR:
-		currentValue = leftBackSonarBuffer[currentIndex];
-		average = averageValue(currentIndex, 4, leftBackSonarBuffer);
+		result = leftBackSonarBuffer[currentIndex];
 
-		result = currentValue;
-
-//		if (abs(currentValue - average) < 5) {
-//			result = leftBackSonarBuffer[currentIndex];
-//			Serial.print("Sonar Diff < 5: ");
-//			Serial.println(result);
-//		}
-//		else {
-//			result = average;
-//			Serial.print("Sonar Diff > 5: ");
-//			Serial.println(rightSonarBuffer[currentIndex]);
-//			Serial.print(" currentIndex: ");
-//			Serial.println((int)currentIndex);
-//			for (int i = 0; i < 20; ++i) {
-//				Serial.print(rightSonarBuffer[i]);
-//				Serial.print(" ");
-//			}
-//			Serial.print("Sonar Average: ");
-//			Serial.println(result);
-//		}
-//		Serial.print("Sonar Value: ");
-//		Serial.println(rightSonarBuffer[currentIndex]);
 		break;
 
 	case FRONT_SONAR:
-		currentValue = frontSonarBuffer[currentIndex];
-		average = averageValue(currentIndex, 4, frontSonarBuffer);
+		result = averageValue(currentIndex, 4, frontSonarBuffer);
 
-		if (abs(currentValue - average) < 5) {
-			result = frontSonarBuffer[currentIndex];
-		}
-		else {
-			result = average;
-		}
 		break;
 
 	default:

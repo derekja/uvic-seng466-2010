@@ -5,6 +5,7 @@
 #include "common.h"
 #include "sonar.h"
 #include "radioclient.h"
+#include "Actuate.h"
 
 /*
  * 0 is reserved for IDLE task, so the enumeration
@@ -95,6 +96,20 @@ int r_main(void) {
 	pinMode(ONBOARD_LED, OUTPUT);
 	Serial.begin(57600);
 	sonarInit();
+
+//	digitalWrite( LEFT_MOTOR_PIN_1, 0 );
+//	digitalWrite( LEFT_MOTOR_PIN_2, 1 );
+//
+//	digitalWrite( RIGHT_MOTOR_PIN_1, 0 );
+//	digitalWrite( RIGHT_MOTOR_PIN_2, 1 );
+//
+//	analogWrite( LEFT_MOTOR_PIN_E, (int) (255 * 0.5));
+//	analogWrite( RIGHT_MOTOR_PIN_E, (int) (255 * 0.5 * 0.71));
+//
+//	while(true){
+//
+//	}
+
 	//pinMode(9, OUTPUT);
 //while (1) {
 	//analogWrite(9, 127);

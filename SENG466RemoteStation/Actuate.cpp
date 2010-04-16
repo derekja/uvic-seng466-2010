@@ -55,7 +55,7 @@ void actuate()
 
 		if( left_propulsion_scaled > 8 )
 		{
-			analogWrite( LEFT_MOTOR_PIN_E, left_propulsion_scaled );
+			analogWrite( LEFT_MOTOR_PIN_E, left_propulsion_scaled + 128 );
 		}
 		else
 		{
@@ -80,7 +80,15 @@ void actuate()
 		}
 		if( right_propulsion_scaled > 8 )
 		{
-			analogWrite( RIGHT_MOTOR_PIN_E, right_propulsion_scaled );
+			if( right_propulsion_scaled > 127 && right_propulsion_scaled < 200){
+				analogWrite( RIGHT_MOTOR_PIN_E, (int) ((right_propulsion_scaled + 128) * 0.71) );
+			}
+			else if (right_propulsion_scaled >= 200) {
+				analogWrite( RIGHT_MOTOR_PIN_E, (int) ((right_propulsion_scaled + 128) * 0.64) );
+			}
+			else {
+				analogWrite( RIGHT_MOTOR_PIN_E, right_propulsion_scaled + 128);
+			}
 		}
 		else
 		{

@@ -29,18 +29,18 @@ const int FOLLOW_WALL_SET_POINT_BACK = 21;
 int follow_wall_prev_error_right;
 int follow_wall_error_right;
 int follow_wall_p_right;
-int FOLLOW_WALL_KP_RIGHT = 30;
+int FOLLOW_WALL_KP_RIGHT = 6;
 int follow_wall_d_right;
-int FOLLOW_WALL_KD_RIGHT = 20;
+int FOLLOW_WALL_KD_RIGHT = 0;
 
 const int FOLLOW_WALL_SET_POINT_FRONT = 20;
 
 int follow_wall_prev_error_left;
 int follow_wall_error_left;
 int follow_wall_p_left;
-int FOLLOW_WALL_KP_LEFT = 30;
+int FOLLOW_WALL_KP_LEFT = 6;
 int follow_wall_d_left;
-int FOLLOW_WALL_KD_LEFT = 20;
+int FOLLOW_WALL_KD_LEFT = 0;
 
 void control()
 {

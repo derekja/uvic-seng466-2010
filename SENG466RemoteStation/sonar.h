@@ -51,9 +51,7 @@ uint16_t sonarGetDistance(int sonarID);
 #define LEFTFRONT_SONAR_RX 36
 #define LEFTBACK_SONAR_RX 35
 
-#define LEFTFRONT_SONAR_AN 0
-#define LEFTBACK_SONAR_AN 1
-#define FRONT_SONAR_AN 2
+#define FRONT_SONAR_AN 0
 
 #define SONAR_BUFFER_SIZE 20
 

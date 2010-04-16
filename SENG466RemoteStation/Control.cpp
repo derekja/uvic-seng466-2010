@@ -9,9 +9,9 @@
 #include "Arduino/WProgram.h"
 #include "common.h"
 
-static int THRUST_MOTOR_PIN_1 = 11;
+static int THRUST_MOTOR_PIN_1 = 13;
 static int THRUST_MOTOR_PIN_2 = 12;
-static int THRUST_MOTOR_PIN_E = 44;
+static int THRUST_MOTOR_PIN_E = 4;
 
 /*prototypes*/
 extern uint16_t sonarGetDistance( int sonar );
@@ -22,7 +22,7 @@ int speed_left;
 
 extern int command;
 
-int state = FOLLOW_WALL;
+int state = STOP;
 
 const int FOLLOW_WALL_SET_POINT_BACK = 21;
 
@@ -46,22 +46,30 @@ void control()
 {
 	int temp1;
 	int temp2;
+	int temp3;
 
 	digitalWrite(THRUST_MOTOR_PIN_1, LOW);
 	digitalWrite(THRUST_MOTOR_PIN_2, HIGH);
-
+Serial.println(state);
 	switch( state )
 		{
 			case STOP:
 				state = command;
+				Serial.println("stop");
 
+				speed_left = 0;
+				speed_right = 0;
 				// Turn off the thrust motor
-				digitalWrite(THRUST_MOTOR_PIN_E, LOW);
+				analogWrite(THRUST_MOTOR_PIN_E, 0);
+				//digitalWrite(44, LOW);
 				break;
 
 			case FOLLOW_WALL:
+				Serial.println("follow");
+
 				temp1 = sonarGetDistance( LEFTFRONT_SONAR );
 				temp2 = sonarGetDistance( LEFTBACK_SONAR );
+				temp3 = sonarGetDistance( FRONT_SONAR );
 				follow_wall_error_right = temp2 - FOLLOW_WALL_SET_POINT_BACK;
 
 
@@ -108,7 +116,8 @@ void control()
 //				Serial.println(temp1);
 
 				// Turn on the thrust motor
-				digitalWrite(THRUST_MOTOR_PIN_E, HIGH);
+				analogWrite(THRUST_MOTOR_PIN_E, 55);
+				//digitalWrite(44, HIGH);
 
 				Serial.print("Sonar Left Front: ");
 				Serial.println(temp1);
@@ -119,7 +128,8 @@ void control()
 				Serial.print("Speed right: ");
 				Serial.println(speed_right);
 
-//				state = command;
+				state = command;
+				//if (temp3<20) state = command = STOP;
 				break;
 //			case TURN:
 //				speed = 0;

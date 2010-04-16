@@ -5,11 +5,14 @@
 #include "radio.h"
 #include "packet.h"
 #include "Wprogram.h"
+#include "common.h"
 
 static uint8_t RemoteStationAddr[RADIO_ADDRESS_LENGTH] = { 0xDE, 0xAD, 0xBE, 0xEF, 0x88 };
 static uint8_t BaseStationAddr[RADIO_ADDRESS_LENGTH] = { 0xDE, 0xAD, 0xBE, 0xEF, 0x77 };
 
 static radiopacket_t packet;
+
+extern int command;
 
 void radioInitSetup() {
 	/*
@@ -93,10 +96,12 @@ void radio_rxhandler(uint8_t pipenumber)
 
 		case STOP:
 			Serial.println("Command is STOP");
+			command = STOP;
 			break;
 
 		case FORWARD:
 			Serial.println("Command is FORWARD");
+			command = FOLLOW_WALL;
 			break;
 
 		case REVERSE:

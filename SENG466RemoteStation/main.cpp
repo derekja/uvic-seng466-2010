@@ -19,13 +19,15 @@ enum {
 	SONAR_TASK,
 };
 
-const unsigned char PPP[10] = { ONBOARD_LED_HIGH, 1, ONBOARD_LED_LOW, 1, ACTUATE_TASK, 5, CONTROL_TASK, 5, SONAR_TASK, 20};
+const unsigned char PPP[10] = { ONBOARD_LED_HIGH, 1, ONBOARD_LED_LOW, 1, ACTUATE_TASK, 5, CONTROL_TASK, 5, SONAR_TASK, 35};
 //const unsigned char PPP[18] = { ONBOARD_LED_HIGH, 1, ONBOARD_LED_LOW, 1, CONTROL_TASK, 5, ACTUATE_TASK, 5, CONTROL_TASK, 5, SONAR_TASK, 35, SONAR_TASK, 35, SONAR_TASK, 35, SONAR_TASK, 35};
 
 const unsigned int PT = sizeof(PPP) / 2;
 
 extern void actuate();
 extern void control();
+
+int command = STOP;
 
 static int ctrlDivider = 0;
 static int actuateDivider = 0;
@@ -94,6 +96,9 @@ int r_main(void) {
 	init();
 
 	pinMode(ONBOARD_LED, OUTPUT);
+	pinMode(4, OUTPUT);
+	pinMode(12, OUTPUT);
+	pinMode(13, OUTPUT);
 	Serial.begin(57600);
 	sonarInit();
 
@@ -105,9 +110,10 @@ int r_main(void) {
 //
 //	analogWrite( LEFT_MOTOR_PIN_E, (int) (40));
 //	analogWrite( RIGHT_MOTOR_PIN_E, (int) (40));
-//
+//	digitalWrite(13, LOW);
+//	digitalWrite(12, HIGH);
 //	while(true){
-//
+//analogWrite(4, 127);
 //	}
 
 	//pinMode(9, OUTPUT);
@@ -118,7 +124,7 @@ int r_main(void) {
 //analogWrite(9, 0);
 //digitalWrite(9, LOW);
 //}
-//	radioInitSetup();
+	radioInitSetup();
 
 	Task_Create(task1, ONBOARD_LED_HIGH, PERIODIC, ONBOARD_LED_HIGH);
 	Task_Create(task2, ONBOARD_LED_LOW, PERIODIC, ONBOARD_LED_LOW);

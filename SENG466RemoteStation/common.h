@@ -17,11 +17,24 @@ typedef enum {
 	FRONT_SONAR
 } sonarID;
 
-typedef enum {
+typedef enum
+{
+	NONE,
+	TURN_LEFT,
+	TURN_RIGHT,
+	NEXT_LEFT,
+	NEXT_RIGHT,
 	STOP,
+	FORWARD,
+	REVERSE,
 	FOLLOW_WALL,
-	TURN,
-	AVOID_OBSTACLE,
-} controlState;
+} COMMAND_TYPE;
+
+//typedef enum {
+//	STOP,
+//	FOLLOW_WALL,
+//	TURN,
+//	AVOID_OBSTACLE,
+//} controlState;
 
 #endif /* COMMON_H_ */

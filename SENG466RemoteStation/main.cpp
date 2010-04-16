@@ -103,8 +103,8 @@ int r_main(void) {
 //	digitalWrite( RIGHT_MOTOR_PIN_1, 0 );
 //	digitalWrite( RIGHT_MOTOR_PIN_2, 1 );
 //
-//	analogWrite( LEFT_MOTOR_PIN_E, (int) (255 * 0.5));
-//	analogWrite( RIGHT_MOTOR_PIN_E, (int) (255 * 0.5 * 0.71));
+//	analogWrite( LEFT_MOTOR_PIN_E, (int) (40));
+//	analogWrite( RIGHT_MOTOR_PIN_E, (int) (40));
 //
 //	while(true){
 //

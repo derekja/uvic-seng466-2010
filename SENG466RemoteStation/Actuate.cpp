@@ -2,7 +2,6 @@
  * Actuate.cpp
  *
  *  Created on: Mar 25, 2010
- *      Author: jensweber
  */
 
 #include "Actuate.h"
@@ -53,9 +52,9 @@ void actuate()
 			digitalWrite( LEFT_MOTOR_PIN_2, 0 );
 		}
 
-		if( left_propulsion_scaled > 8 )
+		if( left_propulsion_scaled > 0 )
 		{
-			analogWrite( LEFT_MOTOR_PIN_E, left_propulsion_scaled + 128 );
+			analogWrite( LEFT_MOTOR_PIN_E, left_propulsion_scaled + 45 );
 		}
 		else
 		{
@@ -78,16 +77,16 @@ void actuate()
 			digitalWrite( RIGHT_MOTOR_PIN_1, 1 );
 			digitalWrite( RIGHT_MOTOR_PIN_2, 0 );
 		}
-		if( right_propulsion_scaled > 8 )
+		if( right_propulsion_scaled > 0 )
 		{
 			if( right_propulsion_scaled > 127 && right_propulsion_scaled < 200){
-				analogWrite( RIGHT_MOTOR_PIN_E, (int) ((right_propulsion_scaled + 128) * 0.71) );
+				analogWrite( RIGHT_MOTOR_PIN_E, (int) ((right_propulsion_scaled + 40) * 0.71) );
 			}
 			else if (right_propulsion_scaled >= 200) {
-				analogWrite( RIGHT_MOTOR_PIN_E, (int) ((right_propulsion_scaled + 128) * 0.64) );
+				analogWrite( RIGHT_MOTOR_PIN_E, (int) ((right_propulsion_scaled + 40) * 0.64) );
 			}
 			else {
-				analogWrite( RIGHT_MOTOR_PIN_E, right_propulsion_scaled + 128);
+				analogWrite( RIGHT_MOTOR_PIN_E, right_propulsion_scaled + 40);
 			}
 		}
 		else
